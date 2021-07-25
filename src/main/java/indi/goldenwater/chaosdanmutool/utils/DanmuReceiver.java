@@ -22,33 +22,47 @@ public class DanmuReceiver extends WebSocketClient {
     private static DanmuReceiver instance;
     private static HeartBeat heartBeat;
     private int updatePeriod;
+    private int roomid;
 
-    public DanmuReceiver(String url, int updatePeriod) throws URISyntaxException {
+    public DanmuReceiver(String url, int updatePeriod, int roomid) throws URISyntaxException {
         super(new URI(url));
         this.updatePeriod = updatePeriod;
+        this.roomid = roomid;
+
         if (instance != null) instance.close();
         instance = this;
     }
 
     @Override
     public void onOpen(ServerHandshake serverHandshake) {
-        send(pack(Data.join(953650, 3, "web")));
-        System.out.println(Data.join(953650, 3, "web"));
+        send(pack(Data.join(roomid, 3, "web")));
         startHeartBeat(this);
-        System.out.println("joined.");
     }
 
     @Override
     public void onMessage(String s) {
-        System.out.println("1");
-        System.out.println(s);
     }
 
     @Override
     public void onMessage(ByteBuffer s) {
-        System.out.println("receive 1");
-        System.out.println(unpack(s));
-        System.out.println(Arrays.toString(s.array()));
+        Data data = unpack(s);
+        if (data.protocolType != 0) {
+            DanmuProcessor.decodeError(data);
+            return;
+        }
+        switch (data.opCode) {
+            case OpCode.heartBeatResponse: {
+                DanmuProcessor.updateActivity(ByteBuffer.wrap(data.body).getInt());
+            }
+            case OpCode.joinSuccess: {
+                DanmuProcessor.connectSuccess();
+            }
+            case OpCode.message: {
+                for (String jsonStr : data.getSplitJsonStr()) {
+                    DanmuProcessor.processCommand(jsonStr);
+                }
+            }
+        }
     }
 
     @Override
@@ -193,7 +207,7 @@ public class DanmuReceiver extends WebSocketClient {
             return bodyLength;
         }
 
-        public List<String> getSplitJson() {
+        public List<String> getSplitJsonStr() {
             return Arrays.asList(new String(body).split("/[\\x00-\\x1f]+/"));
         }
 
