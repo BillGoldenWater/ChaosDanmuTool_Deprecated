@@ -22,7 +22,7 @@ public class DanmuReceiver extends WebSocketClient {
     private static DanmuReceiver instance;
     private static HeartBeat heartBeat;
     private int updatePeriod;
-    private int roomid;
+    private final int roomid;
 
     public DanmuReceiver(String url, int updatePeriod, int roomid) throws URISyntaxException {
         super(new URI(url));
@@ -53,14 +53,17 @@ public class DanmuReceiver extends WebSocketClient {
         switch (data.opCode) {
             case OpCode.heartBeatResponse: {
                 DanmuProcessor.updateActivity(ByteBuffer.wrap(data.body).getInt());
+                break;
             }
             case OpCode.joinSuccess: {
                 DanmuProcessor.connectSuccess();
+                break;
             }
             case OpCode.message: {
                 for (String jsonStr : data.getSplitJsonStr()) {
                     DanmuProcessor.processCommand(jsonStr);
                 }
+                break;
             }
         }
     }
