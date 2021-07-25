@@ -5,6 +5,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -17,8 +19,13 @@ public class ChaosDanmuTool extends Application {
     public void start(Stage primaryStage) throws Exception {
         instance = this;
 
-        URL fxml = getClass().getResource("scene/main.fxml");
-        if (fxml == null) System.exit(-1);
+        URL fxml = getClass().getResource("/scene/main.fxml");
+        if (fxml == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR,"无法找到所需的文件 程序也许不完整", ButtonType.OK);
+            alert.show();
+            alert.setOnCloseRequest(event -> System.exit(0));
+            return;
+        }
 
         stageManager = new StageManager();
         stageManager.setStage_AutoClose("main", primaryStage);
