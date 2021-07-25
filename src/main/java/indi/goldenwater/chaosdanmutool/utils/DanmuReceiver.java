@@ -1,13 +1,20 @@
 package indi.goldenwater.chaosdanmutool.utils;
 
+import com.nixxcode.jvmbrotli.common.BrotliLoader;
+import com.nixxcode.jvmbrotli.dec.BrotliDecoderChannel;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
+import java.util.zip.DataFormatException;
+import java.util.zip.Inflater;
 
 public class DanmuReceiver extends WebSocketClient {
     private static final short headerLength = 4 + 2 + 2 + 4 + 4;
@@ -21,13 +28,12 @@ public class DanmuReceiver extends WebSocketClient {
         this.updatePeriod = updatePeriod;
         if (instance != null) instance.close();
         instance = this;
-//        new WebSocket.Builder().buildAsync()
     }
 
     @Override
     public void onOpen(ServerHandshake serverHandshake) {
         send(pack(Data.join(953650, 3, "web")));
-
+        System.out.println(Data.join(953650, 3, "web"));
         startHeartBeat(this);
         System.out.println("joined.");
     }
@@ -48,6 +54,8 @@ public class DanmuReceiver extends WebSocketClient {
     @Override
     public void onClose(int code, String reason, boolean remote) {
 //        System.out.println("closed with exit code " + code + " additional info: " + reason + " by remote:" + remote);
+//        System.exit(0);
+        close();
     }
 
     @Override
@@ -67,7 +75,7 @@ public class DanmuReceiver extends WebSocketClient {
         ByteBuffer packagedData = ByteBuffer.allocate(headerLength + originData.bodyLength);
         packagedData.order(ByteOrder.BIG_ENDIAN);
 
-        packagedData.putInt(originData.bodyLength)
+        packagedData.putInt(originData.bodyLength + DataOffset.body)
                 .putShort(headerLength)
                 .putShort(originData.protocolType)
                 .putInt(originData.opCode)
@@ -90,6 +98,28 @@ public class DanmuReceiver extends WebSocketClient {
             body[i] = packedData.get(DataOffset.body + i);
         }
 
+        if (protocolType == ProtocolType.compressed_1) {
+            Inflater inflater = new Inflater();
+            inflater.setInput(body);
+            byte[] tempByte = new byte[4096];
+
+            try {
+                inflater.inflate(tempByte);
+            } catch (DataFormatException e) {
+                e.printStackTrace();
+            }
+
+            return unpack(ByteBuffer.wrap(tempByte));
+        } else if (protocolType == ProtocolType.compressed_2) {
+            try {
+                if (BrotliLoader.isBrotliAvailable()) {
+                    return unpack(ByteBuffer.wrap(BrotliDecoderChannel.decompress(body)));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         return new Data(body, protocolType, opCode);
     }
 
@@ -102,7 +132,6 @@ public class DanmuReceiver extends WebSocketClient {
     public static void stopHeartBeat() {
         if (heartBeat == null) return;
         heartBeat.end();
-        heartBeat.stop();
     }
 
     public static class HeartBeat extends Thread {
@@ -164,20 +193,8 @@ public class DanmuReceiver extends WebSocketClient {
             return bodyLength;
         }
 
-        public static Data join(int roomId, int protocolVersion, String platform) {
-            return new Data(
-                    String.format("\"roomid\":%d," +
-                            "\"protover\":%d," +
-                            "\"platform\":\"%s\"", roomId, protocolVersion, platform).getBytes(),
-                    OpCode.join
-            );
-        }
-
-        public static Data heartBeat() {
-            return new Data(
-                    "".getBytes(),
-                    OpCode.heartBeat
-            );
+        public List<String> getSplitJson() {
+            return Arrays.asList(new String(body).split("/[\\x00-\\x1f]+/"));
         }
 
         @Override
@@ -188,6 +205,7 @@ public class DanmuReceiver extends WebSocketClient {
 
             if (protocolType == 0) {
                 switch (opCode) {
+                    case OpCode.join:
                     case OpCode.joinSuccess:
                     case OpCode.message:
                         message += new String(body);
@@ -205,6 +223,22 @@ public class DanmuReceiver extends WebSocketClient {
 
 
             return message;
+        }
+
+        public static Data join(int roomId, int protocolVersion, String platform) {
+            return new Data(
+                    String.format("{\"roomid\": %d, " +
+                            "\"protover\": %d, " +
+                            "\"platform\": \"%s\"}", roomId, protocolVersion, platform).getBytes(StandardCharsets.UTF_8),
+                    OpCode.join
+            );
+        }
+
+        public static Data heartBeat() {
+            return new Data(
+                    "".getBytes(),
+                    OpCode.heartBeat
+            );
         }
     }
 
