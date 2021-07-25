@@ -1,5 +1,6 @@
 package indi.goldenwater.chaosdanmutool;
 
+import indi.goldenwater.chaosdanmutool.utils.DanmuReceiver;
 import indi.goldenwater.chaosdanmutool.utils.StageManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
+import java.net.URISyntaxException;
 import java.net.URL;
 
 public class ChaosDanmuTool extends Application {
@@ -21,7 +23,7 @@ public class ChaosDanmuTool extends Application {
 
         URL fxml = getClass().getResource("/scene/main.fxml");
         if (fxml == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR,"无法找到所需的文件 程序也许不完整", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "无法找到所需的文件 程序也许不完整", ButtonType.OK);
             alert.show();
             alert.setOnCloseRequest(event -> System.exit(0));
             return;
@@ -40,7 +42,13 @@ public class ChaosDanmuTool extends Application {
 
 
     public static void main(String[] args) {
-        launch(args);
+//        launch(args);
+        try {
+//            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30).connect();
+            new DanmuReceiver("ws://broadcastlv.chat.bilibili.com:2244/sub", 30).connect();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     public StageManager getStageManager() {

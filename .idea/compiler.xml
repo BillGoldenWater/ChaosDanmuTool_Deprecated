@@ -20,7 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="ChaosDanmuTool" target="1.8" />
+      <module name="ChaosDanmuTool" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

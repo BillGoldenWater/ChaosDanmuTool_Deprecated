@@ -1,17 +1,16 @@
 package indi.goldenwater.chaosdanmutool.controller;
 
+import indi.goldenwater.chaosdanmutool.utils.DanmuReceiver;
 import javafx.fxml.FXML;
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
+import javafx.scene.layout.VBox;
+
+import java.net.URISyntaxException;
 
 public class DanmuViewController {
     @FXML
-    protected WebView danmuView;
+    protected VBox danmuContainer;
 
     @FXML
     protected void initialize() {
-        WebEngine engine = danmuView.getEngine();
-
-        engine.load("https://www.bilibili.com");
     }
 }
