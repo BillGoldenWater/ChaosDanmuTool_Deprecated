@@ -18,6 +18,8 @@ public class DanmuProcessor {
         }
 
         switch (command.cmd) {
+            case "ONLINE_RANK_V2":
+            case "ONLINE_RANK_COUNT":
             case "NOTICE_MSG":
             case "STOP_LIVE_ROOM_LIST":
                 break;
@@ -89,6 +91,12 @@ public class DanmuProcessor {
     public static class MessageData {
         //STOP_LIVE_ROOM_LIST
         public List<Integer> room_id_list;
+
+        //ONLINE_RANK_V2
+        public List<Object> list;
+
+        //ONLINE_RANK_COUNT
+        public int count;
 
         //ROOM_REAL_TIME_MESSAGE_UPDATE
         public long roomid;
