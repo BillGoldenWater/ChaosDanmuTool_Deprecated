@@ -11,7 +11,9 @@ import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
@@ -45,25 +47,32 @@ public class DanmuReceiver extends WebSocketClient {
 
     @Override
     public void onMessage(ByteBuffer s) {
-        Data data = unpack(s);
-        if (data.protocolType != 0) {
-            DanmuProcessor.decodeError(data);
-            return;
-        }
-        switch (data.opCode) {
-            case OpCode.heartBeatResponse: {
-                DanmuProcessor.updateActivity(ByteBuffer.wrap(data.body).getInt());
-                break;
+        List<Data> dataList = unpackCompressed(unpack(s));
+
+        for (Data data : dataList) {
+            if (data.protocolType != 0) {
+                DanmuProcessor.decodeError(data);
+                return;
             }
-            case OpCode.joinSuccess: {
-                DanmuProcessor.connectSuccess();
-                break;
-            }
-            case OpCode.message: {
-                for (String jsonStr : data.getSplitJsonStr()) {
-                    DanmuProcessor.processCommand(jsonStr);
+            switch (data.opCode) {
+                case OpCode.heartBeatResponse: {
+                    DanmuProcessor.updateActivity(ByteBuffer.wrap(data.body).getInt());
+                    break;
                 }
-                break;
+                case OpCode.joinSuccess: {
+                    DanmuProcessor.connectSuccess();
+                    break;
+                }
+                case OpCode.message: {
+                    for (String jsonStr : data.getSplitJsonStr()) {
+                        DanmuProcessor.processCommand(jsonStr);
+                    }
+                    break;
+                }
+                default: {
+                    DanmuProcessor.decodeError(data);
+                    break;
+                }
             }
         }
     }
@@ -72,6 +81,7 @@ public class DanmuReceiver extends WebSocketClient {
     public void onClose(int code, String reason, boolean remote) {
 //        System.out.println("closed with exit code " + code + " additional info: " + reason + " by remote:" + remote);
 //        System.exit(0);
+        stopHeartBeat();
         close();
     }
 
@@ -104,41 +114,70 @@ public class DanmuReceiver extends WebSocketClient {
     }
 
     public static Data unpack(ByteBuffer packedData) {
-        int packetLength = packedData.getInt(DataOffset.packetLength);
-        short protocolType = packedData.getShort(DataOffset.protocolType);
-        int opCode = packedData.getInt(DataOffset.opCode);
-        int bodyLength = packetLength - DataOffset.body;
+        return unpack(packedData, 0);
+    }
+
+    public static Data unpack(ByteBuffer packedData, int offset) {
+        int packetLength = packedData.getInt(DataOffset.packetLength + offset);
+        short protocolType = packedData.getShort(DataOffset.protocolType + offset);
+        int opCode = packedData.getInt(DataOffset.opCode + offset);
+        int bodyLength = packetLength - headerLength;
 
         byte[] body = new byte[bodyLength];
-        packedData.position(DataOffset.body);
+        packedData.position(DataOffset.body + offset);
         for (int i = 0; i < bodyLength; i++) {
-            body[i] = packedData.get(DataOffset.body + i);
-        }
-
-        if (protocolType == ProtocolType.compressed_1) {
-            Inflater inflater = new Inflater();
-            inflater.setInput(body);
-            byte[] tempByte = new byte[4096];
-
-            try {
-                inflater.inflate(tempByte);
-            } catch (DataFormatException e) {
-                e.printStackTrace();
-            }
-
-            return unpack(ByteBuffer.wrap(tempByte));
-        } else if (protocolType == ProtocolType.compressed_2) {
-            try {
-                if (BrotliLoader.isBrotliAvailable()) {
-                    return unpack(ByteBuffer.wrap(BrotliDecoderChannel.decompress(body)));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            body[i] = packedData.get(DataOffset.body + i + offset);
         }
 
         return new Data(body, protocolType, opCode);
     }
+
+    public static List<Data> unpackCompressed(Data data) {
+        int protocolType = data.getProtocolType();
+
+        switch (protocolType) {
+            case ProtocolType.compressed_1: {
+                Inflater inflater = new Inflater();
+                inflater.setInput(data.body);
+                byte[] tempByte = new byte[4096];
+
+                try {
+                    inflater.inflate(tempByte);
+                } catch (DataFormatException e) {
+                    e.printStackTrace();
+                }
+
+                return new ArrayList<>(Collections.singleton(unpack(ByteBuffer.wrap(tempByte))));
+            }
+            case ProtocolType.compressed_2: {
+                try {
+                    if (BrotliLoader.isBrotliAvailable()) {
+                        ByteBuffer byteBuffer = ByteBuffer.wrap(
+                                BrotliDecoderChannel.decompress(data.body));
+                        List<Data> dataList = new ArrayList<>();
+                        Data tempData = unpack(byteBuffer, 0);
+
+                        dataList.add(tempData);
+
+                        int dataLength = tempData.packageLength;
+                        while (dataLength < byteBuffer.limit()) {
+                            tempData = unpack(byteBuffer, dataLength);
+                            dataLength += tempData.packageLength;
+                            dataList.add(tempData);
+                        }
+
+                        return dataList;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            default: {
+                return new ArrayList<>(Collections.singleton(data));
+            }
+        }
+    }
+
 
     public static void startHeartBeat(DanmuReceiver receiver) {
         stopHeartBeat();
@@ -182,6 +221,7 @@ public class DanmuReceiver extends WebSocketClient {
         private final int opCode;
         private final byte[] body;
         private final int bodyLength;
+        private final int packageLength;
 
         public Data(byte[] body, int opCode) {
             this(body, ProtocolType.json, opCode);
@@ -192,6 +232,7 @@ public class DanmuReceiver extends WebSocketClient {
             this.protocolType = protocolType;
             this.opCode = opCode;
             this.bodyLength = body.length;
+            this.packageLength = bodyLength + headerLength;
         }
 
         public byte[] getBody() {
@@ -208,6 +249,10 @@ public class DanmuReceiver extends WebSocketClient {
 
         public int getBodyLength() {
             return bodyLength;
+        }
+
+        public int getPackageLength() {
+            return packageLength;
         }
 
         public List<String> getSplitJsonStr() {

@@ -45,7 +45,7 @@ public class ChaosDanmuTool extends Application {
 //        launch(args);
         try {
 //            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30).connect();
-            new DanmuReceiver("ws://broadcastlv.chat.bilibili.com:2244/sub", 30, 953650).connect();
+            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30, 953650).connect();
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
