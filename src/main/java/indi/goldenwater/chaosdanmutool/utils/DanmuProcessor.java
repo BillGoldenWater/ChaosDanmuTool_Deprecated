@@ -1,28 +1,57 @@
 package indi.goldenwater.chaosdanmutool.utils;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class DanmuProcessor {
     public static void processCommand(String jsonStr) {
         Gson gson = new Gson();
-        DanmuCommand command = gson.fromJson(jsonStr, DanmuCommand.class);
+        DanmuCommand command;
+        try {
+            command = gson.fromJson(jsonStr, DanmuCommand.class);
+        } catch (Exception e){
+            e.printStackTrace();
+            System.out.println(jsonStr);
+            return;
+        }
+
 
         switch (command.cmd) {
             case "NOTICE_MSG":
-                System.out.println("NOTICE_MSG");
-                break;
             case "STOP_LIVE_ROOM_LIST":
-                System.out.println("STOP_LIVE_ROOM_LIST");
                 break;
             case "INTERACT_WORD": {
                 DanmuData data = command.data;
-                System.out.printf("ts: %d ",data.timestamp);
+                System.out.printf("ts: %d ", data.timestamp);
                 if (data.fans_medal.is_lighted == 1) {
-                    System.out.printf("%s%d ",data.fans_medal.medal_name,data.fans_medal.medal_level);
+                    System.out.printf("[%s %d] ", data.fans_medal.medal_name, data.fans_medal.medal_level);
                 }
-                System.out.printf("%s进入了房间\n", data.uname);
+                System.out.printf("%s 进入了房间\n", data.uname);
+                break;
+            }
+            case "SEND_GIFT": {
+                DanmuData data = command.data;
+                System.out.printf("ts: %d ", data.timestamp);
+                if (data.medal_info.is_lighted == 1) {
+                    System.out.printf("[%s %d] ", data.medal_info.medal_name, data.medal_info.medal_level);
+                }
+                System.out.printf("%s %s %dx%s\n", data.uname, data.action, data.num, data.giftName);
+                break;
+            }
+            case "COMBO_SEND": {
+                DanmuData data = command.data;
+                System.out.printf("ts: %d ", data.timestamp);
+                if (data.medal_info.is_lighted == 1) {
+                    System.out.printf("[%s %d] ", data.medal_info.medal_name, data.medal_info.medal_level);
+                }
+                System.out.printf("%s %s %dx%s\n", data.uname, data.action, data.gift_num, data.gift_name);
+                break;
+            }
+            case "ROOM_REAL_TIME_MESSAGE_UPDATE": {
+                DanmuData data = command.data;
+                System.out.printf("直播间信息更新: 粉丝数 %d; 粉丝团 %d;\n",data.fans,data.fans_club);
                 break;
             }
             default: {
@@ -52,6 +81,13 @@ public class DanmuProcessor {
     public static class DanmuData {
         //STOP_LIVE_ROOM_LIST
         public List<Integer> room_id_list;
+
+        //ROOM_REAL_TIME_MESSAGE_UPDATE
+        public long roomid;
+        public int fans;
+        public int red_notice;
+        public int fans_club;
+
         //INTERACT_WORD
         public Object contribution;
         public int dmscore;
@@ -59,7 +95,7 @@ public class DanmuProcessor {
         public List<Object> identities;
         public int is_spread;
         public int msg_type;
-        public long roomid;
+        //public long roomid;
         public long score;
         public String spread_desc;
         public String spread_info;
@@ -69,6 +105,78 @@ public class DanmuProcessor {
         public long uid;
         public String uname;
         public String uname_color;
+
+        //SEND_GIFT
+        public String action;
+        public String batch_combo_id;
+        public String batch_combo_send;
+        public String beatId;
+        public String biz_source;
+        public Object blind_gift;
+        public int broadcast_id;
+        public String coin_type; // silver, gold(?)
+        public int combo_resources_id;
+        public Object combo_send;
+        public int combo_stay_time;
+        public int combo_total_coin;
+        public int crit_prob;
+        public int demarcation;
+        //public int dmscore;
+        public int draw;
+        public int effect;
+        public int effect_block;
+        public String face; // face icon url?
+        public int giftId;
+        public String giftName;
+        public int giftType;
+        public int gold;
+        public int guard_level;
+        public boolean is_first;
+        public int is_special_batch;
+        public double magnification;
+        public MedalInfo medal_info;
+        public String name_color;
+        public int num; // gift num?
+        public String original_gift_name;
+        public int price;
+        public int rcost;
+        public int remain;
+        public String rnd;
+        public Object send_master;
+        public int silver;
+        @SerializedName("super")
+        public int super_;
+        public int super_batch_gift_num;
+        public int super_gift_num;
+        public int svga_block;
+        public String tag_image;
+        public long tid;
+        //public long timestamp;
+        public Object top_list;
+        public int total_coin;
+        //public long uid;
+        //public String uname;
+
+        //COMBO_SEND
+        //public String action;
+        //public String batch_combo_id;
+        public int batch_combo_num;
+        public String combo_id;
+        public int combo_num;
+        //public int combo_total_coin;
+        //public int dmscore;
+        public int gift_id;
+        public String gift_name;
+        public int gift_num;
+        public int is_show;
+        //public MedalInfo medal_info;
+        //public String name_color;
+        public String r_uname;
+        public int ruid;
+        //public Object send_master;
+        public int total_num;
+        //public long uid;
+        //public String uname;
     }
 
     public static class FansMedal {
@@ -86,8 +194,20 @@ public class DanmuProcessor {
         public String special;
         public long target_id;
     }
-    //STOP_LIVE_ROOM_LIST 未知
-    //INTERACT_WORD 进入消息
-    //DANMU_MSG 弹幕
-    //SEND_GIFT 礼物
+
+    public static class MedalInfo {
+        public int anchor_roomid;
+        public String anchor_uname;
+        public int guard_level;
+        public int icon_id;
+        public int is_lighted;
+        public int medal_color;
+        public int medal_color_border;
+        public int medal_color_end;
+        public int medal_color_start;
+        public int medal_level;
+        public String medal_name;
+        public String special;
+        public long target_id;
+    }
 }
