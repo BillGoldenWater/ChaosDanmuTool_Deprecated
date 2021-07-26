@@ -50,7 +50,6 @@ public class DanmuProcessor {
             }
             case "COMBO_SEND": {
                 MessageData data = command.data;
-                System.out.printf("%s ", formatTime(data.timestamp * 1000));
                 if (data.medal_info.is_lighted == 1) {
                     System.out.printf("[%s %d] ", data.medal_info.medal_name, data.medal_info.medal_level);
                 }
