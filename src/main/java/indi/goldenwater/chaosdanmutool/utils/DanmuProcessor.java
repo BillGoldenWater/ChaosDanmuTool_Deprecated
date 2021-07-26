@@ -8,22 +8,21 @@ import java.util.List;
 public class DanmuProcessor {
     public static void processCommand(String jsonStr) {
         Gson gson = new Gson();
-        DanmuCommand command;
+        MessageCommand command;
         try {
-            command = gson.fromJson(jsonStr, DanmuCommand.class);
-        } catch (Exception e){
+            command = gson.fromJson(jsonStr, MessageCommand.class);
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println(jsonStr);
             return;
         }
-
 
         switch (command.cmd) {
             case "NOTICE_MSG":
             case "STOP_LIVE_ROOM_LIST":
                 break;
             case "INTERACT_WORD": {
-                DanmuData data = command.data;
+                MessageData data = command.data;
                 System.out.printf("ts: %d ", data.timestamp);
                 if (data.fans_medal.is_lighted == 1) {
                     System.out.printf("[%s %d] ", data.fans_medal.medal_name, data.fans_medal.medal_level);
@@ -32,7 +31,7 @@ public class DanmuProcessor {
                 break;
             }
             case "SEND_GIFT": {
-                DanmuData data = command.data;
+                MessageData data = command.data;
                 System.out.printf("ts: %d ", data.timestamp);
                 if (data.medal_info.is_lighted == 1) {
                     System.out.printf("[%s %d] ", data.medal_info.medal_name, data.medal_info.medal_level);
@@ -41,7 +40,7 @@ public class DanmuProcessor {
                 break;
             }
             case "COMBO_SEND": {
-                DanmuData data = command.data;
+                MessageData data = command.data;
                 System.out.printf("ts: %d ", data.timestamp);
                 if (data.medal_info.is_lighted == 1) {
                     System.out.printf("[%s %d] ", data.medal_info.medal_name, data.medal_info.medal_level);
@@ -50,8 +49,17 @@ public class DanmuProcessor {
                 break;
             }
             case "ROOM_REAL_TIME_MESSAGE_UPDATE": {
-                DanmuData data = command.data;
-                System.out.printf("直播间信息更新: 粉丝数 %d; 粉丝团 %d;\n",data.fans,data.fans_club);
+                MessageData data = command.data;
+                System.out.printf("直播间信息更新: 粉丝数 %d; 粉丝团 %d;\n", data.fans, data.fans_club);
+                break;
+            }
+            case "DANMU_MSG": {
+                DanmuInfo danmuInfo = DanmuInfo.parse(command.info);
+                System.out.printf("ts: %d ", danmuInfo.timestamp);
+                if (danmuInfo.medalInfo.is_lighted == 1) {
+                    System.out.printf("[%s %d] ", danmuInfo.medalInfo.medal_name, danmuInfo.medalInfo.medal_level);
+                }
+                System.out.printf("%s: %s\n", danmuInfo.uName, danmuInfo.content);
                 break;
             }
             default: {
@@ -72,13 +80,13 @@ public class DanmuProcessor {
         System.out.println("处理失败:\n" + data);
     }
 
-    public static class DanmuCommand {
+    public static class MessageCommand {
         public String cmd;
         public List<Object> info;
-        public DanmuData data;
+        public MessageData data;
     }
 
-    public static class DanmuData {
+    public static class MessageData {
         //STOP_LIVE_ROOM_LIST
         public List<Integer> room_id_list;
 
@@ -209,5 +217,72 @@ public class DanmuProcessor {
         public String medal_name;
         public String special;
         public long target_id;
+    }
+
+    public static class DanmuInfo {
+        public List<Object> info;
+
+        public long timestamp;
+
+        public String content;
+
+        public long uid;
+        public String uName;
+        public int isAdmin;
+
+        public MedalInfo medalInfo;
+
+        public int userUL;
+
+        public String userTitle;
+
+        public static DanmuInfo parse(List<Object> info) {
+            DanmuInfo danmuInfo = new DanmuInfo();
+            danmuInfo.info = info;
+
+            List<?> danmuMeta = (List<?>) info.get(0);
+            if (danmuMeta != null) {
+                danmuInfo.timestamp = ((Double) danmuMeta.get(4)).longValue();
+            }
+
+            danmuInfo.content = (String) info.get(1);
+
+            List<?> userData = (List<?>) info.get(2);
+            if (userData != null) {
+                danmuInfo.uid = ((Double) userData.get(0)).longValue();
+                danmuInfo.uName = (String) userData.get(1);
+                danmuInfo.isAdmin = ((Double) userData.get(2)).intValue();
+            }
+
+            List<?> medalInfo = (List<?>) info.get(3);
+            if (medalInfo != null) {
+                MedalInfo tempMedalInfo = new MedalInfo();
+
+                if (medalInfo.isEmpty()) {
+                    tempMedalInfo.is_lighted = 0;
+                } else {
+                    tempMedalInfo.medal_level = ((Double) medalInfo.get(0)).intValue();
+                    tempMedalInfo.medal_name = (String) medalInfo.get(1);
+                    tempMedalInfo.anchor_uname = (String) medalInfo.get(2);
+                    tempMedalInfo.anchor_roomid = ((Double) medalInfo.get(3)).intValue();
+                }
+
+                danmuInfo.medalInfo = tempMedalInfo;
+            }
+
+            List<?> levelInfo = (List<?>) info.get(4);
+            if (levelInfo != null) {
+                danmuInfo.userUL = ((Double) levelInfo.get(0)).intValue();
+            }
+
+            List<?> titleInfo = (List<?>) info.get(5);
+            if (titleInfo != null) {
+                if (!titleInfo.isEmpty()) {
+                    danmuInfo.userTitle = (String) titleInfo.get(0);
+                }
+            }
+
+            return danmuInfo;
+        }
     }
 }
