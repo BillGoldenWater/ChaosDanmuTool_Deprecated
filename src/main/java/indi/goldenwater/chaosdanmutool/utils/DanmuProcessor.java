@@ -3,6 +3,8 @@ package indi.goldenwater.chaosdanmutool.utils;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class DanmuProcessor {
@@ -28,7 +30,7 @@ public class DanmuProcessor {
                 break;
             case "INTERACT_WORD": {
                 MessageData data = command.data;
-                System.out.printf("ts: %d ", data.timestamp);
+                System.out.printf("%s ", formatTime(data.timestamp * 1000));
                 if (data.fans_medal.is_lighted == 1) {
                     System.out.printf("[%s %d] ", data.fans_medal.medal_name, data.fans_medal.medal_level);
                 }
@@ -37,7 +39,9 @@ public class DanmuProcessor {
             }
             case "SEND_GIFT": {
                 MessageData data = command.data;
-                System.out.printf("ts: %d ", data.timestamp);
+                if (!data.batch_combo_id.equals("")) break;
+
+                System.out.printf("%s ", formatTime(data.timestamp * 1000));
                 if (data.medal_info.is_lighted == 1) {
                     System.out.printf("[%s %d] ", data.medal_info.medal_name, data.medal_info.medal_level);
                 }
@@ -46,11 +50,11 @@ public class DanmuProcessor {
             }
             case "COMBO_SEND": {
                 MessageData data = command.data;
-                System.out.printf("ts: %d ", data.timestamp);
+                System.out.printf("%s ", formatTime(data.timestamp * 1000));
                 if (data.medal_info.is_lighted == 1) {
                     System.out.printf("[%s %d] ", data.medal_info.medal_name, data.medal_info.medal_level);
                 }
-                System.out.printf("%s %s %dx%s\n", data.uname, data.action, data.gift_num, data.gift_name);
+                System.out.printf("%s %s %dx%s\n", data.uname, data.action, data.total_num, data.gift_name);
                 break;
             }
             case "ROOM_REAL_TIME_MESSAGE_UPDATE": {
@@ -60,7 +64,7 @@ public class DanmuProcessor {
             }
             case "DANMU_MSG": {
                 DanmuInfo danmuInfo = DanmuInfo.parse(command.info);
-                System.out.printf("ts: %d ", danmuInfo.timestamp);
+                System.out.printf("%s ", formatTime(danmuInfo.timestamp));
                 if (danmuInfo.medalInfo.is_lighted == 1) {
                     System.out.printf("[%s %d] ", danmuInfo.medalInfo.medal_name, danmuInfo.medalInfo.medal_level);
                 }
@@ -83,6 +87,15 @@ public class DanmuProcessor {
 
     public static void decodeError(DanmuReceiver.Data data) {
         System.out.println("处理失败:\n" + data);
+    }
+
+    public static String formatTime(long timestampInMillis) {
+        Date date = new Date(timestampInMillis);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return String.format("[%02d:%02d:%02d]", calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                calendar.get(Calendar.SECOND));
     }
 
     public static class MessageCommand {
