@@ -18,6 +18,9 @@ public class DanmuProcessor {
         }
 
         switch (command.cmd) {
+            case "HOT_RANK_CHANGED":
+            case "ENTRY_EFFECT":
+
             case "ONLINE_RANK_V2":
             case "ONLINE_RANK_COUNT":
             case "NOTICE_MSG":
@@ -108,7 +111,7 @@ public class DanmuProcessor {
         public Object contribution;
         public int dmscore;
         public FansMedal fans_medal;
-        public List<Object> identities;
+        public Object identities;
         public int is_spread;
         public int msg_type;
         //public long roomid;
@@ -125,7 +128,7 @@ public class DanmuProcessor {
         //SEND_GIFT
         public String action;
         public String batch_combo_id;
-        public String batch_combo_send;
+        public Object batch_combo_send;
         public String beatId;
         public String biz_source;
         public Object blind_gift;
