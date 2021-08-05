@@ -42,13 +42,13 @@ public class ChaosDanmuTool extends Application {
 
 
     public static void main(String[] args) {
-//        launch(args);
-        try {
-//            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30).connect();
-            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30, 953650).connect();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        launch(args);
+//        try {
+////            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30).connect();
+//            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30, 953650).connect();
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public StageManager getStageManager() {

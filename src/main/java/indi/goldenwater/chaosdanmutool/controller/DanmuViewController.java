@@ -1,18 +1,29 @@
 package indi.goldenwater.chaosdanmutool.controller;
 
-import indi.goldenwater.chaosdanmutool.utils.DanmuReceiver;
+import indi.goldenwater.chaosdanmutool.utils.ReadFileInJar;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
-import java.net.URISyntaxException;
+import java.io.IOException;
 
 public class DanmuViewController {
     @FXML
-    protected VBox danmuContainer;
+    protected WebView danmuView;
 
     @FXML
-    protected void initialize() {
-        danmuContainer.setAlignment(Pos.BOTTOM_LEFT);
+    protected void initialize() throws IOException {
+        WebEngine webEngine = danmuView.getEngine();
+        String html = ReadFileInJar.readAsString("/html/index.html");
+
+        if (html == null) {
+            webEngine.loadContent("Failed to load html.");
+            return;
+        }
+
+        html = html.replace("{{port}}", "{}")
+                .replace("{{maxListNumber}}", "100");
+
+        webEngine.loadContent(html);
     }
 }
