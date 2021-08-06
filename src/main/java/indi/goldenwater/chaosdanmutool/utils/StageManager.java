@@ -27,4 +27,12 @@ public class StageManager {
     public void closeAll() {
         stages.forEach((l, v) -> v.close());
     }
+
+    public void close(String id) {
+        Stage stage = stages.get(id);
+        if (stage != null) {
+            stage.close();
+        }
+        stages.remove(id);
+    }
 }
