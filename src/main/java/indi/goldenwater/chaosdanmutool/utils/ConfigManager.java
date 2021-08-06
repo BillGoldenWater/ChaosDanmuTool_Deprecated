@@ -1,6 +1,7 @@
 package indi.goldenwater.chaosdanmutool.utils;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,7 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class ConfigManager<T> {
-    private final Gson gson = new Gson();
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private T config;
 
     public void load(String pathInJar, File path, Class<T> type) throws IOException {
@@ -24,10 +25,9 @@ public class ConfigManager<T> {
     public void save(File path) throws IOException {
         String configJsonStr = gson.toJson(config);
 
-        if (!path.createNewFile()) return;
-
         FileWriter outputStream = new FileWriter(path);
         outputStream.write(configJsonStr);
+        outputStream.flush();
     }
 
     public T getConfig() {

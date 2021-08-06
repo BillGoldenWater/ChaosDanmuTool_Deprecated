@@ -1,0 +1,10 @@
+{
+  "webSocketServer": {
+    "port": 25555
+  },
+  "danmuView": {
+    "width": 400,
+    "height": 600,
+    "maxDanmuNumber": 100
+  }
+}

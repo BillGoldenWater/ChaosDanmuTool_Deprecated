@@ -1,5 +1,8 @@
 package indi.goldenwater.chaosdanmutool;
 
+import indi.goldenwater.chaosdanmutool.danmu.DanmuReceiver;
+import indi.goldenwater.chaosdanmutool.interfaces.Config;
+import indi.goldenwater.chaosdanmutool.utils.ConfigManager;
 import indi.goldenwater.chaosdanmutool.utils.FxmlNullAlert;
 import indi.goldenwater.chaosdanmutool.utils.StageManager;
 import javafx.application.Application;
@@ -11,12 +14,31 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 public class ChaosDanmuTool extends Application {
     private static ChaosDanmuTool instance;
     private static final Logger logger = LogManager.getLogger(ChaosDanmuTool.class);
+
+    private static final ConfigManager<Config> configManager = new ConfigManager<>();
+    private static final File config = new File("./config.json");
+
     private StageManager stageManager;
+
+    public static void main(String[] args) {
+        loadConfig();
+//        launch(args);
+        try {
+//            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30).connect();
+            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30, 953650).connect();
+            Platform.exit();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -41,15 +63,25 @@ public class ChaosDanmuTool extends Application {
         logger.info("Load main window success");
     }
 
+    @Override
+    public void stop() {
+        saveConfig();
+    }
 
-    public static void main(String[] args) {
-        launch(args);
-//        try {
-////            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30).connect();
-//            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30, 953650).connect();
-//        } catch (URISyntaxException e) {
-//            e.printStackTrace();
-//        }
+    public static void loadConfig() {
+        try {
+            configManager.load("/config.json", config, Config.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveConfig() {
+        try {
+            configManager.save(config);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public StageManager getStageManager() {
@@ -62,5 +94,9 @@ public class ChaosDanmuTool extends Application {
 
     public static Logger getLogger() {
         return logger;
+    }
+
+    public static Config getConfig() {
+        return configManager.getConfig();
     }
 }
