@@ -1,7 +1,9 @@
-package indi.goldenwater.chaosdanmutool.utils;
+package indi.goldenwater.chaosdanmutool.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import indi.goldenwater.chaosdanmutool.utils.ReadFileInJar;
+import indi.goldenwater.chaosdanmutool.utils.ReadInputStreamAsStr;
 
 import java.io.File;
 import java.io.FileInputStream;

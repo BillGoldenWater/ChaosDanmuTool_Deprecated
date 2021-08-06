@@ -1,4 +1,4 @@
-package indi.goldenwater.chaosdanmutool.interfaces;
+package indi.goldenwater.chaosdanmutool.config;
 
 public class Config {
     public WebSocketServerConfig webSocketServer;
@@ -9,6 +9,8 @@ public class Config {
     }
 
     public static class DanmuViewConfig {
+        public int width;
+        public int height;
         public int maxDanmuNumber;
     }
 }
