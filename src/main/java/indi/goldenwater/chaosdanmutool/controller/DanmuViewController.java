@@ -6,16 +6,21 @@ import indi.goldenwater.chaosdanmutool.utils.ReadFileInJar;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
 public class DanmuViewController {
+    final Logger logger = ChaosDanmuTool.getLogger();
+
     @FXML
     protected WebView danmuView;
 
     @FXML
     protected void initialize() throws IOException {
+        logger.info("[Danmu View] Initializing.");
         initDanmuView();
+        logger.info("[Danmu View] Initialized.");
     }
 
     private void initDanmuView() throws IOException {
@@ -26,6 +31,7 @@ public class DanmuViewController {
 
         if (html == null) {
             webEngine.loadContent("Failed to load html.");
+            logger.error("[Danmu View] Failed to load html.");
             return;
         }
 
