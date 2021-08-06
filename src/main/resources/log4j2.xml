@@ -8,10 +8,13 @@
     </Properties>
 
     <Appenders>
-
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="${info}"/>
         </Console>
+
+        <File name="fileOut_debug" fileName="${logDir}/debug.log" append="false">
+            <PatternLayout pattern="${debug}"/>
+        </File>
 
         <RollingFile name="fileOut" fileName="${logDir}/latest.log"
                      filePattern="${logDir}/info-%d{yyyy-MM-dd}-%i.log.gz">
@@ -23,21 +26,12 @@
             </Policies>
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
-
-        <File name="fileOut_debug" fileName="${logDir}/debug.log" append="false">
-            <PatternLayout pattern="${debug}"/>
-        </File>
-
     </Appenders>
 
     <Loggers>
-
-        <Logger name="indi.goldenwater" level="info">
-            <AppenderRef ref="fileOut"/>
-        </Logger>
-
         <Root level="all">
             <AppenderRef ref="console"/>
+            <AppenderRef ref="fileOut"/>
             <AppenderRef ref="fileOut_debug"/>
         </Root>
     </Loggers>
