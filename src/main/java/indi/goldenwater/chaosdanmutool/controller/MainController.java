@@ -22,7 +22,7 @@ public class MainController {
         StageManager stageManager = ChaosDanmuTool.getInstance().getStageManager();
 
         Stage danmuView = new Stage();
-        URL fxml = getClass().getResource("scene/danmuView.fxml");
+        URL fxml = getClass().getResource("/scene/danmuView.fxml");
         if (fxml == null) {
             FxmlNullAlert.alert("danmuView", false);
             return;

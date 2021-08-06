@@ -3,6 +3,7 @@ package indi.goldenwater.chaosdanmutool;
 import indi.goldenwater.chaosdanmutool.utils.FxmlNullAlert;
 import indi.goldenwater.chaosdanmutool.utils.StageManager;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -35,7 +36,7 @@ public class ChaosDanmuTool extends Application {
 
         primaryStage.setTitle("Chaos Danmu Tool");
         primaryStage.setScene(new Scene(root));
-        primaryStage.setOnCloseRequest(event -> stageManager.closeAll());
+        primaryStage.setOnCloseRequest(event -> Platform.exit());
         primaryStage.show();
         logger.info("Load main window success");
     }
