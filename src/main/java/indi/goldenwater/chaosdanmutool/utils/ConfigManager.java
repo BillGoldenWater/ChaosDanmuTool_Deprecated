@@ -10,9 +10,19 @@ import java.io.IOException;
 
 public class ConfigManager<T> {
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final String pathInJar;
+    private final File path;
+    private final Class<T> type;
+
     private T config;
 
-    public void load(String pathInJar, File path, Class<T> type) throws IOException {
+    public ConfigManager(String pathInJar, File path, Class<T> type) {
+        this.pathInJar = pathInJar;
+        this.path = path;
+        this.type = type;
+    }
+
+    public void load() throws IOException {
         String configJsonStr;
         if (path.exists()) {
             configJsonStr = ReadInputStreamAsStr.read(new FileInputStream(path));
@@ -22,7 +32,7 @@ public class ConfigManager<T> {
         config = gson.fromJson(configJsonStr, type);
     }
 
-    public void save(File path) throws IOException {
+    public void save() throws IOException {
         String configJsonStr = gson.toJson(config);
 
         FileWriter outputStream = new FileWriter(path);
