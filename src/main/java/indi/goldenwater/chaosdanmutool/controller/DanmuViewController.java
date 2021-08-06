@@ -1,5 +1,7 @@
 package indi.goldenwater.chaosdanmutool.controller;
 
+import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
+import indi.goldenwater.chaosdanmutool.config.Config;
 import indi.goldenwater.chaosdanmutool.utils.ReadFileInJar;
 import javafx.fxml.FXML;
 import javafx.scene.web.WebEngine;
@@ -13,6 +15,12 @@ public class DanmuViewController {
 
     @FXML
     protected void initialize() throws IOException {
+        initDanmuView();
+    }
+
+    private void initDanmuView() throws IOException {
+        final Config config = ChaosDanmuTool.getConfig();
+
         WebEngine webEngine = danmuView.getEngine();
         String html = ReadFileInJar.readAsString("/html/index.html");
 
@@ -21,8 +29,8 @@ public class DanmuViewController {
             return;
         }
 
-        html = html.replace("{{port}}", "25555")
-                .replace("{{maxListNumber}}", "100");
+        html = html.replace("{{port}}", String.valueOf(config.webSocketServer.port))
+                .replace("{{maxListNumber}}", String.valueOf(config.danmuView.maxDanmuNumber));
 
         webEngine.loadContent(html);
     }
