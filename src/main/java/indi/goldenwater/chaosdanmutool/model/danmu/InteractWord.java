@@ -1,4 +1,4 @@
-package indi.goldenwater.chaosdanmutool.model;
+package indi.goldenwater.chaosdanmutool.model.danmu;
 
 import com.google.gson.JsonArray;
 

@@ -1,7 +1,8 @@
-package indi.goldenwater.chaosdanmutool.model;
+package indi.goldenwater.chaosdanmutool.model.danmu;
 
-public class FansMedal {
-    public long anchor_roomid;
+public class MedalInfo {
+    public int anchor_roomid;
+    public String anchor_uname;
     public int guard_level;
     public int icon_id;
     public int is_lighted;
@@ -11,7 +12,6 @@ public class FansMedal {
     public int medal_color_start;
     public int medal_level;
     public String medal_name;
-    public int score;
     public String special;
     public long target_id;
 }

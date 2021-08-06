@@ -1,4 +1,4 @@
-package indi.goldenwater.chaosdanmutool.model;
+package indi.goldenwater.chaosdanmutool.model.danmu;
 
 public class DanmuMsg extends MessageCommand {
     public long timestamp;

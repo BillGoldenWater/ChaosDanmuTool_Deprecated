@@ -1,4 +1,4 @@
-package indi.goldenwater.chaosdanmutool.model;
+package indi.goldenwater.chaosdanmutool.model.danmu;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -13,12 +13,6 @@ public class MessageData {
 
     //ONLINE_RANK_COUNT
     public int count;
-
-    //ROOM_REAL_TIME_MESSAGE_UPDATE
-    public long roomid;
-    public int fans;
-    public int red_notice;
-    public int fans_club;
 
     //SEND_GIFT
     public String action;
