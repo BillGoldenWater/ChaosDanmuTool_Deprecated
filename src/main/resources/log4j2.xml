@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Configuration status="info">
+    <Properties>
+        <Property name="logDir">logs</Property>
+
+        <Property name="info">[%d{HH:mm:ss}] [%t/%-5level]: %m%n</Property>
+        <Property name="debug">[%d{MM-dd,HH:mm:ss,SSS}] [%t/%-5level] %l: %m%n</Property>
+    </Properties>
+
+    <Appenders>
+
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${info}"/>
+        </Console>
+
+        <RollingFile name="fileOut" fileName="${logDir}/latest.log"
+                     filePattern="${logDir}/info-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${info}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="100"/>
+        </RollingFile>
+
+        <File name="fileOut_debug" fileName="${logDir}/debug.log" append="false">
+            <PatternLayout pattern="${debug}"/>
+        </File>
+
+    </Appenders>
+
+    <Loggers>
+
+        <Logger name="indi.goldenwater" level="info" additivity="false">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="fileOut"/>
+        </Logger>
+
+        <Logger name="indi.goldenwater" level="all" additivity="false">
+            <AppenderRef ref="fileOut_debug"/>
+        </Logger>
+
+        <Root level="error">
+            <AppenderRef ref="console"/>
+        </Root>
+    </Loggers>
+</Configuration>
