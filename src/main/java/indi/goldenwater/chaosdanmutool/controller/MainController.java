@@ -1,6 +1,7 @@
 package indi.goldenwater.chaosdanmutool.controller;
 
 import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
+import indi.goldenwater.chaosdanmutool.config.Config;
 import indi.goldenwater.chaosdanmutool.utils.FxmlNullAlert;
 import indi.goldenwater.chaosdanmutool.utils.StageManager;
 import javafx.fxml.FXML;
@@ -9,16 +10,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 
 
 public class MainController {
+    final Logger logger = ChaosDanmuTool.getLogger();
+
     @FXML
     protected Button btnOpenDanmuView;
 
     @FXML
     protected void onBtnOpenDanmuViewClicked() throws Exception {
+        logger.info("Load danmu view");
+        ChaosDanmuTool.loadConfig();
+        final Config config = ChaosDanmuTool.getConfig();
         StageManager stageManager = ChaosDanmuTool.getInstance().getStageManager();
 
         Stage danmuView = new Stage();
@@ -33,7 +40,8 @@ public class MainController {
         Parent root = FXMLLoader.load(fxml);
 
 //        danmuView.initStyle(StageStyle.UNDECORATED);
-        danmuView.setScene(new Scene(root));
+        danmuView.setScene(new Scene(root, config.danmuView.width, config.danmuView.height));
         danmuView.show();
+        logger.info("Load danmu view success");
     }
 }
