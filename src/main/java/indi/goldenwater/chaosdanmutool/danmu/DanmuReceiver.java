@@ -1,4 +1,4 @@
-package indi.goldenwater.chaosdanmutool.utils;
+package indi.goldenwater.chaosdanmutool.danmu;
 
 import com.nixxcode.jvmbrotli.common.BrotliLoader;
 import com.nixxcode.jvmbrotli.dec.BrotliDecoderChannel;

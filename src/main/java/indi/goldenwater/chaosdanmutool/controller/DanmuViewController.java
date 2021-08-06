@@ -21,7 +21,7 @@ public class DanmuViewController {
             return;
         }
 
-        html = html.replace("{{port}}", "{}")
+        html = html.replace("{{port}}", "25555")
                 .replace("{{maxListNumber}}", "100");
 
         webEngine.loadContent(html);

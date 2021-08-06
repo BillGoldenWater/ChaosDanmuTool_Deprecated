@@ -1,4 +1,4 @@
-package indi.goldenwater.chaosdanmutool.utils;
+package indi.goldenwater.chaosdanmutool.danmu;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
