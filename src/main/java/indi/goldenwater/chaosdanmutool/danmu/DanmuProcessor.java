@@ -2,7 +2,7 @@ package indi.goldenwater.chaosdanmutool.danmu;
 
 import com.google.gson.*;
 import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
-import indi.goldenwater.chaosdanmutool.model.*;
+import indi.goldenwater.chaosdanmutool.model.danmu.*;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Type;
@@ -27,10 +27,20 @@ public class DanmuProcessor {
 
         if (command instanceof DanmuMsg) {
             DanmuMsg danmuMsg = (DanmuMsg) command;
-            logger.info(String.format("%s: %s", danmuMsg.uName, danmuMsg.content));
+//            logger.info(String.format("%s: %s", danmuMsg.uName, danmuMsg.content));
         } else if (command instanceof InteractWord) {
             InteractWord interactWord = (InteractWord) command;
-            logger.info(String.format("%s 进入了直播间", interactWord.uname));
+//            logger.info(String.format("%s 进入了直播间", interactWord.uname));
+        } else if (command instanceof RoomRealTimeMessageUpdate) {
+            RoomRealTimeMessageUpdate realTimeMessageUpdate = (RoomRealTimeMessageUpdate) command;
+            logger.info(String.format("直播间信息更新: 粉丝数 %d; 粉丝团 %d;",
+                    realTimeMessageUpdate.fans,
+                    realTimeMessageUpdate.fans_club));
+        } else if (command instanceof SendGift) {
+            SendGift sendGift = (SendGift) command;
+            logger.info(String.format("%s %s %dx%s", sendGift.uname, sendGift.action, sendGift.num, sendGift.giftName));
+        } else {
+            logger.debug(command.cmd);
         }
 
 //        switch (command.cmd) {
@@ -42,28 +52,12 @@ public class DanmuProcessor {
 //            case "NOTICE_MSG":
 //            case "STOP_LIVE_ROOM_LIST":
 //                break;
-//            case "SEND_GIFT": {
-//                MessageData data = command.data;
-//                if (!data.batch_combo_id.equals("")) break;
-//
-//                System.out.printf("%s ", formatTime(data.timestamp * 1000));
-//                if (data.medal_info.is_lighted == 1) {
-//                    System.out.printf("[%s %d] ", data.medal_info.medal_name, data.medal_info.medal_level);
-//                }
-//                System.out.printf("%s %s %dx%s\n", data.uname, data.action, data.num, data.giftName);
-//                break;
-//            }
 //            case "COMBO_SEND": {
 //                MessageData data = command.data;
 //                if (data.medal_info.is_lighted == 1) {
 //                    System.out.printf("[%s %d] ", data.medal_info.medal_name, data.medal_info.medal_level);
 //                }
 //                System.out.printf("%s %s %dx%s\n", data.uname, data.action, data.total_num, data.gift_name);
-//                break;
-//            }
-//            case "ROOM_REAL_TIME_MESSAGE_UPDATE": {
-//                MessageData data = command.data;
-//                System.out.printf("直播间信息更新: 粉丝数 %d; 粉丝团 %d;\n", data.fans, data.fans_club);
 //                break;
 //            }
 //            default: {
@@ -160,24 +154,7 @@ public class DanmuProcessor {
 
                     interactWord.contribution = data.get("contribution");
                     interactWord.dmscore = data.get("dmscore").getAsInt();
-
-                    FansMedal fansMedal = new FansMedal();
-                    JsonObject fans_medal = data.get("fans_medal").getAsJsonObject();
-                    fansMedal.anchor_roomid = fans_medal.get("anchor_roomid").getAsInt();
-                    fansMedal.guard_level = fans_medal.get("guard_level").getAsInt();
-                    fansMedal.icon_id = fans_medal.get("icon_id").getAsInt();
-                    fansMedal.is_lighted = fans_medal.get("is_lighted").getAsInt();
-                    fansMedal.medal_color = fans_medal.get("medal_color").getAsInt();
-                    fansMedal.medal_color_border = fans_medal.get("medal_color_border").getAsInt();
-                    fansMedal.medal_color_end = fans_medal.get("medal_color_end").getAsInt();
-                    fansMedal.medal_color_start = fans_medal.get("medal_color_start").getAsInt();
-                    fansMedal.medal_level = fans_medal.get("medal_level").getAsInt();
-                    fansMedal.medal_name = fans_medal.get("medal_name").getAsString();
-                    fansMedal.score = fans_medal.get("score").getAsInt();
-                    fansMedal.special = fans_medal.get("special").getAsString();
-                    fansMedal.target_id = fans_medal.get("target_id").getAsInt();
-
-                    interactWord.fans_medal = fansMedal;
+                    interactWord.fans_medal = FansMedal.parse(data.get("fans_medal").getAsJsonObject());
                     interactWord.identities = data.get("identities").getAsJsonArray();
                     interactWord.is_spread = data.get("is_spread").getAsInt();
                     interactWord.msg_type = data.get("msg_type").getAsInt();
@@ -193,6 +170,90 @@ public class DanmuProcessor {
                     interactWord.uname_color = data.get("uname_color").getAsString();
 
                     return interactWord;
+                }
+                case "ROOM_REAL_TIME_MESSAGE_UPDATE": {
+                    RoomRealTimeMessageUpdate realTimeMessageUpdate = new RoomRealTimeMessageUpdate();
+                    realTimeMessageUpdate.cmd = jsonObject.get("cmd").getAsString();
+                    JsonObject data = jsonObject.get("data").getAsJsonObject();
+
+                    realTimeMessageUpdate.roomid = data.get("roomid").getAsLong();
+                    realTimeMessageUpdate.fans = data.get("fans").getAsInt();
+                    realTimeMessageUpdate.red_notice = data.get("red_notice").getAsInt();
+                    realTimeMessageUpdate.fans_club = data.get("fans_club").getAsInt();
+
+                    return realTimeMessageUpdate;
+                }
+                case "SEND_GIFT": {
+                    SendGift sendGift = new SendGift();
+                    sendGift.cmd = jsonObject.get("cmd").getAsString();
+                    JsonObject data = jsonObject.get("data").getAsJsonObject();
+
+                    sendGift.action = data.get("action").getAsString();
+                    sendGift.batch_combo_id = data.get("batch_combo_id").getAsString();
+                    sendGift.batch_combo_send = data.get("batch_combo_send");
+                    sendGift.beatId = data.get("beatId").getAsString();
+                    sendGift.biz_source = data.get("biz_source").getAsString();
+                    sendGift.blind_gift = data.get("blind_gift");
+                    sendGift.broadcast_id = data.get("broadcast_id").getAsInt();
+                    sendGift.coin_type = data.get("coin_type").getAsString();
+                    sendGift.combo_resources_id = data.get("combo_resources_id").getAsInt();
+                    sendGift.combo_send = data.get("combo_send");
+                    sendGift.combo_stay_time = data.get("combo_stay_time").getAsInt();
+                    sendGift.combo_total_coin = data.get("combo_total_coin").getAsInt();
+                    sendGift.crit_prob = data.get("crit_prob").getAsInt();
+                    sendGift.demarcation = data.get("demarcation").getAsInt();
+                    sendGift.dmscore = data.get("dmscore").getAsInt();
+                    sendGift.draw = data.get("draw").getAsInt();
+                    sendGift.effect = data.get("effect").getAsInt();
+                    sendGift.effect_block = data.get("effect_block").getAsInt();
+                    sendGift.face = data.get("face").getAsString();
+                    sendGift.giftId = data.get("giftId").getAsInt();
+                    sendGift.giftName = data.get("giftName").getAsString();
+                    sendGift.giftType = data.get("giftType").getAsInt();
+                    sendGift.gold = data.get("gold").getAsInt();
+                    sendGift.guard_level = data.get("guard_level").getAsInt();
+                    sendGift.is_first = data.get("is_first").getAsBoolean();
+                    sendGift.is_special_batch = data.get("is_special_batch").getAsInt();
+                    sendGift.magnification = data.get("magnification").getAsDouble();
+
+                    sendGift.medal_info = MedalInfo.parse(data.get("medal_info").getAsJsonObject());
+
+                    sendGift.name_color = data.get("name_color").getAsString();
+                    sendGift.num = data.get("num").getAsInt();
+                    sendGift.original_gift_name = data.get("original_gift_name").getAsString();
+                    sendGift.price = data.get("price").getAsInt();
+                    sendGift.rcost = data.get("rcost").getAsInt();
+                    sendGift.remain = data.get("remain").getAsInt();
+                    sendGift.rnd = data.get("rnd").getAsString();
+
+                    JsonElement send_master = data.get("send_master");
+                    if (send_master == null || send_master.isJsonNull()) {
+                        sendGift.send_master = 0;
+                    } else {
+                        sendGift.send_master = send_master.getAsInt();
+                    }
+
+                    sendGift.silver = data.get("silver").getAsInt();
+
+                    JsonElement super_ = data.get("super_");
+                    if (super_ == null || super_.isJsonNull()) {
+                        sendGift.super_ = 0;
+                    } else {
+                        sendGift.super_ = super_.getAsInt();
+                    }
+
+                    sendGift.super_batch_gift_num = data.get("super_batch_gift_num").getAsInt();
+                    sendGift.super_gift_num = data.get("super_gift_num").getAsInt();
+                    sendGift.svga_block = data.get("svga_block").getAsInt();
+                    sendGift.tag_image = data.get("tag_image").getAsString();
+                    sendGift.tid = data.get("tid").getAsLong();
+                    sendGift.timestamp = data.get("timestamp").getAsLong();
+                    sendGift.top_list = data.get("top_list");
+                    sendGift.total_coin = data.get("total_coin").getAsInt();
+                    sendGift.uid = data.get("uid").getAsLong();
+                    sendGift.uname = data.get("uname").getAsString();
+
+                    return sendGift;
                 }
                 default: {
                     logger.debug(jsonObject.toString());

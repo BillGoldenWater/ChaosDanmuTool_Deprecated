@@ -9,7 +9,7 @@ public class DanmuMsg extends MessageCommand {
     public String uName;
     public int isAdmin;
 
-    public MedalInfo medalInfo;
+    public FansMedal medalInfo;
 
     public int userUL;
 
