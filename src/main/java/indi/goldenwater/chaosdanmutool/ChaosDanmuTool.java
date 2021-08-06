@@ -1,12 +1,11 @@
 package indi.goldenwater.chaosdanmutool;
 
+import indi.goldenwater.chaosdanmutool.utils.FxmlNullAlert;
 import indi.goldenwater.chaosdanmutool.utils.StageManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,15 +19,12 @@ public class ChaosDanmuTool extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        logger.info("Loading");
+        logger.info("Load main window");
         instance = this;
 
         URL fxml = getClass().getResource("/scene/main.fxml");
         if (fxml == null) {
-            logger.fatal("Failed to load main scene.");
-            Alert alert = new Alert(Alert.AlertType.ERROR, "无法找到所需的文件 程序也许不完整", ButtonType.OK);
-            alert.show();
-            alert.setOnCloseRequest(event -> System.exit(0));
+            FxmlNullAlert.alert("main", true);
             return;
         }
 
@@ -41,7 +37,7 @@ public class ChaosDanmuTool extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.setOnCloseRequest(event -> stageManager.closeAll());
         primaryStage.show();
-        logger.info("Loaded");
+        logger.info("Load main window success");
     }
 
 
