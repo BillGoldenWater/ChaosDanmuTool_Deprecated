@@ -3,8 +3,8 @@
     <Properties>
         <Property name="logDir">logs</Property>
 
-        <Property name="info">[%d{HH:mm:ss}] [%t/%-5level]: %m%n</Property>
-        <Property name="debug">[%d{MM-dd,HH:mm:ss,SSS}] [%t/%-5level] %l: %m%n</Property>
+        <Property name="info">[%d{HH:mm:ss}] [%level]: %m%n</Property>
+        <Property name="debug">[%d{MM-dd,HH:mm:ss,SSS}] [%t/%level] %l: %m%n</Property>
     </Properties>
 
     <Appenders>
@@ -14,13 +14,14 @@
         </Console>
 
         <RollingFile name="fileOut" fileName="${logDir}/latest.log"
-                     filePattern="${logDir}/info-%d{yyyy-MM-dd}-%i.log">
+                     filePattern="${logDir}/info-%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout pattern="${info}"/>
             <Policies>
+                <OnStartupTriggeringPolicy/>
                 <TimeBasedTriggeringPolicy/>
                 <SizeBasedTriggeringPolicy size="1 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="100"/>
+            <DefaultRolloverStrategy max="10"/>
         </RollingFile>
 
         <File name="fileOut_debug" fileName="${logDir}/debug.log" append="false">
@@ -31,17 +32,13 @@
 
     <Loggers>
 
-        <Logger name="indi.goldenwater" level="info" additivity="false">
-            <AppenderRef ref="console"/>
+        <Logger name="indi.goldenwater" level="info">
             <AppenderRef ref="fileOut"/>
         </Logger>
 
-        <Logger name="indi.goldenwater" level="all" additivity="false">
-            <AppenderRef ref="fileOut_debug"/>
-        </Logger>
-
-        <Root level="error">
+        <Root level="all">
             <AppenderRef ref="console"/>
+            <AppenderRef ref="fileOut_debug"/>
         </Root>
     </Loggers>
 </Configuration>
