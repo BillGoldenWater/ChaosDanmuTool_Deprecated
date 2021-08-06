@@ -23,8 +23,9 @@ public class ChaosDanmuTool extends Application {
     private static ChaosDanmuTool instance;
     private static final Logger logger = LogManager.getLogger(ChaosDanmuTool.class);
 
-    private static final ConfigManager<Config> configManager = new ConfigManager<>();
     private static final File config = new File("./config.json");
+    private static final ConfigManager<Config> configManager =
+            new ConfigManager<>("/config.json", config, Config.class);
 
     private StageManager stageManager;
 
@@ -70,7 +71,7 @@ public class ChaosDanmuTool extends Application {
 
     public static void loadConfig() {
         try {
-            configManager.load("/config.json", config, Config.class);
+            configManager.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,7 +79,7 @@ public class ChaosDanmuTool extends Application {
 
     public static void saveConfig() {
         try {
-            configManager.save(config);
+            configManager.save();
         } catch (IOException e) {
             e.printStackTrace();
         }
