@@ -2,6 +2,8 @@ package indi.goldenwater.chaosdanmutool.danmu;
 
 import com.nixxcode.jvmbrotli.common.BrotliLoader;
 import com.nixxcode.jvmbrotli.dec.BrotliDecoderChannel;
+import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
+import org.apache.logging.log4j.Logger;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -21,10 +23,12 @@ import java.util.zip.Inflater;
 public class DanmuReceiver extends WebSocketClient {
     private static final short headerLength = 4 + 2 + 2 + 4 + 4;
 
+    private final Logger logger = ChaosDanmuTool.getLogger();
+    private final int roomid;
+
     private static DanmuReceiver instance;
     private static HeartBeat heartBeat;
     private int updatePeriod;
-    private final int roomid;
 
     public DanmuReceiver(String url, int updatePeriod, int roomid) throws URISyntaxException {
         super(new URI(url));
@@ -79,8 +83,11 @@ public class DanmuReceiver extends WebSocketClient {
 
     @Override
     public void onClose(int code, String reason, boolean remote) {
-//        System.out.println("closed with exit code " + code + " additional info: " + reason + " by remote:" + remote);
-//        System.exit(0);
+        logger.warn(String.format(
+                "[DanmuReceiver] closed with exit code %d, additional info: %s by remote: %b",
+                code,
+                reason,
+                remote));
         stopHeartBeat();
         close();
     }
