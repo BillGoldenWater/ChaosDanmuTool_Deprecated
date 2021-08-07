@@ -77,6 +77,7 @@ public class ChaosDanmuTool extends Application {
             e.printStackTrace();
         }
         logger.info("Config loaded.");
+        saveConfig();
     }
 
     public static void saveConfig() {
