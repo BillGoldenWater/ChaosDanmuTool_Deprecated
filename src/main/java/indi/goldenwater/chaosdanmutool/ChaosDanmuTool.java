@@ -67,7 +67,6 @@ public class ChaosDanmuTool extends Application {
     }
 
     public static void loadConfig() {
-        config.delete();
         try {
             configManager.load();
         } catch (IOException e) {
