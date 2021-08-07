@@ -1,8 +1,10 @@
 package indi.goldenwater.chaosdanmutool.controller;
 
+import com.sun.javafx.webkit.Accessor;
+import com.sun.webkit.WebPage;
 import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
 import indi.goldenwater.chaosdanmutool.config.Config;
-import indi.goldenwater.chaosdanmutool.utils.ReadFileInJar;
+import indi.goldenwater.chaosdanmutool.utils.HTMLReplaceVar;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
@@ -30,11 +32,11 @@ public class DanmuViewController {
     }
 
     private void initDanmuView(Config config) throws Exception {
-        danmuView.setMouseTransparent(true);
+//        danmuView.setMouseTransparent(true);
         danmuView.setStyle("-fx-background-color: transparent;");
 
         WebEngine webEngine = danmuView.getEngine();
-        String html = ReadFileInJar.readAsString("/html/index.html");
+        String html = HTMLReplaceVar.get(config);
 
         if (html == null) {
             webEngine.loadContent("Failed to load html.");
@@ -42,16 +44,11 @@ public class DanmuViewController {
             return;
         }
 
-        html = html.replace("{{port}}", String.valueOf(config.danmuView.webSocketServer.port))
-                .replace("{{maxListNumber}}", String.valueOf(config.danmuView.maxDanmuNumber))
-                .replace("{{outerMargin}}", config.danmuView.style.outerMargin + "px")
-                .replace("{{backgroundColorRed}}", String.valueOf(config.danmuView.style.backgroundColor.red))
-                .replace("{{backgroundColorGreen}}", String.valueOf(config.danmuView.style.backgroundColor.green))
-                .replace("{{backgroundColorBlue}}", String.valueOf(config.danmuView.style.backgroundColor.blue))
-                .replace("{{backgroundColorAlpha}}", String.valueOf(config.danmuView.style.backgroundColor.alpha));
-
-        final com.sun.webkit.WebPage webPage = com.sun.javafx.webkit.Accessor.getPageFor(webEngine);
-        webPage.setBackgroundColor(0);
+        webEngine.documentProperty().addListener((observable, oldValue, newValue) -> {
+            final WebPage webPage = Accessor.getPageFor(webEngine);
+            webPage.setBackgroundColor(11111111);
+            webPage.setBackgroundColor(0);
+        });
 
         webEngine.loadContent(html);
     }

@@ -5,6 +5,7 @@ import indi.goldenwater.chaosdanmutool.config.Config;
 import indi.goldenwater.chaosdanmutool.danmu.DanmuReceiver;
 import indi.goldenwater.chaosdanmutool.danmu.DanmuServer;
 import indi.goldenwater.chaosdanmutool.utils.FxmlNullAlert;
+import indi.goldenwater.chaosdanmutool.utils.HTMLReplaceVar;
 import indi.goldenwater.chaosdanmutool.utils.StageManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.logging.log4j.Logger;
 
+import java.io.FileWriter;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
@@ -32,6 +34,10 @@ public class MainController {
 
     @FXML
     protected Button btnOpenServer;
+    @FXML
+    protected Button btnOpenBrowser;
+    @FXML
+    protected Button btnReleaseHTML;
 
     @FXML
     protected TextField txtFieldRoomId;
@@ -66,7 +72,27 @@ public class MainController {
         final Config config = ChaosDanmuTool.getConfig();
         config.danmuReceiver.roomid = Integer.parseInt(txtFieldRoomId.getText());
         initServers(config);
+
+    }
+
+    @FXML
+    protected void onBtnOpenBrowserClicked(MouseEvent event) throws Exception {
+        ChaosDanmuTool.loadConfig();
+        final Config config = ChaosDanmuTool.getConfig();
         showDanmuView(config);
+    }
+
+    @FXML
+    protected void onBtnReleaseHTMLClicked(MouseEvent event) throws Exception {
+        FileWriter fileWriter = new FileWriter("./index.html");
+
+        ChaosDanmuTool.loadConfig();
+
+        String html = HTMLReplaceVar.get(ChaosDanmuTool.getConfig());
+        if (html != null) {
+            fileWriter.write(html);
+            fileWriter.flush();
+        }
     }
 
     public void showDanmuView(Config config) throws Exception {
