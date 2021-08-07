@@ -37,6 +37,8 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
                     danmuMsg.uid = userData.get(0).getAsLong();
                     danmuMsg.uName = userData.get(1).getAsString();
                     danmuMsg.isAdmin = userData.get(2).getAsInt();
+                    danmuMsg.isVip = userData.get(3).getAsInt();
+                    danmuMsg.isSVip = userData.get(4).getAsInt();
                 }
 
                 JsonArray medalInfo = info.get(3).getAsJsonArray();

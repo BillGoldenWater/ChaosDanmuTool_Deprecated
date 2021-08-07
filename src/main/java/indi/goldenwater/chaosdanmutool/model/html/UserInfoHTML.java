@@ -18,15 +18,20 @@ public class UserInfoHTML extends FansMedalHTML {
     private static final String userNameTemplate =
             "<span class=\"user-name\" style=\"color: {{textColor}};\">{{userName}}</span>";
 
-    public static String parse(FansMedal fansMedal, boolean isVip, boolean isAdmin, String userName) {
+    public static String parse(FansMedal fansMedal, boolean isVip, boolean isSVip, boolean isAdmin, String userName) {
         Config config = ChaosDanmuTool.getConfig();
-        
+
         String fansMedalHTML = (fansMedal != null && fansMedal.is_lighted == 1) ? parse(fansMedal) : "";
         String vipIconHTML = vipIconTemplate
                 .replace("{{textColor}}", "#" + toHex(config.danmuView.style.vipIcon.textColor))
                 .replace("{{backgroundColor}}", "#" + toHex(config.danmuView.style.vipIcon.backgroundColor))
                 .replace("{{borderColor}}", "#" + toHex(config.danmuView.style.vipIcon.borderColor))
                 .replace("{{text}}", config.danmuView.style.vipIcon.text);
+        String sVipIconHTML = vipIconTemplate
+                .replace("{{textColor}}", "#" + toHex(config.danmuView.style.sVipIcon.textColor))
+                .replace("{{backgroundColor}}", "#" + toHex(config.danmuView.style.sVipIcon.backgroundColor))
+                .replace("{{borderColor}}", "#" + toHex(config.danmuView.style.sVipIcon.borderColor))
+                .replace("{{text}}", config.danmuView.style.sVipIcon.text);
         String adminIconHTML = adminIconTemplate
                 .replace("{{textColor}}", "#" + toHex(config.danmuView.style.adminIcon.textColor))
                 .replace("{{backgroundColor}}", "#" + toHex(config.danmuView.style.adminIcon.backgroundColor))
@@ -37,7 +42,7 @@ public class UserInfoHTML extends FansMedalHTML {
                 .replace("{{userName}}", userName);
 
         return fansMedalHTML +
-                (isVip ? vipIconHTML : "") +
+                (isVip ? (isSVip ? sVipIconHTML : vipIconHTML) : "") +
                 (isAdmin ? adminIconHTML : "") +
                 userNameHTML;
     }

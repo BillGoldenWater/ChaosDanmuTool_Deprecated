@@ -8,10 +8,13 @@ public class DanmuMsg extends MessageCommand {
     public long uid;
     public String uName;
     public int isAdmin;
+    public int isVip;
+    public int isSVip;
 
     public FansMedal medalInfo;
 
     public int userUL;
 
     public String userTitle;
+
 }

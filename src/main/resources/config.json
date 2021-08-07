@@ -17,6 +17,12 @@
         "backgroundColor": 14443397,
         "borderColor": 12342643
       },
+      "sVipIcon": {
+        "text": "爷",
+        "textColor": 16777215,
+        "backgroundColor": 12557312,
+        "borderColor": 11111111
+      },
       "adminIcon": {
         "text": "房",
         "textColor": 16777215,

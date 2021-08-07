@@ -13,7 +13,11 @@ public class DanmuMsgHTML extends DanmuItemHTML {
     public static String parse(DanmuMsg danmuMsg) {
         final Config config = ChaosDanmuTool.getConfig();
 
-        String userInfoHTML = UserInfoHTML.parse(danmuMsg.medalInfo, false, danmuMsg.isAdmin != 0, danmuMsg.uName + ": ");
+        String userInfoHTML = UserInfoHTML.parse(danmuMsg.medalInfo,
+                danmuMsg.isVip != 0,
+                danmuMsg.isSVip != 0,
+                danmuMsg.isAdmin != 0,
+                danmuMsg.uName + ": ");
         String danmuContentHTML = danmuContentTemplate
                 .replace("{{textColor}}", "#" + toHex(config.danmuView.style.danmuContent.textColor))
                 .replace("{{content}}", danmuMsg.content);

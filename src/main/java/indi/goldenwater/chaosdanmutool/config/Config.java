@@ -23,12 +23,20 @@ public class Config {
 
     public static class DanmuViewStyleConfig {
         public VipIconStyle vipIcon;
+        public SVipIconStyle sVipIcon;
         public AdminIconStyle adminIcon;
         public UserNameStyle userName;
         public DanmuContentStyle danmuContent;
     }
 
     public static class VipIconStyle {
+        public String text;
+        public int textColor;
+        public int backgroundColor;
+        public int borderColor;
+    }
+
+    public static class SVipIconStyle {
         public String text;
         public int textColor;
         public int backgroundColor;
