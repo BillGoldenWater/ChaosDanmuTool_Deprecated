@@ -9,7 +9,7 @@
             const list = danmuList.children;
 
             if (list.length >= 1) {
-                while (list.length - 1 > parseInt("{{maxListNumber}}")) {
+                while (list.length - 1 > parseInt("100")) { // {{maxListNumber}}
                     danmuList.children.item(0).remove();
                 }
 
@@ -20,7 +20,7 @@
 
         window.onresize = clearAndScroll;
 
-        const ws = new WebSocket("ws://localhost:{{port}}");
+        const ws = new WebSocket("ws://localhost:25555"); // {{port}}
         ws.onmessage = function (event) {
             eval(event.data)
             clearAndScroll();

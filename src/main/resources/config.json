@@ -9,6 +9,26 @@
     },
     "width": 400,
     "height": 600,
-    "maxDanmuNumber": 100
+    "maxDanmuNumber": 100,
+    "style": {
+      "vipIcon": {
+        "text": "爷",
+        "textColor": 16777215,
+        "backgroundColor": 14443397,
+        "borderColor": 12342643
+      },
+      "adminIcon": {
+        "text": "房",
+        "textColor": 16777215,
+        "backgroundColor": 13804123,
+        "borderColor": 14582786
+      },
+      "userName": {
+        "textColor": 959487
+      },
+      "danmuContent": {
+        "textColor": 16777215
+      }
+    }
   }
 }
