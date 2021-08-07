@@ -11,6 +11,10 @@ public class UserInfoHTML extends FansMedalHTML {
             "<div class=\"vip-icon\" style=\"color: {{textColor}}; " +
                     "background-color: {{backgroundColor}}; " +
                     "border-color: {{borderColor}}\">{{text}}</div>";
+    private static final String sVipIconTemplate =
+            "<div class=\"vip-icon\" style=\"color: {{textColor}}; " +
+                    "background-color: {{backgroundColor}}; " +
+                    "border-color: {{borderColor}}\">{{text}}</div>";
     private static final String adminIconTemplate =
             "<div class=\"admin-icon\" style=\"color: {{textColor}}; " +
                     "background-color: {{backgroundColor}}; " +
@@ -27,7 +31,7 @@ public class UserInfoHTML extends FansMedalHTML {
                 .replace("{{backgroundColor}}", "#" + toHex(config.danmuView.style.vipIcon.backgroundColor))
                 .replace("{{borderColor}}", "#" + toHex(config.danmuView.style.vipIcon.borderColor))
                 .replace("{{text}}", config.danmuView.style.vipIcon.text);
-        String sVipIconHTML = vipIconTemplate
+        String sVipIconHTML = sVipIconTemplate
                 .replace("{{textColor}}", "#" + toHex(config.danmuView.style.sVipIcon.textColor))
                 .replace("{{backgroundColor}}", "#" + toHex(config.danmuView.style.sVipIcon.backgroundColor))
                 .replace("{{borderColor}}", "#" + toHex(config.danmuView.style.sVipIcon.borderColor))

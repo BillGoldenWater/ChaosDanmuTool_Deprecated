@@ -63,23 +63,30 @@ public class ChaosDanmuTool extends Application {
 
     @Override
     public void stop() {
+        logger.info("Stopping");
         saveConfig();
+        logger.info("Stopped");
+        System.exit(0);
     }
 
     public static void loadConfig() {
+        logger.info("Loading config.");
         try {
             configManager.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        logger.info("Config loaded.");
     }
 
     public static void saveConfig() {
+        logger.info("Saving config.");
         try {
             configManager.save();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        logger.info("Config saved.");
     }
 
     public StageManager getStageManager() {

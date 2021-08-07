@@ -55,6 +55,8 @@ public class DanmuViewController {
             final WebPage webPage = Accessor.getPageFor(webEngine);
             webPage.setBackgroundColor(11111111);
             webPage.setBackgroundColor(0);
+            thisStage.setWidth(thisStage.getWidth() - 1);
+            thisStage.setWidth(thisStage.getWidth() + 1);
         });
 
         webEngine.loadContent(html);

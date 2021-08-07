@@ -17,7 +17,6 @@ import javafx.scene.control.TextFormatter;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.apache.logging.log4j.Logger;
 
 import java.io.FileWriter;
@@ -113,7 +112,7 @@ public class MainController {
 
         danmuView.setScene(new Scene(root, config.danmuView.width, config.danmuView.height, Color.TRANSPARENT));
 //        danmuView.initStyle(StageStyle.UNDECORATED);
-        danmuView.initStyle(StageStyle.TRANSPARENT);
+//        danmuView.initStyle(StageStyle.TRANSPARENT);
         danmuView.setAlwaysOnTop(true);
         danmuView.show();
 
@@ -142,8 +141,8 @@ public class MainController {
         Stage stage = stageManager.getStage("main");
         stage.setOnCloseRequest(event -> {
             try {
-                System.exit(0);
                 onClose();
+                ChaosDanmuTool.getInstance().stop();
             } catch (Exception e) {
                 e.printStackTrace();
             }
