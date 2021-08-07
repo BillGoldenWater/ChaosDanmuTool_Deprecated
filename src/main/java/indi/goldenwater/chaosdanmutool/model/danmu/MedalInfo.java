@@ -15,8 +15,8 @@ public class MedalInfo extends FansMedal {
         is_lighted = fansMedal.is_lighted;
         medal_color = fansMedal.medal_color;
         medal_color_border = fansMedal.medal_color_border;
-        medal_color_end = fansMedal.medal_color_end;
         medal_color_start = fansMedal.medal_color_start;
+        medal_color_end = fansMedal.medal_color_end;
         medal_level = fansMedal.medal_level;
         medal_name = fansMedal.medal_name;
         score = fansMedal.score;
