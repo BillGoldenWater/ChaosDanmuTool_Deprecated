@@ -1,11 +1,14 @@
 package indi.goldenwater.chaosdanmutool.danmu;
 
 import com.google.gson.*;
+import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
 import indi.goldenwater.chaosdanmutool.model.danmu.*;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Type;
 
 public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
+    private static final Logger logger = ChaosDanmuTool.getLogger();
 
     @Override
     public MessageCommand deserialize(JsonElement jsonElement,
@@ -222,6 +225,7 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
                 return roomBlockMsg;
             }
             case "HOT_RANK_CHANGED": // plan to do
+            case "HOT_RANK_SETTLEMENT":
             case "ENTRY_EFFECT":
             case "GUARD_BUY":
             case "ANCHOR_LOT_START":
@@ -230,6 +234,7 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
             case "SUPER_CHAT_MESSAGE":
             case "SUPER_CHAT_MESSAGE_JPN":
             case "WIDGET_BANNER": // ignore
+            case "ROOM_CHANGE":
             case "USER_TOAST_MSG":
             case "COMMON_NOTICE_DANMAKU":
             case "NOTICE_MSG":
@@ -250,6 +255,7 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
             default: {
                 MessageCommand messageCommand = new MessageCommand();
                 messageCommand.cmd = jsonObject.get("cmd").getAsString();
+                logger.debug(jsonObject.toString());
                 return messageCommand;
             }
         }

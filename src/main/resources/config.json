@@ -1,8 +1,12 @@
 {
-  "webSocketServer": {
-    "port": 25555
+  "danmuReceiver": {
+    "serverUrl": "wss://broadcastlv.chat.bilibili.com/sub",
+    "roomid": 0
   },
   "danmuView": {
+    "webSocketServer": {
+      "port": 25555
+    },
     "width": 400,
     "height": 600,
     "maxDanmuNumber": 100

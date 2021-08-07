@@ -1,8 +1,7 @@
 package indi.goldenwater.chaosdanmutool;
 
-import indi.goldenwater.chaosdanmutool.danmu.DanmuReceiver;
-import indi.goldenwater.chaosdanmutool.interfaces.Config;
-import indi.goldenwater.chaosdanmutool.utils.ConfigManager;
+import indi.goldenwater.chaosdanmutool.config.Config;
+import indi.goldenwater.chaosdanmutool.config.ConfigManager;
 import indi.goldenwater.chaosdanmutool.utils.FxmlNullAlert;
 import indi.goldenwater.chaosdanmutool.utils.StageManager;
 import javafx.application.Application;
@@ -16,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 public class ChaosDanmuTool extends Application {
@@ -31,14 +29,14 @@ public class ChaosDanmuTool extends Application {
 
     public static void main(String[] args) {
         loadConfig();
-//        launch(args);
-        try {
-//            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30).connect();
-            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30, 953650).connect();
-            Platform.exit();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        launch(args);
+//        try {
+////            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30).connect();
+//            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30, 5441).connect();
+//            Platform.exit();
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override

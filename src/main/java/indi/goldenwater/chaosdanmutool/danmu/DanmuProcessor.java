@@ -49,7 +49,6 @@ public class DanmuProcessor {
             StopLiveRoomList stopLiveRoomList = (StopLiveRoomList) command;
         } else if (!command.cmd.equals("IGNORE")) {
             logger.debug(command.cmd);
-            logger.debug(jsonStr);
         }
     }
 

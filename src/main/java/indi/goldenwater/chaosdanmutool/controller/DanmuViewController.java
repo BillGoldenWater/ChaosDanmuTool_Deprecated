@@ -35,7 +35,7 @@ public class DanmuViewController {
             return;
         }
 
-        html = html.replace("{{port}}", String.valueOf(config.webSocketServer.port))
+        html = html.replace("{{port}}", String.valueOf(config.danmuView.webSocketServer.port))
                 .replace("{{maxListNumber}}", String.valueOf(config.danmuView.maxDanmuNumber));
 
         webEngine.loadContent(html);
