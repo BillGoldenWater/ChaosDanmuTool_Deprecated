@@ -111,12 +111,10 @@ public class MainController {
 
         Parent root = FXMLLoader.load(fxml);
 
-        Scene scene = new Scene(root, config.danmuView.width, config.danmuView.height);
-        scene.setFill(Color.TRANSPARENT);
-
-        danmuView.setScene(scene);
+        danmuView.setScene(new Scene(root, config.danmuView.width, config.danmuView.height, Color.TRANSPARENT));
 //        danmuView.initStyle(StageStyle.UNDECORATED);
         danmuView.initStyle(StageStyle.TRANSPARENT);
+        danmuView.setAlwaysOnTop(true);
         danmuView.show();
 
         logger.info("Load danmu view success");

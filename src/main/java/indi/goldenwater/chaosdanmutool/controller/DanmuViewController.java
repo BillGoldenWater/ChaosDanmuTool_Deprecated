@@ -6,13 +6,19 @@ import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
 import indi.goldenwater.chaosdanmutool.config.Config;
 import indi.goldenwater.chaosdanmutool.utils.HTMLReplaceVar;
 import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 import org.apache.logging.log4j.Logger;
 
 public class DanmuViewController {
     final Logger logger = ChaosDanmuTool.getLogger();
+
+    private double lastPressedX;
+    private double lastPressedY;
+    private Stage thisStage;
 
     @FXML
     protected WebView danmuView;
@@ -23,6 +29,7 @@ public class DanmuViewController {
     @FXML
     protected void initialize() throws Exception {
         logger.info("[Danmu View] Initializing.");
+        thisStage = ChaosDanmuTool.getInstance().getStageManager().getStage("danmuView");
         final Config config = ChaosDanmuTool.getConfig();
 
         anchorPane.setStyle("-fx-background-color: transparent;");
@@ -32,8 +39,8 @@ public class DanmuViewController {
     }
 
     private void initDanmuView(Config config) throws Exception {
-//        danmuView.setMouseTransparent(true);
         danmuView.setStyle("-fx-background-color: transparent;");
+        danmuView.setMouseTransparent(true);
 
         WebEngine webEngine = danmuView.getEngine();
         String html = HTMLReplaceVar.get(config);
@@ -51,5 +58,17 @@ public class DanmuViewController {
         });
 
         webEngine.loadContent(html);
+    }
+
+    @FXML
+    protected void onAnchorPaneMousePressed(MouseEvent event) {
+        lastPressedX = event.getSceneX();
+        lastPressedY = event.getSceneY();
+    }
+
+    @FXML
+    protected void onAnchorPaneMouseDragged(MouseEvent event) {
+        thisStage.setX(event.getScreenX() - lastPressedX);
+        thisStage.setY(event.getScreenY() - lastPressedY);
     }
 }
