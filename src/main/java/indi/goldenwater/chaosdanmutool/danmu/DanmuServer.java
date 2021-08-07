@@ -17,7 +17,6 @@ public class DanmuServer extends WebSocketServer {
 
     public DanmuServer(int port) {
         super(new InetSocketAddress(port));
-        start();
     }
 
     @Override

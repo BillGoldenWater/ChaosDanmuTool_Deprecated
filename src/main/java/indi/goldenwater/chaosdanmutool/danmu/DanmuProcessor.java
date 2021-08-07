@@ -14,7 +14,7 @@ import java.util.Date;
 public class DanmuProcessor {
     static final Logger logger = ChaosDanmuTool.getLogger();
 
-    public static void processCommand(String jsonStr) {
+    public static void processCommand(String jsonStr, DanmuServer danmuServer) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(MessageCommand.class, new DanmuDeserializer());
         Gson gson = gsonBuilder.create();
@@ -30,7 +30,7 @@ public class DanmuProcessor {
         if (command instanceof DanmuMsg) { // 普通弹幕
             logger.trace(jsonStr);
             DanmuMsg danmuMsg = (DanmuMsg) command;
-            ChaosDanmuTool.server.sendAll(HTMLInsertJs.getJsDanmuList(DanmuMsgHTML.parse(danmuMsg)));
+            danmuServer.broadcast(HTMLInsertJs.getJsDanmuList(DanmuMsgHTML.parse(danmuMsg)));
             logger.info(String.format("%s: %s", danmuMsg.uName, danmuMsg.content));
         } else if (command instanceof InteractWord) { // 进入消息
             InteractWord interactWord = (InteractWord) command;

@@ -7,6 +7,7 @@ public class Config {
     public static class DanmuReceiverConfig {
         public String serverUrl;
         public int roomid;
+        public int heartBeatPeriod;
     }
 
     public static class WebSocketServerConfig {
@@ -35,7 +36,7 @@ public class Config {
         public int red;
         public int green;
         public int blue;
-        public int alpha;
+        public double alpha;
     }
 
     public static class VipIconStyle {

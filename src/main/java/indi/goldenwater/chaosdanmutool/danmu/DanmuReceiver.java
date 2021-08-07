@@ -25,15 +25,17 @@ public class DanmuReceiver extends WebSocketClient {
 
     private final Logger logger = ChaosDanmuTool.getLogger();
     private final int roomid;
+    private final DanmuServer danmuServer;
 
     private static DanmuReceiver instance;
     private static HeartBeat heartBeat;
     private int updatePeriod;
 
-    public DanmuReceiver(String url, int updatePeriod, int roomid) throws URISyntaxException {
+    public DanmuReceiver(String url, int updatePeriod, int roomid, DanmuServer danmuServer) throws URISyntaxException {
         super(new URI(url));
         this.updatePeriod = updatePeriod;
         this.roomid = roomid;
+        this.danmuServer = danmuServer;
 
         if (instance != null) instance.close();
         instance = this;
@@ -69,7 +71,7 @@ public class DanmuReceiver extends WebSocketClient {
                 }
                 case OpCode.message: {
                     for (String jsonStr : data.getSplitJsonStr()) {
-                        DanmuProcessor.processCommand(jsonStr);
+                        DanmuProcessor.processCommand(jsonStr, danmuServer);
                     }
                     break;
                 }
@@ -89,7 +91,6 @@ public class DanmuReceiver extends WebSocketClient {
                 reason,
                 remote));
         stopHeartBeat();
-        close();
     }
 
     @Override

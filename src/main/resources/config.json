@@ -1,7 +1,8 @@
 {
   "danmuReceiver": {
     "serverUrl": "wss://broadcastlv.chat.bilibili.com/sub",
-    "roomid": 0
+    "roomid": 0,
+    "heartBeatPeriod": 30
   },
   "danmuView": {
     "webSocketServer": {
@@ -16,7 +17,7 @@
         "red": 59,
         "green": 59,
         "blue": 59,
-        "alpha": 59
+        "alpha": 0.3
       },
       "vipIcon": {
         "text": "爷",
