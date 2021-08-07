@@ -27,7 +27,7 @@ public class DanmuProcessor {
 
         if (command instanceof DanmuMsg) {
             DanmuMsg danmuMsg = (DanmuMsg) command;
-//            logger.info(String.format("%s: %s", danmuMsg.uName, danmuMsg.content));
+            logger.info(String.format("%s: %s", danmuMsg.uName, danmuMsg.content));
         } else if (command instanceof InteractWord) {
             InteractWord interactWord = (InteractWord) command;
 //            logger.info(String.format("%s 进入了直播间", interactWord.uname));
@@ -38,9 +38,13 @@ public class DanmuProcessor {
                     realTimeMessageUpdate.fans_club));
         } else if (command instanceof SendGift) {
             SendGift sendGift = (SendGift) command;
-            logger.info(String.format("%s %s %dx%s", sendGift.uname, sendGift.action, sendGift.num, sendGift.giftName));
+            logger.info(String.format("%s %s%sx%d", sendGift.uname, sendGift.action, sendGift.giftName, sendGift.num));
+        } else if (command instanceof ComboSend) {
+            ComboSend comboSend = (ComboSend) command;
+            logger.info(String.format("%s %s %s 共%d个", comboSend.uname, comboSend.action, comboSend.gift_name, comboSend.total_num));
         } else {
             logger.debug(command.cmd);
+            logger.debug(jsonStr);
         }
 
 //        switch (command.cmd) {
@@ -52,14 +56,6 @@ public class DanmuProcessor {
 //            case "NOTICE_MSG":
 //            case "STOP_LIVE_ROOM_LIST":
 //                break;
-//            case "COMBO_SEND": {
-//                MessageData data = command.data;
-//                if (data.medal_info.is_lighted == 1) {
-//                    System.out.printf("[%s %d] ", data.medal_info.medal_name, data.medal_info.medal_level);
-//                }
-//                System.out.printf("%s %s %dx%s\n", data.uname, data.action, data.total_num, data.gift_name);
-//                break;
-//            }
 //            default: {
 //                System.out.println(jsonStr);
 //            }
@@ -255,9 +251,40 @@ public class DanmuProcessor {
 
                     return sendGift;
                 }
-                default: {
-                    logger.debug(jsonObject.toString());
+                case "COMBO_SEND": {
+                    ComboSend comboSend = new ComboSend();
+                    comboSend.cmd = jsonObject.get("cmd").getAsString();
+                    JsonObject data = jsonObject.get("data").getAsJsonObject();
+
+                    comboSend.action = data.get("action").getAsString();
+                    comboSend.batch_combo_id = data.get("batch_combo_id").getAsString();
+                    comboSend.batch_combo_num = data.get("batch_combo_num").getAsInt();
+                    comboSend.combo_id = data.get("combo_id").getAsString();
+                    comboSend.combo_num = data.get("combo_num").getAsInt();
+                    comboSend.combo_total_coin = data.get("combo_total_coin").getAsInt();
+                    comboSend.dmscore = data.get("dmscore").getAsInt();
+                    comboSend.gift_id = data.get("gift_id").getAsInt();
+                    comboSend.gift_name = data.get("gift_name").getAsString();
+                    comboSend.gift_num = data.get("gift_num").getAsInt();
+                    comboSend.is_show = data.get("is_show").getAsInt();
+                    comboSend.medal_info = MedalInfo.parse(data.get("medal_info").getAsJsonObject());
+                    comboSend.name_color = data.get("name_color").getAsString();
+                    comboSend.r_uname = data.get("r_uname").getAsString();
+                    comboSend.ruid = data.get("ruid").getAsInt();
+                    comboSend.send_master = data.get("send_master");
+                    comboSend.total_num = data.get("total_num").getAsInt();
+                    comboSend.uid = data.get("uid").getAsLong();
+                    comboSend.uname = data.get("uname").getAsString();
+
+                    return comboSend;
+                }
+                case "STOP_LIVE_ROOM_LIST": {
                     return null;
+                }
+                default: {
+                    MessageCommand messageCommand = new MessageCommand();
+                    messageCommand.cmd = jsonObject.get("cmd").getAsString();
+                    return messageCommand;
                 }
             }
         }
