@@ -18,6 +18,8 @@ public class Config {
         public WebSocketServerConfig webSocketServer;
         public int width;
         public int height;
+        public double posX;
+        public double posY;
         public int maxDanmuNumber;
         public DanmuViewStyleConfig style;
     }

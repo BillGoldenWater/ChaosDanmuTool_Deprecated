@@ -7,6 +7,7 @@ import indi.goldenwater.chaosdanmutool.danmu.DanmuServer;
 import indi.goldenwater.chaosdanmutool.utils.FxmlNullAlert;
 import indi.goldenwater.chaosdanmutool.utils.HTMLReplaceVar;
 import indi.goldenwater.chaosdanmutool.utils.StageManager;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -96,7 +97,7 @@ public class MainController {
     }
 
     public void showDanmuView(Config config) throws Exception {
-        logger.info("Load danmu view");
+        logger.debug("Load danmu view");
 
         final StageManager stageManager = ChaosDanmuTool.getInstance().getStageManager();
 
@@ -117,7 +118,7 @@ public class MainController {
         danmuView.setAlwaysOnTop(true);
         danmuView.show();
 
-        logger.info("Load danmu view success");
+        logger.debug("Load danmu view success");
     }
 
     private void initServers(Config config) throws Exception {
@@ -143,7 +144,7 @@ public class MainController {
         stage.setOnCloseRequest(event -> {
             try {
                 onClose();
-                ChaosDanmuTool.getInstance().stop();
+                Platform.exit();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -151,7 +152,7 @@ public class MainController {
     }
 
     private void onClose() throws Exception {
-        danmuReceiver.close();
-        danmuServer.stop(0);
+        if (danmuReceiver != null) danmuReceiver.close();
+        if (danmuServer != null) danmuServer.stop(0);
     }
 }
