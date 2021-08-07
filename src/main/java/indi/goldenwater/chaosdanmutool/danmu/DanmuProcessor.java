@@ -25,41 +25,32 @@ public class DanmuProcessor {
             return;
         }
 
-        if (command instanceof DanmuMsg) {
+        if (command instanceof DanmuMsg) { // 普通弹幕
             DanmuMsg danmuMsg = (DanmuMsg) command;
             logger.info(String.format("%s: %s", danmuMsg.uName, danmuMsg.content));
-        } else if (command instanceof InteractWord) {
+        } else if (command instanceof InteractWord) { // 进入消息
             InteractWord interactWord = (InteractWord) command;
 //            logger.info(String.format("%s 进入了直播间", interactWord.uname));
-        } else if (command instanceof RoomRealTimeMessageUpdate) {
+        } else if (command instanceof RoomRealTimeMessageUpdate) { // 直播间 信息更新
             RoomRealTimeMessageUpdate realTimeMessageUpdate = (RoomRealTimeMessageUpdate) command;
             logger.info(String.format("直播间信息更新: 粉丝数 %d; 粉丝团 %d;",
                     realTimeMessageUpdate.fans,
                     realTimeMessageUpdate.fans_club));
-        } else if (command instanceof SendGift) {
+        } else if (command instanceof SendGift) { // 赠送礼物
             SendGift sendGift = (SendGift) command;
             logger.info(String.format("%s %s%sx%d", sendGift.uname, sendGift.action, sendGift.giftName, sendGift.num));
-        } else if (command instanceof ComboSend) {
+        } else if (command instanceof ComboSend) { // 连击特效
             ComboSend comboSend = (ComboSend) command;
             logger.info(String.format("%s %s %s 共%d个", comboSend.uname, comboSend.action, comboSend.gift_name, comboSend.total_num));
-        } else {
+        } else if (command instanceof RoomBlockMsg) { // 禁言
+            RoomBlockMsg roomBlockMsg = (RoomBlockMsg) command;
+            logger.info(String.format("%s 已被管理员禁言", roomBlockMsg.uname));
+        } else if (command instanceof StopLiveRoomList) { // 未知
+            StopLiveRoomList stopLiveRoomList = (StopLiveRoomList) command;
+        } else if (!command.cmd.equals("IGNORE")) {
             logger.debug(command.cmd);
             logger.debug(jsonStr);
         }
-
-//        switch (command.cmd) {
-//            case "HOT_RANK_CHANGED":
-//            case "ENTRY_EFFECT":
-//
-//            case "ONLINE_RANK_V2":
-//            case "ONLINE_RANK_COUNT":
-//            case "NOTICE_MSG":
-//            case "STOP_LIVE_ROOM_LIST":
-//                break;
-//            default: {
-//                System.out.println(jsonStr);
-//            }
-//        }
     }
 
     public static void connectSuccess() {
@@ -279,7 +270,38 @@ public class DanmuProcessor {
                     return comboSend;
                 }
                 case "STOP_LIVE_ROOM_LIST": {
-                    return null;
+                    StopLiveRoomList stopLiveRoomList = new StopLiveRoomList();
+                    stopLiveRoomList.cmd = jsonObject.get("cmd").getAsString();
+                    JsonObject data = jsonObject.get("data").getAsJsonObject();
+
+                    stopLiveRoomList.room_id_list = data.get("room_id_list").getAsJsonArray();
+
+                    return stopLiveRoomList;
+                }
+                case "ROOM_BLOCK_MSG": {
+                    RoomBlockMsg roomBlockMsg = new RoomBlockMsg();
+                    roomBlockMsg.cmd = jsonObject.get("cmd").getAsString();
+                    JsonObject data = jsonObject.get("data").getAsJsonObject();
+
+                    roomBlockMsg.dmscore = data.get("dmscore").getAsInt();
+                    roomBlockMsg.operator = data.get("operator").getAsInt();
+                    roomBlockMsg.uid = data.get("uid").getAsLong();
+                    roomBlockMsg.uname = data.get("uname").getAsString();
+
+                    return roomBlockMsg;
+                }
+                case "ONLINE_RANK_V2":
+                case "ONLINE_RANK_COUNT":
+                case "PK_BATTLE_END":
+                case "PK_BATTLE_FINAL_PROCESS":
+                case "PK_BATTLE_PROCESS":
+                case "PK_BATTLE_PROCESS_NEW":
+                case "PK_BATTLE_SETTLE":
+                case "PK_BATTLE_SETTLE_USER":
+                case "PK_BATTLE_SETTLE_V2": {
+                    MessageCommand messageCommand = new MessageCommand();
+                    messageCommand.cmd = "IGNORE";
+                    return messageCommand;
                 }
                 default: {
                     MessageCommand messageCommand = new MessageCommand();
