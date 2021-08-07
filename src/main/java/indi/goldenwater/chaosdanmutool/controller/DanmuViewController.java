@@ -36,7 +36,12 @@ public class DanmuViewController {
         }
 
         html = html.replace("{{port}}", String.valueOf(config.danmuView.webSocketServer.port))
-                .replace("{{maxListNumber}}", String.valueOf(config.danmuView.maxDanmuNumber));
+                .replace("{{maxListNumber}}", String.valueOf(config.danmuView.maxDanmuNumber))
+                .replace("{{outerMargin}}", config.danmuView.style.outerMargin + "px")
+                .replace("{{backgroundColorRed}}", String.valueOf(config.danmuView.style.backgroundColor.red))
+                .replace("{{backgroundColorGreen}}", String.valueOf(config.danmuView.style.backgroundColor.green))
+                .replace("{{backgroundColorBlue}}", String.valueOf(config.danmuView.style.backgroundColor.blue))
+                .replace("{{backgroundColorAlpha}}", String.valueOf(config.danmuView.style.backgroundColor.alpha));
 
         webEngine.loadContent(html);
     }

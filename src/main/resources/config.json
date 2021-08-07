@@ -11,6 +11,13 @@
     "height": 600,
     "maxDanmuNumber": 100,
     "style": {
+      "outerMargin": 10,
+      "backgroundColor": {
+        "red": 59,
+        "green": 59,
+        "blue": 59,
+        "alpha": 59
+      },
       "vipIcon": {
         "text": "爷",
         "textColor": 16777215,
