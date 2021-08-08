@@ -1,6 +1,7 @@
 package indi.goldenwater.chaosdanmutool.danmu;
 
 import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DanmuServer extends WebSocketServer {
-    private static final Logger logger = ChaosDanmuTool.getLogger();
+    private static final Logger logger = LogManager.getLogger(DanmuServer.class);
 
     private final List<WebSocket> webSocketList = new ArrayList<>();
 

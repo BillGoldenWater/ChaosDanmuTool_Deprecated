@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.FileWriter;
@@ -29,7 +30,7 @@ import java.text.ParsePosition;
 
 
 public class MainController {
-    private final Logger logger = ChaosDanmuTool.getLogger();
+    private final Logger logger = LogManager.getLogger(MainController.class);
 
     private static DanmuServer danmuServer;
     private static DanmuReceiver danmuReceiver;

@@ -6,13 +6,14 @@ import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
 import indi.goldenwater.chaosdanmutool.model.danmu.*;
 import indi.goldenwater.chaosdanmutool.model.html.DanmuMsgHTML;
 import indi.goldenwater.chaosdanmutool.model.js.DanmuItemJS;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Calendar;
 import java.util.Date;
 
 public class DanmuProcessor {
-    static final Logger logger = ChaosDanmuTool.getLogger();
+    static final Logger logger = LogManager.getLogger(DanmuProcessor.class);
 
     public static void processCommand(String jsonStr, DanmuServer danmuServer) {
         GsonBuilder gsonBuilder = new GsonBuilder();

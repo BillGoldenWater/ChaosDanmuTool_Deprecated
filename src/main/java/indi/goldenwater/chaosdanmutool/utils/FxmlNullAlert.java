@@ -1,13 +1,13 @@
 package indi.goldenwater.chaosdanmutool.utils;
 
-import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class FxmlNullAlert {
     public static void alert(String sceneName, boolean autoClose) {
-        Logger logger = ChaosDanmuTool.getLogger();
+        Logger logger = LogManager.getLogger(FxmlNullAlert.class);
         String logMessage = String.format("Failed to load scene \"%s\".", sceneName);
 
         if (autoClose) {

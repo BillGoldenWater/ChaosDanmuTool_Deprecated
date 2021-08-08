@@ -3,6 +3,7 @@ package indi.goldenwater.chaosdanmutool.danmu;
 import com.nixxcode.jvmbrotli.common.BrotliLoader;
 import com.nixxcode.jvmbrotli.dec.BrotliDecoderChannel;
 import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
@@ -23,12 +24,13 @@ import java.util.zip.Inflater;
 public class DanmuReceiver extends WebSocketClient {
     private static final short headerLength = 4 + 2 + 2 + 4 + 4;
 
-    private final Logger logger = ChaosDanmuTool.getLogger();
+    private static DanmuReceiver instance;
+    private static HeartBeat heartBeat;
+
+    private final Logger logger = LogManager.getLogger(DanmuReceiver.class);
     private final int roomid;
     private final DanmuServer danmuServer;
 
-    private static DanmuReceiver instance;
-    private static HeartBeat heartBeat;
     private int updatePeriod;
 
     public DanmuReceiver(String url, int updatePeriod, int roomid, DanmuServer danmuServer) throws URISyntaxException {

@@ -3,12 +3,13 @@ package indi.goldenwater.chaosdanmutool.danmu;
 import com.google.gson.*;
 import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
 import indi.goldenwater.chaosdanmutool.model.danmu.*;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Type;
 
 public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
-    private static final Logger logger = ChaosDanmuTool.getLogger();
+    private static final Logger logger = LogManager.getLogger(DanmuDeserializer.class);
 
     @Override
     public MessageCommand deserialize(JsonElement jsonElement,

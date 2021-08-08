@@ -13,12 +13,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
 public class DanmuViewController {
-    final Logger logger = ChaosDanmuTool.getLogger();
+    final Logger logger = LogManager.getLogger(DanmuViewController.class);
 
     private double lastPressedX;
     private double lastPressedY;

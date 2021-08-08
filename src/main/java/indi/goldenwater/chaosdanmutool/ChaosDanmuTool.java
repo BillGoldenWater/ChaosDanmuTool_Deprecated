@@ -107,10 +107,6 @@ public class ChaosDanmuTool extends Application {
         return instance;
     }
 
-    public static Logger getLogger() {
-        return logger;
-    }
-
     public static Config getConfig() {
         return configManager.getConfig();
     }
