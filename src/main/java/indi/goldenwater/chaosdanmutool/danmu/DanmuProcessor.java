@@ -28,7 +28,7 @@ public class DanmuProcessor {
         }
 
         if (command instanceof DanmuMsg) { // 普通弹幕
-            logger.trace(jsonStr);
+//            logger.trace(jsonStr);
             DanmuMsg danmuMsg = (DanmuMsg) command;
             danmuServer.broadcast(HTMLInsertJs.getJsDanmuList(DanmuMsgHTML.parse(danmuMsg)));
             logger.info(String.format("%s: %s", danmuMsg.uName, danmuMsg.content));

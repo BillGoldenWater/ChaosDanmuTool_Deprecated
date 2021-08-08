@@ -6,12 +6,15 @@ import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
 import indi.goldenwater.chaosdanmutool.config.Config;
 import indi.goldenwater.chaosdanmutool.utils.HTMLReplaceVar;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 public class DanmuViewController {
     final Logger logger = ChaosDanmuTool.getLogger();
@@ -22,9 +25,12 @@ public class DanmuViewController {
 
     @FXML
     protected WebView danmuView;
-
     @FXML
     protected AnchorPane anchorPane;
+    @FXML
+    protected Button btnClose;
+    @FXML
+    protected Button btnReload;
 
     @FXML
     protected void initialize() throws Exception {
@@ -35,6 +41,8 @@ public class DanmuViewController {
         loadPosition(config);
         thisStage.setOnCloseRequest(event -> onClose(config));
         anchorPane.setStyle("-fx-background-color: transparent;");
+        btnClose.setStyle("-fx-background-color: transparent; -fx-text-fill: white");
+        btnReload.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white");
         initDanmuView(config);
 
         logger.debug("[DanmuView] Initialized.");
@@ -57,6 +65,7 @@ public class DanmuViewController {
             final WebPage webPage = Accessor.getPageFor(webEngine);
             webPage.setBackgroundColor(11111111);
             webPage.setBackgroundColor(0);
+            System.out.println("test");
             thisStage.setWidth(thisStage.getWidth() - 1);
             thisStage.setWidth(thisStage.getWidth() + 1);
         });
@@ -74,6 +83,29 @@ public class DanmuViewController {
     protected void onAnchorPaneMouseDragged(MouseEvent event) {
         thisStage.setX(event.getScreenX() - lastPressedX);
         thisStage.setY(event.getScreenY() - lastPressedY);
+    }
+
+    @FXML
+    protected void onBtnCloseClicked(MouseEvent event) {
+        final Config config = ChaosDanmuTool.getConfig();
+        savePosition(config);
+        thisStage.close();
+    }
+
+    @FXML
+    protected void onBtnReloadClicked(MouseEvent event) throws IOException {
+        final Config config = ChaosDanmuTool.getConfig();
+
+        WebEngine webEngine = danmuView.getEngine();
+        String html = HTMLReplaceVar.get(config);
+
+        if (html == null) {
+            webEngine.loadContent("Failed to load html.");
+            logger.error("[DanmuView] Failed to load html.");
+            return;
+        }
+
+        webEngine.loadContent(html);
     }
 
     private void loadPosition(Config config) {
