@@ -2,7 +2,6 @@ package indi.goldenwater.chaosdanmutool.danmu;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
 import indi.goldenwater.chaosdanmutool.model.danmu.*;
 import indi.goldenwater.chaosdanmutool.model.html.DanmuMsgHTML;
 import indi.goldenwater.chaosdanmutool.model.js.DanmuItemJS;
@@ -24,7 +23,7 @@ public class DanmuProcessor {
             command = gson.fromJson(jsonStr, MessageCommand.class);
         } catch (Exception e) {
             e.printStackTrace();
-            logger.debug(jsonStr);
+            logger.warn(jsonStr);
             return;
         }
 
@@ -35,7 +34,25 @@ public class DanmuProcessor {
             logger.info(String.format("%s: %s", danmuMsg.uName, danmuMsg.content));
         } else if (command instanceof InteractWord) { // 进入消息
             InteractWord interactWord = (InteractWord) command;
-//            logger.info(String.format("%s 进入了直播间", interactWord.uname));
+            switch (interactWord.msg_type) {
+                case InteractWord.MsgType.join: {
+                    logger.info(String.format("%s 进入了直播间", interactWord.uname));
+                    break;
+                }
+                case InteractWord.MsgType.follow: {
+                    logger.info(String.format("%s 关注了直播间", interactWord.uname));
+                    break;
+                }
+                case InteractWord.MsgType.share: {
+                    logger.info(String.format("%s 分享了直播间", interactWord.uname));
+                    break;
+                }
+                default: {
+                    logger.warn(jsonStr + "\n" + interactWord.msg_type);
+                    break;
+                }
+            }
+
         } else if (command instanceof RoomRealTimeMessageUpdate) { // 直播间 信息更新
             RoomRealTimeMessageUpdate realTimeMessageUpdate = (RoomRealTimeMessageUpdate) command;
             logger.info(String.format("直播间信息更新: 粉丝数 %d; 粉丝团 %d;",

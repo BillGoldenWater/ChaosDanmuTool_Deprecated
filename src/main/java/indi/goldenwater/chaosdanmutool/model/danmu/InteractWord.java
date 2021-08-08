@@ -19,4 +19,10 @@ public class InteractWord extends MessageCommand {
     public long uid;
     public String uname;
     public String uname_color;
+
+    public static class MsgType {
+        public static final int join = 1;
+        public static final int follow = 2;
+        public static final int share = 3;
+    }
 }

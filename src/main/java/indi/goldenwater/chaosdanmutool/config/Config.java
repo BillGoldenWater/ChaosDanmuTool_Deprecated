@@ -20,7 +20,7 @@ public class Config {
         public int height;
         public double posX;
         public double posY;
-        public boolean interactWordDisplay;
+        public boolean joinMessageDisplay;
         public int maxDanmuNumber;
         public DanmuViewStyleConfig style;
     }
