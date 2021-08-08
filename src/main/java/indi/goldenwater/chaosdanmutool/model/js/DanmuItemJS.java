@@ -1,6 +1,6 @@
-package indi.goldenwater.chaosdanmutool.utils;
+package indi.goldenwater.chaosdanmutool.model.js;
 
-public class HTMLInsertJs {
+public class DanmuItemJS {
     public static String getJsDanmuList(String html) {
         return getJs("danmuList", html);
     }

@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
 import indi.goldenwater.chaosdanmutool.model.danmu.*;
 import indi.goldenwater.chaosdanmutool.model.html.DanmuMsgHTML;
-import indi.goldenwater.chaosdanmutool.utils.HTMLInsertJs;
+import indi.goldenwater.chaosdanmutool.model.js.DanmuItemJS;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Calendar;
@@ -30,7 +30,7 @@ public class DanmuProcessor {
         if (command instanceof DanmuMsg) { // 普通弹幕
 //            logger.trace(jsonStr);
             DanmuMsg danmuMsg = (DanmuMsg) command;
-            danmuServer.broadcast(HTMLInsertJs.getJsDanmuList(DanmuMsgHTML.parse(danmuMsg)));
+            danmuServer.broadcast(DanmuItemJS.getJsDanmuList(DanmuMsgHTML.parse(danmuMsg)));
             logger.info(String.format("%s: %s", danmuMsg.uName, danmuMsg.content));
         } else if (command instanceof InteractWord) { // 进入消息
             InteractWord interactWord = (InteractWord) command;
