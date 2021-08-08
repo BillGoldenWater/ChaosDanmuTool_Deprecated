@@ -2,12 +2,12 @@ package indi.goldenwater.chaosdanmutool.danmu;
 
 import com.nixxcode.jvmbrotli.common.BrotliLoader;
 import com.nixxcode.jvmbrotli.dec.BrotliDecoderChannel;
-import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,8 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.zip.DataFormatException;
-import java.util.zip.Inflater;
+import java.util.zip.InflaterOutputStream;
 
 public class DanmuReceiver extends WebSocketClient {
     private static final short headerLength = 4 + 2 + 2 + 4 + 4;
@@ -142,41 +141,36 @@ public class DanmuReceiver extends WebSocketClient {
         return new Data(body, protocolType, opCode);
     }
 
+    public static List<Data> unpackContinuous(ByteBuffer byteBuffer) {
+        List<Data> dataList = new ArrayList<>();
+        Data tempData = unpack(byteBuffer, 0);
+
+        dataList.add(tempData);
+
+        int dataLength = tempData.packageLength;
+        while (dataLength < byteBuffer.limit()) {
+            tempData = unpack(byteBuffer, dataLength);
+            dataLength += tempData.packageLength;
+            dataList.add(tempData);
+        }
+
+        return dataList;
+    }
+
     public static List<Data> unpackCompressed(Data data) {
         int protocolType = data.getProtocolType();
 
         switch (protocolType) {
             case ProtocolType.compressed_1: {
-                Inflater inflater = new Inflater();
-                inflater.setInput(data.body);
-                byte[] tempByte = new byte[4096];
-
-                try {
-                    inflater.inflate(tempByte);
-                } catch (DataFormatException e) {
-                    e.printStackTrace();
-                }
-
-                return new ArrayList<>(Collections.singleton(unpack(ByteBuffer.wrap(tempByte))));
+                ByteBuffer inflatedByteBuffer = inflateData(ByteBuffer.wrap(data.body));
+                return unpackContinuous(inflatedByteBuffer);
             }
             case ProtocolType.compressed_2: {
                 try {
                     if (BrotliLoader.isBrotliAvailable()) {
                         ByteBuffer byteBuffer = ByteBuffer.wrap(
                                 BrotliDecoderChannel.decompress(data.body));
-                        List<Data> dataList = new ArrayList<>();
-                        Data tempData = unpack(byteBuffer, 0);
-
-                        dataList.add(tempData);
-
-                        int dataLength = tempData.packageLength;
-                        while (dataLength < byteBuffer.limit()) {
-                            tempData = unpack(byteBuffer, dataLength);
-                            dataLength += tempData.packageLength;
-                            dataList.add(tempData);
-                        }
-
-                        return dataList;
+                        return unpackContinuous(byteBuffer);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -188,6 +182,25 @@ public class DanmuReceiver extends WebSocketClient {
         }
     }
 
+    public static ByteBuffer inflateData(ByteBuffer byteBuffer) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        InflaterOutputStream inflaterOutputStream = new InflaterOutputStream(byteArrayOutputStream);
+
+        try {
+            inflaterOutputStream.write(byteBuffer.array());
+            return ByteBuffer.wrap(byteArrayOutputStream.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                byteArrayOutputStream.close();
+                inflaterOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return ByteBuffer.allocate(1);
+    }
 
     public static void startHeartBeat(DanmuReceiver receiver) {
         stopHeartBeat();
