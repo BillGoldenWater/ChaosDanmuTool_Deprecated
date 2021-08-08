@@ -65,6 +65,7 @@ public class ChaosDanmuTool extends Application {
     @Override
     public void stop() {
         logger.info("Stopping");
+        stageManager.closeAll();
         saveConfig();
         logger.info("Stopped");
         System.exit(0);

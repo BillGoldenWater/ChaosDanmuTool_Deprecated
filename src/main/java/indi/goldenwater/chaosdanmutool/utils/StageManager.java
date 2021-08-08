@@ -1,6 +1,7 @@
 package indi.goldenwater.chaosdanmutool.utils;
 
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,18 +18,19 @@ public class StageManager {
     }
 
     public void setStage_AutoClose(String id, Stage stage) {
-        Stage originStage = stages.get(id);
-        if (originStage != null) {
-            originStage.close();
-        }
+        closeStage(id);
         setStage(id, stage);
     }
 
-    public void close(String id) {
+    public void closeAll() {
+        stages.forEach((k, v) -> closeStage(k));
+    }
+
+    public void closeStage(String id) {
         Stage stage = stages.get(id);
         if (stage != null) {
-            stage.close();
+            stage.getOnCloseRequest().handle(new WindowEvent(null, WindowEvent.WINDOW_CLOSE_REQUEST));
         }
-        stages.remove(id);
+//        stages.remove(id);
     }
 }

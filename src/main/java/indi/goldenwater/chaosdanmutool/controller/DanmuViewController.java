@@ -82,9 +82,7 @@ public class DanmuViewController {
     @FXML
     protected void onBtnCloseClicked(MouseEvent event) {
         if (event.getButton().compareTo(MouseButton.PRIMARY) == 0) {
-            final Config config = ChaosDanmuTool.getConfig();
-            savePosition(config);
-            thisStage.close();
+            ChaosDanmuTool.getInstance().getStageManager().closeStage("danmuView");
         }
     }
 
@@ -117,11 +115,11 @@ public class DanmuViewController {
         logger.debug("[DanmuView] Saving position.");
         config.danmuView.posX = thisStage.getX();
         config.danmuView.posY = thisStage.getY();
-        ChaosDanmuTool.saveConfig();
         logger.debug("[DanmuView] Position saved.");
     }
 
     private void onClose(Config config) {
         savePosition(config);
+        thisStage.close();
     }
 }

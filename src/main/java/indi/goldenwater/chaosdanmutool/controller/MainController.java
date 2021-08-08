@@ -71,7 +71,6 @@ public class MainController {
     @FXML
     protected void onBtnOpenServerClicked(MouseEvent event) throws Exception {
         if (event.getButton().compareTo(MouseButton.PRIMARY) == 0) {
-            ChaosDanmuTool.loadConfig();
             final Config config = ChaosDanmuTool.getConfig();
             config.danmuReceiver.roomid = Integer.parseInt(txtFieldRoomId.getText());
             initServers(config);
@@ -81,7 +80,6 @@ public class MainController {
     @FXML
     protected void onBtnOpenBrowserClicked(MouseEvent event) throws Exception {
         if (event.getButton().compareTo(MouseButton.PRIMARY) == 0) {
-            ChaosDanmuTool.loadConfig();
             final Config config = ChaosDanmuTool.getConfig();
             showDanmuView(config);
         }
@@ -91,8 +89,6 @@ public class MainController {
     protected void onBtnReleaseHTMLClicked(MouseEvent event) throws Exception {
         if (event.getButton().compareTo(MouseButton.PRIMARY) == 0) {
             FileWriter fileWriter = new FileWriter("./index.html");
-
-            ChaosDanmuTool.loadConfig();
 
             String html = HTMLReplaceVar.get(ChaosDanmuTool.getConfig());
             if (html != null) {
@@ -130,19 +126,31 @@ public class MainController {
 
     private void initServers(Config config) throws Exception {
         if (danmuServer == null) {
-            danmuServer = new DanmuServer(config.danmuView.webSocketServer.port);
-            danmuReceiver = new DanmuReceiver(config.danmuReceiver.serverUrl,
-                    config.danmuReceiver.heartBeatPeriod,
-                    config.danmuReceiver.roomid,
-                    danmuServer);
-            danmuServer.start();
-            danmuReceiver.connect();
+            startServer(config);
         } else {
-            danmuReceiver.close();
-            danmuServer.stop();
-            danmuServer = null;
-            danmuReceiver = null;
+            closeServer();
         }
+    }
+
+    private void startServer(Config config) throws Exception {
+        logger.debug("Starting server.");
+        danmuServer = new DanmuServer(config.danmuView.webSocketServer.port);
+        danmuReceiver = new DanmuReceiver(config.danmuReceiver.serverUrl,
+                config.danmuReceiver.heartBeatPeriod,
+                config.danmuReceiver.roomid,
+                danmuServer);
+        danmuServer.start();
+        danmuReceiver.connect();
+        logger.debug("Server started.");
+    }
+
+    private void closeServer() throws Exception {
+        logger.debug("Closing server.");
+        if (danmuReceiver != null) danmuReceiver.close();
+        if (danmuServer != null) danmuServer.stop(0);
+        danmuServer = null;
+        danmuReceiver = null;
+        logger.debug("Server closed.");
     }
 
     private void setOnClose() {
@@ -159,7 +167,6 @@ public class MainController {
     }
 
     private void onClose() throws Exception {
-        if (danmuReceiver != null) danmuReceiver.close();
-        if (danmuServer != null) danmuServer.stop(0);
+        closeServer();
     }
 }
