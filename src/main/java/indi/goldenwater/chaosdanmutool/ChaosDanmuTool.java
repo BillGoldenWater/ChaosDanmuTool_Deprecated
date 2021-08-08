@@ -27,15 +27,22 @@ public class ChaosDanmuTool extends Application {
     private StageManager stageManager;
 
     public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void init() throws Exception {
+        logger.info("Start init");
+        instance = this;
+        stageManager = new StageManager();
         if (!config.exists()) saveDefaultConfig();
         loadConfig();
-        launch(args);
+        logger.info("End init");
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         logger.info("Load main window");
-        instance = this;
 
         URL fxml = getClass().getResource("/scene/main.fxml");
         if (fxml == null) {
@@ -43,7 +50,6 @@ public class ChaosDanmuTool extends Application {
             return;
         }
 
-        stageManager = new StageManager();
         stageManager.setStage_AutoClose("main", primaryStage);
 
         Parent root = FXMLLoader.load(fxml);
