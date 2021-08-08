@@ -14,17 +14,23 @@
                 }
 
                 list.item(0).scrollIntoView();
-                list.item(list.length - 2).scrollIntoView();
+                list.item(list.length - 1).scrollIntoView();
             }
         }
 
         window.onresize = clearAndScroll;
+        window.onload = function (){
+            for (let i = 0; i < 100; i++) {
+                document.getElementById("danmuList").insertAdjacentHTML("beforeend","<div class=\"space-holder\"></div>");
+                clearAndScroll();
+            }
 
-        const ws = new WebSocket("ws://localhost:{{port}}"); // 25555 {{port}}
-        ws.onmessage = function (event) {
-            eval(event.data)
-            clearAndScroll();
-        };
+            const ws = new WebSocket("ws://localhost:{{port}}"); // 25555 {{port}}
+            ws.onmessage = function (event) {
+                eval(event.data)
+                clearAndScroll();
+            };
+        }
 
     </script>
     <style>
@@ -43,6 +49,10 @@
         /*    overflow-y: hidden;*/
         /*    overflow-x: hidden;*/
         /*}*/
+
+        .space-holder {
+            height: 50px;
+        }
 
         .danmu-item {
             margin-top: 20px;

@@ -61,16 +61,9 @@ public class DanmuViewController {
             return;
         }
 
-        webEngine.documentProperty().addListener((observable, oldValue, newValue) -> {
-            final WebPage webPage = Accessor.getPageFor(webEngine);
-            webPage.setBackgroundColor(11111111);
-            webPage.setBackgroundColor(0);
-            System.out.println("test");
-            thisStage.setWidth(thisStage.getWidth() - 1);
-            thisStage.setWidth(thisStage.getWidth() + 1);
-        });
-
         webEngine.loadContent(html);
+        WebPage page = Accessor.getPageFor(webEngine);
+        page.setBackgroundColor(0x00000001);
     }
 
     @FXML
