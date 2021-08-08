@@ -67,6 +67,7 @@ public class ChaosDanmuTool extends Application {
         logger.info("Stopping");
         saveConfig();
         logger.info("Stopped");
+        System.exit(0);
     }
 
     public static void loadConfig() {
