@@ -27,6 +27,7 @@ public class ChaosDanmuTool extends Application {
     private StageManager stageManager;
 
     public static void main(String[] args) {
+        if (!config.exists()) saveDefaultConfig();
         loadConfig();
         launch(args);
 //        try {
@@ -76,7 +77,6 @@ public class ChaosDanmuTool extends Application {
             e.printStackTrace();
         }
         logger.info("Config loaded.");
-        saveConfig();
     }
 
     public static void saveConfig() {
@@ -87,6 +87,16 @@ public class ChaosDanmuTool extends Application {
             e.printStackTrace();
         }
         logger.info("Config saved.");
+    }
+
+    public static void saveDefaultConfig() {
+        logger.info("Saving default config.");
+        try {
+            configManager.saveDefaultConfig();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        logger.info("Default config saved.");
     }
 
     public StageManager getStageManager() {

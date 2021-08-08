@@ -7,6 +7,7 @@ import indi.goldenwater.chaosdanmutool.config.Config;
 import indi.goldenwater.chaosdanmutool.utils.HTMLReplaceVar;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
@@ -80,25 +81,29 @@ public class DanmuViewController {
 
     @FXML
     protected void onBtnCloseClicked(MouseEvent event) {
-        final Config config = ChaosDanmuTool.getConfig();
-        savePosition(config);
-        thisStage.close();
+        if (event.getButton().compareTo(MouseButton.PRIMARY) == 0) {
+            final Config config = ChaosDanmuTool.getConfig();
+            savePosition(config);
+            thisStage.close();
+        }
     }
 
     @FXML
     protected void onBtnReloadClicked(MouseEvent event) throws IOException {
-        final Config config = ChaosDanmuTool.getConfig();
+        if (event.getButton().compareTo(MouseButton.PRIMARY) == 0) {
+            final Config config = ChaosDanmuTool.getConfig();
 
-        WebEngine webEngine = danmuView.getEngine();
-        String html = HTMLReplaceVar.get(config);
+            WebEngine webEngine = danmuView.getEngine();
+            String html = HTMLReplaceVar.get(config);
 
-        if (html == null) {
-            webEngine.loadContent("Failed to load html.");
-            logger.error("[DanmuView] Failed to load html.");
-            return;
+            if (html == null) {
+                webEngine.loadContent("Failed to load html.");
+                logger.error("[DanmuView] Failed to load html.");
+                return;
+            }
+
+            webEngine.loadContent(html);
         }
-
-        webEngine.loadContent(html);
     }
 
     private void loadPosition(Config config) {

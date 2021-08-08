@@ -45,6 +45,16 @@ public class ConfigManager<T> {
         outputStream.close();
     }
 
+    public void saveDefaultConfig() throws IOException {
+        if (!path.exists()) {
+            String configJsonStr = ReadFileInJar.readAsString(pathInJar);
+            FileWriter outputStream = new FileWriter(path);
+            outputStream.write(configJsonStr);
+            outputStream.flush();
+            outputStream.close();
+        }
+    }
+
     public T getConfig() {
         return config;
     }

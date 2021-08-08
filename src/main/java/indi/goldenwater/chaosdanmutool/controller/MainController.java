@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -69,31 +70,36 @@ public class MainController {
 
     @FXML
     protected void onBtnOpenServerClicked(MouseEvent event) throws Exception {
-        ChaosDanmuTool.loadConfig();
-        final Config config = ChaosDanmuTool.getConfig();
-        config.danmuReceiver.roomid = Integer.parseInt(txtFieldRoomId.getText());
-        initServers(config);
-
+        if (event.getButton().compareTo(MouseButton.PRIMARY) == 0) {
+            ChaosDanmuTool.loadConfig();
+            final Config config = ChaosDanmuTool.getConfig();
+            config.danmuReceiver.roomid = Integer.parseInt(txtFieldRoomId.getText());
+            initServers(config);
+        }
     }
 
     @FXML
     protected void onBtnOpenBrowserClicked(MouseEvent event) throws Exception {
-        ChaosDanmuTool.loadConfig();
-        final Config config = ChaosDanmuTool.getConfig();
-        showDanmuView(config);
+        if (event.getButton().compareTo(MouseButton.PRIMARY) == 0) {
+            ChaosDanmuTool.loadConfig();
+            final Config config = ChaosDanmuTool.getConfig();
+            showDanmuView(config);
+        }
     }
 
     @FXML
     protected void onBtnReleaseHTMLClicked(MouseEvent event) throws Exception {
-        FileWriter fileWriter = new FileWriter("./index.html");
+        if (event.getButton().compareTo(MouseButton.PRIMARY) == 0) {
+            FileWriter fileWriter = new FileWriter("./index.html");
 
-        ChaosDanmuTool.loadConfig();
+            ChaosDanmuTool.loadConfig();
 
-        String html = HTMLReplaceVar.get(ChaosDanmuTool.getConfig());
-        if (html != null) {
-            fileWriter.write(html);
-            fileWriter.flush();
-            fileWriter.close();
+            String html = HTMLReplaceVar.get(ChaosDanmuTool.getConfig());
+            if (html != null) {
+                fileWriter.write(html);
+                fileWriter.flush();
+                fileWriter.close();
+            }
         }
     }
 
