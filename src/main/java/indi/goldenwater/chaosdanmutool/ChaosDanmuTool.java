@@ -31,7 +31,7 @@ public class ChaosDanmuTool extends Application {
     }
 
     @Override
-    public void init() throws Exception {
+    public void init() {
         logger.info("Start init");
         instance = this;
         stageManager = new StageManager();
