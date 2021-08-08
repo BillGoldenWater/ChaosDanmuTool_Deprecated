@@ -30,14 +30,6 @@ public class ChaosDanmuTool extends Application {
         if (!config.exists()) saveDefaultConfig();
         loadConfig();
         launch(args);
-//        try {
-////            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30, 953650).connect();
-//            new DanmuReceiver("wss://broadcastlv.chat.bilibili.com/sub", 30, 953650).connect();//1455691
-//            server = new DanmuServer(25555);
-//            Platform.exit();
-//        } catch (URISyntaxException e) {
-//            e.printStackTrace();
-//        }
     }
 
     @Override
