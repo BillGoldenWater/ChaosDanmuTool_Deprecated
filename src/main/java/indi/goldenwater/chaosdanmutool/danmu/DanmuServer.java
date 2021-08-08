@@ -24,6 +24,9 @@ public class DanmuServer extends WebSocketServer {
         InetSocketAddress remoteAddress = webSocket.getRemoteSocketAddress();
         webSocketList.add(webSocket);
         logger.info(String.format("[DanmuServer] Client %s connected", remoteAddress.toString()));
+        if (!ChaosDanmuTool.getConfig().danmuView.interactWordDisplay) {
+            webSocket.send("hideInteractWord()");
+        }
     }
 
     @Override

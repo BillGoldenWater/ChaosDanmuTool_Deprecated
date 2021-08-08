@@ -23,7 +23,7 @@ public class UserInfoHTML extends FansMedalHTML {
             "<span class=\"user-name\" style=\"color: {{textColor}};\">{{userName}}</span>";
 
     public static String parse(FansMedal fansMedal, boolean isVip, boolean isSVip, boolean isAdmin, String userName) {
-        Config config = ChaosDanmuTool.getConfig();
+        final Config config = ChaosDanmuTool.getConfig();
 
         String fansMedalHTML = (fansMedal != null && fansMedal.is_lighted == 1) ? parse(fansMedal) : "";
         String vipIconHTML = vipIconTemplate

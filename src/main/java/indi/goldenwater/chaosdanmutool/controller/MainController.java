@@ -34,6 +34,8 @@ public class MainController {
     private static DanmuServer danmuServer;
     private static DanmuReceiver danmuReceiver;
 
+    private Stage thisStage;
+
     @FXML
     protected Button btnOpenServer;
     @FXML
@@ -46,6 +48,9 @@ public class MainController {
 
     @FXML
     protected void initialize() {
+        final StageManager stageManager = ChaosDanmuTool.getInstance().getStageManager();
+        thisStage = stageManager.getStage("main");
+
         final Config config = ChaosDanmuTool.getConfig();
 
         DecimalFormat format = new DecimalFormat("#");
@@ -154,9 +159,7 @@ public class MainController {
     }
 
     private void setOnClose() {
-        final StageManager stageManager = ChaosDanmuTool.getInstance().getStageManager();
-        Stage stage = stageManager.getStage("main");
-        stage.setOnCloseRequest(event -> {
+        thisStage.setOnCloseRequest(event -> {
             try {
                 onClose();
                 Platform.exit();
@@ -168,5 +171,6 @@ public class MainController {
 
     private void onClose() throws Exception {
         closeServer();
+        thisStage.close();
     }
 }
