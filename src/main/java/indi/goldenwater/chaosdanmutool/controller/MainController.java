@@ -93,6 +93,7 @@ public class MainController {
         if (html != null) {
             fileWriter.write(html);
             fileWriter.flush();
+            fileWriter.close();
         }
     }
 

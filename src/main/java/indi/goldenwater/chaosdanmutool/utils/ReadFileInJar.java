@@ -7,6 +7,9 @@ public class ReadFileInJar {
     public static String readAsString(String name) throws IOException {
         InputStream inputStream = ReadFileInJar.class.getResourceAsStream(name);
 
-        return ReadInputStreamAsStr.read(inputStream);
+        String result = ReadInputStreamAsStr.read(inputStream);
+        if (inputStream != null) inputStream.close();
+
+        return result;
     }
 }

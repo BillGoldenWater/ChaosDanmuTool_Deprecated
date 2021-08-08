@@ -2,7 +2,7 @@ package indi.goldenwater.chaosdanmutool.model.js;
 
 public class DanmuItemJS {
     public static String getJsDanmuList(String html) {
-        return getJs("danmuList", html);
+        return getJs("danmu-list", html);
     }
 
     public static String getJs(String listId, String html) {

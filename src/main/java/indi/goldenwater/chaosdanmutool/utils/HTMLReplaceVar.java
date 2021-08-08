@@ -10,6 +10,14 @@ public class HTMLReplaceVar {
 
         if (html == null) return null;
 
+        html = html
+                .replace("/*start-for-coding*/", "/*")
+                .replace("/*end-for-coding*/", "*/")
+                .replace("<!--start-for-coding-->", "<!--")
+                .replace("<!--end-for-coding-->", "-->")
+                .replace("/*start-actual-use*//*", "")
+                .replace("/*end-actual-use*/", "");
+
         html = html.replace("{{port}}", String.valueOf(config.danmuView.webSocketServer.port))
                 .replace("{{maxListNumber}}", String.valueOf(config.danmuView.maxDanmuNumber))
                 .replace("{{outerMargin}}", config.danmuView.style.outerMargin + "px")

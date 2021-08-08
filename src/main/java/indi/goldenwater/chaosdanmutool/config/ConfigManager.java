@@ -27,7 +27,9 @@ public class ConfigManager<T> {
     public void load() throws IOException {
         String configJsonStr;
         if (path.exists()) {
-            configJsonStr = ReadInputStreamAsStr.read(new FileInputStream(path));
+            FileInputStream inputStream = new FileInputStream(path);
+            configJsonStr = ReadInputStreamAsStr.read(inputStream);
+            inputStream.close();
         } else {
             configJsonStr = ReadFileInJar.readAsString(pathInJar);
         }
@@ -40,6 +42,7 @@ public class ConfigManager<T> {
         FileWriter outputStream = new FileWriter(path);
         outputStream.write(configJsonStr);
         outputStream.flush();
+        outputStream.close();
     }
 
     public T getConfig() {

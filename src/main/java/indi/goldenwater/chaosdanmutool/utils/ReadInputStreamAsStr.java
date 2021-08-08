@@ -19,6 +19,9 @@ public class ReadInputStreamAsStr {
             stringBuilder.append("\n");
         }
 
+        inputStreamReader.close();
+        bufferedReader.close();
+
         return stringBuilder.toString();
     }
 }
