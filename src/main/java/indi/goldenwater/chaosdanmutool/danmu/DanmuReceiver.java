@@ -63,11 +63,11 @@ public class DanmuReceiver extends WebSocketClient {
             }
             switch (data.opCode) {
                 case OpCode.heartBeatResponse: {
-                    DanmuProcessor.updateActivity(ByteBuffer.wrap(data.body).getInt());
+                    DanmuProcessor.updateActivity(danmuServer, ByteBuffer.wrap(data.body).getInt());
                     break;
                 }
                 case OpCode.joinSuccess: {
-                    DanmuProcessor.connectSuccess();
+                    DanmuProcessor.connectSuccess(danmuServer);
                     break;
                 }
                 case OpCode.message: {

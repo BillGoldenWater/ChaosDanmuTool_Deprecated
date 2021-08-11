@@ -4,7 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import indi.goldenwater.chaosdanmutool.model.danmu.*;
 import indi.goldenwater.chaosdanmutool.model.html.DanmuMsgHTML;
+import indi.goldenwater.chaosdanmutool.model.html.JoinMessageHTML;
 import indi.goldenwater.chaosdanmutool.model.js.DanmuItemJS;
+import indi.goldenwater.chaosdanmutool.model.js.UpdateActivityJS;
+import indi.goldenwater.chaosdanmutool.model.js.UpdateFansNumJS;
+import indi.goldenwater.chaosdanmutool.model.js.UpdateJoinMessageJS;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,6 +40,7 @@ public class DanmuProcessor {
             InteractWord interactWord = (InteractWord) command;
             switch (interactWord.msg_type) {
                 case InteractWord.MsgType.join: {
+                    danmuServer.broadcast(UpdateJoinMessageJS.getJs(JoinMessageHTML.parse(interactWord)));
                     logger.info(String.format("%s 进入了直播间", interactWord.uname));
                     break;
                 }
@@ -55,6 +60,7 @@ public class DanmuProcessor {
 
         } else if (command instanceof RoomRealTimeMessageUpdate) { // 直播间 信息更新
             RoomRealTimeMessageUpdate realTimeMessageUpdate = (RoomRealTimeMessageUpdate) command;
+            danmuServer.broadcast(UpdateFansNumJS.getJs(realTimeMessageUpdate.fans));
             logger.info(String.format("直播间信息更新: 粉丝数 %d; 粉丝团 %d;",
                     realTimeMessageUpdate.fans,
                     realTimeMessageUpdate.fans_club));
@@ -74,12 +80,13 @@ public class DanmuProcessor {
         }
     }
 
-    public static void connectSuccess() {
-        System.out.println("连接成功!");
+    public static void connectSuccess(DanmuServer danmuServer) {
+        logger.info("连接成功!");
     }
 
-    public static void updateActivity(int activity) {
-        System.out.println("当前人气: " + activity);
+    public static void updateActivity(DanmuServer danmuServer, int activity) {
+        danmuServer.broadcast(UpdateActivityJS.getJs(activity));
+        logger.info("当前人气: " + activity);
     }
 
     public static void decodeError(DanmuReceiver.Data data) {
