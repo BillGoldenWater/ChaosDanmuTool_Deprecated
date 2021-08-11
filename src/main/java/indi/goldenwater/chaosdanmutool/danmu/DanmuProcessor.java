@@ -8,7 +8,7 @@ import indi.goldenwater.chaosdanmutool.model.html.JoinMessageHTML;
 import indi.goldenwater.chaosdanmutool.model.js.DanmuItemJS;
 import indi.goldenwater.chaosdanmutool.model.js.UpdateActivityJS;
 import indi.goldenwater.chaosdanmutool.model.js.UpdateFansNumJS;
-import indi.goldenwater.chaosdanmutool.model.js.UpdateJoinMessageJS;
+import indi.goldenwater.chaosdanmutool.model.js.UpdateStatusBarDisplay;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,7 +40,7 @@ public class DanmuProcessor {
             InteractWord interactWord = (InteractWord) command;
             switch (interactWord.msg_type) {
                 case InteractWord.MsgType.join: {
-                    danmuServer.broadcast(UpdateJoinMessageJS.getJs(JoinMessageHTML.parse(interactWord)));
+                    danmuServer.broadcast(UpdateStatusBarDisplay.getJs(JoinMessageHTML.parse(interactWord)));
                     logger.info(String.format("%s 进入了直播间", interactWord.uname));
                     break;
                 }
