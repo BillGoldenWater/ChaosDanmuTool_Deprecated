@@ -44,15 +44,29 @@ public class DanmuViewController {
         thisStage.setOnCloseRequest(event -> onClose(config));
         anchorPane.setStyle("-fx-background-color: transparent;");
         btnClose.setStyle("-fx-background-color: transparent; " +
-                "-fx-border-color: rgba(0,0,0,0.1); " +
-                "-fx-border-width: 1px; " +
-                "-fx-border-radius: 5px;" +
-                "-fx-text-fill: white");
+                "-fx-border-color: transparent;" +
+                "-fx-text-fill: transparent;");
         btnReload.setStyle(btnClose.getStyle());
         btnClose.setLayoutX(0);
         btnClose.setLayoutY(config.danmuView.height - 26);
         btnReload.setLayoutX(25);
         btnReload.setLayoutY(config.danmuView.height - 26);
+        btnClose.setOnMouseExited((mouseEvent) -> btnClose.setStyle("-fx-background-color: transparent; " +
+                "-fx-border-color: transparent;" +
+                "-fx-text-fill: transparent;"));
+        btnClose.setOnMouseEntered((mouseEvent) -> btnClose.setStyle("-fx-background-color: transparent; " +
+                "-fx-border-color: rgba(0,0,0,0.1); " +
+                "-fx-border-width: 1px; " +
+                "-fx-border-radius: 5px;" +
+                "-fx-text-fill: white"));
+        btnReload.setOnMouseExited((mouseEvent) -> btnReload.setStyle("-fx-background-color: transparent; " +
+                "-fx-border-color: transparent;" +
+                "-fx-text-fill: transparent;"));
+        btnReload.setOnMouseEntered((mouseEvent) -> btnReload.setStyle("-fx-background-color: transparent; " +
+                "-fx-border-color: rgba(0,0,0,0.1); " +
+                "-fx-border-width: 1px; " +
+                "-fx-border-radius: 5px;" +
+                "-fx-text-fill: white"));
         initDanmuView(config);
 
         logger.debug("[DanmuView] Initialized.");
