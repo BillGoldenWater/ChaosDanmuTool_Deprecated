@@ -43,8 +43,16 @@ public class DanmuViewController {
         loadPosition(config);
         thisStage.setOnCloseRequest(event -> onClose(config));
         anchorPane.setStyle("-fx-background-color: transparent;");
-        btnClose.setStyle("-fx-background-color: transparent; -fx-text-fill: white");
-        btnReload.setStyle("-fx-background-color: transparent; -fx-border-color: transparent; -fx-text-fill: white");
+        btnClose.setStyle("-fx-background-color: transparent; " +
+                "-fx-border-color: rgba(0,0,0,0.1); " +
+                "-fx-border-width: 1px; " +
+                "-fx-border-radius: 5px;" +
+                "-fx-text-fill: white");
+        btnReload.setStyle(btnClose.getStyle());
+        btnClose.setLayoutX(0);
+        btnClose.setLayoutY(config.danmuView.height - 26);
+        btnReload.setLayoutX(25);
+        btnReload.setLayoutY(config.danmuView.height - 26);
         initDanmuView(config);
 
         logger.debug("[DanmuView] Initialized.");
