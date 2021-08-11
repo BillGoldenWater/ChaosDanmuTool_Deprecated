@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <title>Chaos Danmu Tool</title>
     <script>
+        function formatNumber(number) {
+            if (number <= 999) {
+                return number;
+            } else if (number <= 9999) {
+                return (number / 1000).toFixed(1) + "千";
+            } else if (number <= 99999999) {
+                return (number / 10000).toFixed(1) + "万";
+            } else {
+                return (number / 100000000).toFixed(1) + "亿";
+            }
+        }
+
         function clearAndScroll() {
             const danmuList = document.getElementById("danmu-list");
             const list = danmuList.children;
@@ -42,16 +54,23 @@
         }
 
         function updateJoinMessage(html) {
-            document.getElementById("join-msg").innerHTML = html;
+            let element = document.getElementById("join-msg");
+            let occupied_width = 0;
+            occupied_width += document.getElementById("status-fans-num").clientWidth;
+            occupied_width += document.getElementById("status-activity").clientWidth;
+            occupied_width += 15;
+
+            element.innerHTML = html;
+            element.style.maxWidth = "calc(100% - " + occupied_width + "px)";
             playJoinMessageAnime();
         }
 
         function updateActivity(activity) {
-            document.getElementById("status-activity").innerText = "人气: " + activity;
+            document.getElementById("status-activity").innerText = "人气: " + formatNumber(activity);
         }
 
         function updateFansNum(fansNum) {
-            document.getElementById("status-fans-num").innerText = "粉丝数: " + fansNum;
+            document.getElementById("status-fans-num").innerText = "粉丝数: " + formatNumber(fansNum);
         }
 
         window.onresize = clearAndScroll;
@@ -205,6 +224,7 @@
         .status-join {
             animation: status-join-anime 3s;
             -webkit-animation: status-join-anime 3s;
+            overflow: hidden;
         }
 
         .status-item {
