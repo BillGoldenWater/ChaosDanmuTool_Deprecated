@@ -116,6 +116,7 @@
             margin: 10px;
             padding: 0;
             background-color: rgba(59, 59, 59, 0.3);
+            overflow-y: hidden;
         }
 
         /*end-for-coding*/
@@ -188,13 +189,14 @@
         .status-bar {
             height: 25px;
             background-color: rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.3);
             border-radius: 5px 5px 0 0;
             color: #FFFFFFFA;
-            margin: 0 -10px -10px;
+            margin: 20px -12px -12px;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+            zoom: 0.8;
         }
 
         @keyframes status-join-anime {
@@ -228,13 +230,12 @@
         }
 
         .status-item {
-            border-left: 1px solid rgba(0, 0, 0, 0.1);
+            border-left: 1px solid rgba(0, 0, 0, 0.5);
             padding-right: 5px;
             padding-left: 5px;
             position: relative;
             float: right;
             top: 2px;
-            zoom: 0.8;
             padding-top: 2px;
         }
     </style>

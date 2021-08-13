@@ -78,6 +78,7 @@ public class DanmuProcessor {
         } else if (!command.cmd.equals("IGNORE")) {
             logger.debug(command.cmd);
         }
+        logger.trace(jsonStr);
     }
 
     public static void connectSuccess(DanmuServer danmuServer) {
