@@ -8,22 +8,21 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DanmuServer extends WebSocketServer {
     private static final Logger logger = LogManager.getLogger(DanmuServer.class);
 
-    private final List<WebSocket> webSocketList = new ArrayList<>();
+    private static DanmuServer instance;
 
-    public DanmuServer(int port) {
+    public DanmuServer(int port) throws InterruptedException {
         super(new InetSocketAddress(port));
+        if (instance != null) instance.stop();
+        instance = this;
     }
 
     @Override
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
         InetSocketAddress remoteAddress = webSocket.getRemoteSocketAddress();
-        webSocketList.add(webSocket);
         logger.info(String.format("[DanmuServer] Client %s connected", remoteAddress.toString()));
         if (!ChaosDanmuTool.getConfig().danmuView.joinMessageDisplay) {
             webSocket.send("hideJoinMessage()");
@@ -33,7 +32,6 @@ public class DanmuServer extends WebSocketServer {
     @Override
     public void onClose(WebSocket webSocket, int i, String s, boolean b) {
         InetSocketAddress remoteAddress = webSocket.getRemoteSocketAddress();
-        webSocketList.remove(webSocket);
         logger.info(String.format("[DanmuServer] Client %s closed", remoteAddress.toString()));
     }
 
@@ -52,9 +50,7 @@ public class DanmuServer extends WebSocketServer {
 
     }
 
-    public void sendAll(String str) {
-        for (WebSocket webSocket : webSocketList) {
-            webSocket.send(str);
-        }
+    public static DanmuServer getInstance() {
+        return instance;
     }
 }

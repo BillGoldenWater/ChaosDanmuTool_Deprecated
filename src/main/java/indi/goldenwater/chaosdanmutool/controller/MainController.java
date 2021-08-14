@@ -32,9 +32,6 @@ import java.text.ParsePosition;
 public class MainController {
     private final Logger logger = LogManager.getLogger(MainController.class);
 
-    private static DanmuServer danmuServer;
-    private static DanmuReceiver danmuReceiver;
-
     private Stage thisStage;
 
     @FXML
@@ -79,7 +76,7 @@ public class MainController {
         if (event.getButton().compareTo(MouseButton.PRIMARY) == 0) {
             final Config config = ChaosDanmuTool.getConfig();
             config.danmuReceiver.roomid = Integer.parseInt(txtFieldRoomId.getText());
-            initServers(config);
+            startServer(config);
         }
     }
 
@@ -130,32 +127,19 @@ public class MainController {
         logger.debug("Load danmu view success");
     }
 
-    private void initServers(Config config) throws Exception {
-        if (danmuServer == null) {
-            startServer(config);
-        } else {
-            closeServer();
-        }
-    }
-
     private void startServer(Config config) throws Exception {
         logger.debug("Starting server.");
-        danmuServer = new DanmuServer(config.danmuView.webSocketServer.port);
-        danmuReceiver = new DanmuReceiver(config.danmuReceiver.serverUrl,
+        new DanmuServer(config.danmuView.webSocketServer.port).start();
+        new DanmuReceiver(config.danmuReceiver.serverUrl,
                 config.danmuReceiver.heartBeatPeriod,
-                config.danmuReceiver.roomid,
-                danmuServer);
-        danmuServer.start();
-        danmuReceiver.connect();
+                config.danmuReceiver.roomid).connect();
         logger.debug("Server started.");
     }
 
     private void closeServer() throws Exception {
         logger.debug("Closing server.");
-        if (danmuReceiver != null) danmuReceiver.close();
-        if (danmuServer != null) danmuServer.stop(0);
-        danmuServer = null;
-        danmuReceiver = null;
+        if (DanmuReceiver.getInstance() != null) DanmuReceiver.getInstance().close();
+        if (DanmuServer.getInstance() != null) DanmuServer.getInstance().stop(0);
         logger.debug("Server closed.");
     }
 

@@ -28,15 +28,13 @@ public class DanmuReceiver extends WebSocketClient {
 
     private final Logger logger = LogManager.getLogger(DanmuReceiver.class);
     private final int roomid;
-    private final DanmuServer danmuServer;
 
     private int updatePeriod;
 
-    public DanmuReceiver(String url, int updatePeriod, int roomid, DanmuServer danmuServer) throws URISyntaxException {
+    public DanmuReceiver(String url, int updatePeriod, int roomid) throws URISyntaxException {
         super(new URI(url));
         this.updatePeriod = updatePeriod;
         this.roomid = roomid;
-        this.danmuServer = danmuServer;
 
         if (instance != null) instance.close();
         instance = this;
@@ -63,16 +61,16 @@ public class DanmuReceiver extends WebSocketClient {
             }
             switch (data.opCode) {
                 case OpCode.heartBeatResponse: {
-                    DanmuProcessor.updateActivity(danmuServer, ByteBuffer.wrap(data.body).getInt());
+                    DanmuProcessor.updateActivity(ByteBuffer.wrap(data.body).getInt());
                     break;
                 }
                 case OpCode.joinSuccess: {
-                    DanmuProcessor.connectSuccess(danmuServer);
+                    DanmuProcessor.connectSuccess();
                     break;
                 }
                 case OpCode.message: {
                     for (String jsonStr : data.getSplitJsonStr()) {
-                        DanmuProcessor.processCommand(jsonStr, danmuServer);
+                        DanmuProcessor.processCommand(jsonStr);
                     }
                     break;
                 }
@@ -211,6 +209,10 @@ public class DanmuReceiver extends WebSocketClient {
     public static void stopHeartBeat() {
         if (heartBeat == null) return;
         heartBeat.end();
+    }
+
+    public static DanmuReceiver getInstance() {
+        return instance;
     }
 
     public static class HeartBeat extends Thread {

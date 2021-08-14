@@ -18,10 +18,12 @@ import java.util.Date;
 public class DanmuProcessor {
     static final Logger logger = LogManager.getLogger(DanmuProcessor.class);
 
-    public static void processCommand(String jsonStr, DanmuServer danmuServer) {
-        GsonBuilder gsonBuilder = new GsonBuilder();
+    public static void processCommand(String jsonStr) {
+        final GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(MessageCommand.class, new DanmuDeserializer());
-        Gson gson = gsonBuilder.create();
+        final Gson gson = gsonBuilder.create();
+        final DanmuServer danmuServer = DanmuServer.getInstance();
+
         MessageCommand command;
         try {
             command = gson.fromJson(jsonStr, MessageCommand.class);
@@ -34,13 +36,15 @@ public class DanmuProcessor {
         if (command instanceof DanmuMsg) { // 普通弹幕
 //            logger.trace(jsonStr);
             DanmuMsg danmuMsg = (DanmuMsg) command;
-            danmuServer.broadcast(DanmuItemJS.getJsDanmuList(DanmuMsgHTML.parse(danmuMsg)));
+            if (danmuServer != null)
+                danmuServer.broadcast(DanmuItemJS.getJsDanmuList(DanmuMsgHTML.parse(danmuMsg)));
             logger.info(String.format("%s: %s", danmuMsg.uName, danmuMsg.content));
         } else if (command instanceof InteractWord) { // 进入消息
             InteractWord interactWord = (InteractWord) command;
             switch (interactWord.msg_type) {
                 case InteractWord.MsgType.join: {
-                    danmuServer.broadcast(UpdateStatusBarDisplay.getJs(JoinMessageHTML.parse(interactWord)));
+                    if (danmuServer != null)
+                        danmuServer.broadcast(UpdateStatusBarDisplay.getJs(JoinMessageHTML.parse(interactWord)));
                     logger.info(String.format("%s 进入了直播间", interactWord.uname));
                     break;
                 }
@@ -60,7 +64,8 @@ public class DanmuProcessor {
 
         } else if (command instanceof RoomRealTimeMessageUpdate) { // 直播间 信息更新
             RoomRealTimeMessageUpdate realTimeMessageUpdate = (RoomRealTimeMessageUpdate) command;
-            danmuServer.broadcast(UpdateFansNumJS.getJs(realTimeMessageUpdate.fans));
+            if (danmuServer != null)
+                danmuServer.broadcast(UpdateFansNumJS.getJs(realTimeMessageUpdate.fans));
             logger.info(String.format("直播间信息更新: 粉丝数 %d; 粉丝团 %d;",
                     realTimeMessageUpdate.fans,
                     realTimeMessageUpdate.fans_club));
@@ -81,12 +86,15 @@ public class DanmuProcessor {
         logger.trace(jsonStr);
     }
 
-    public static void connectSuccess(DanmuServer danmuServer) {
+    public static void connectSuccess() {
         logger.info("连接成功!");
     }
 
-    public static void updateActivity(DanmuServer danmuServer, int activity) {
-        danmuServer.broadcast(UpdateActivityJS.getJs(activity));
+    public static void updateActivity(int activity) {
+        DanmuServer danmuServer = DanmuServer.getInstance();
+        if (danmuServer != null) {
+            danmuServer.broadcast(UpdateActivityJS.getJs(activity));
+        }
         logger.info("当前人气: " + activity);
     }
 
