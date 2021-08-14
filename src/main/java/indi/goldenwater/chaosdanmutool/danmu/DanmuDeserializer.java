@@ -1,7 +1,6 @@
 package indi.goldenwater.chaosdanmutool.danmu;
 
 import com.google.gson.*;
-import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
 import indi.goldenwater.chaosdanmutool.model.danmu.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -232,6 +231,43 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
 
                 return roomBlockMsg;
             }
+            case "SUPER_CHAT_MESSAGE": {
+                SuperChatMessage superChatMessage = new SuperChatMessage();
+                superChatMessage.cmd = jsonObject.get("cmd").getAsString();
+                superChatMessage.roomid = jsonObject.get("roomid").getAsString();
+
+                JsonObject data = jsonObject.get("data").getAsJsonObject();
+
+                superChatMessage.background_bottom_color = data.get("background_bottom_color").getAsString();
+                superChatMessage.background_color = data.get("background_color").getAsString();
+                superChatMessage.background_color_end = data.get("background_color_end").getAsString();
+                superChatMessage.background_color_start = data.get("background_color_start").getAsString();
+                superChatMessage.background_icon = data.get("background_icon").getAsString();
+                superChatMessage.background_image = data.get("background_image").getAsString();
+                superChatMessage.background_price_color = data.get("background_price_color").getAsString();
+                superChatMessage.color_point = data.get("color_point").getAsDouble();
+                superChatMessage.dmscore = data.get("dmscore").getAsInt();
+                superChatMessage.end_time = data.get("end_time").getAsLong();
+                superChatMessage.gift = data.get("gift").getAsJsonObject();
+                superChatMessage.id = data.get("id").getAsLong();
+                superChatMessage.is_ranked = data.get("is_ranked").getAsInt();
+                superChatMessage.is_send_audit = data.get("is_send_audit").getAsString();
+                superChatMessage.medal_info = MedalInfo.parse(data.get("medal_info").getAsJsonObject());
+                superChatMessage.message = data.get("message").getAsString();
+                superChatMessage.message_font_color = data.get("message_font_color").getAsString();
+                superChatMessage.message_trans = data.get("message_trans").getAsString();
+                superChatMessage.price = data.get("price").getAsInt();
+                superChatMessage.rate = data.get("rate").getAsInt();
+                superChatMessage.start_time = data.get("start_time").getAsLong();
+                superChatMessage.time = data.get("time").getAsInt();
+                superChatMessage.token = data.get("token").getAsString();
+                superChatMessage.trans_mark = data.get("trans_mark").getAsInt();
+                superChatMessage.ts = data.get("ts").getAsLong();
+                superChatMessage.uid = data.get("uid").getAsLong();
+                superChatMessage.user_info = UserInfo.parse(data.get("user_info").getAsJsonObject());
+
+                return superChatMessage;
+            }
             case "HOT_RANK_CHANGED": // plan to do
             case "HOT_RANK_SETTLEMENT":
             case "ENTRY_EFFECT":
@@ -239,9 +275,8 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
             case "ANCHOR_LOT_START":
             case "ANCHOR_LOT_END":
             case "ANCHOR_LOT_AWARD":
-            case "SUPER_CHAT_MESSAGE":
-            case "SUPER_CHAT_MESSAGE_JPN":
             case "WIDGET_BANNER": // ignore
+            case "SUPER_CHAT_MESSAGE_JPN": // not need jpn
             case "ROOM_CHANGE":
             case "USER_TOAST_MSG":
             case "COMMON_NOTICE_DANMAKU":
