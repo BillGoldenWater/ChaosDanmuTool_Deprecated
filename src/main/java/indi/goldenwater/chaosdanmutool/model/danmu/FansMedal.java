@@ -24,7 +24,11 @@ public class FansMedal {
         fansMedal.guard_level = fans_medal.get("guard_level").getAsInt();
         fansMedal.icon_id = fans_medal.get("icon_id").getAsInt();
         fansMedal.is_lighted = fans_medal.get("is_lighted").getAsInt();
-        fansMedal.medal_color = fans_medal.get("medal_color").getAsInt();
+        try {
+            fansMedal.medal_color = fans_medal.get("medal_color").getAsInt();
+        } catch (Exception e) {
+            fansMedal.medal_color = Integer.parseInt(fans_medal.get("medal_color").getAsString().replace("#", ""), 16);
+        }
         fansMedal.medal_color_border = fans_medal.get("medal_color_border").getAsInt();
         fansMedal.medal_color_end = fans_medal.get("medal_color_end").getAsInt();
         fansMedal.medal_color_start = fans_medal.get("medal_color_start").getAsInt();
