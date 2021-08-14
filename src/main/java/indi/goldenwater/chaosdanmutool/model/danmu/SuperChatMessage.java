@@ -1,7 +1,7 @@
 package indi.goldenwater.chaosdanmutool.model.danmu;
 
 public class SuperChatMessage extends MessageCommand {
-    public int roomid;
+    public String roomid;
     public String background_bottom_color;
     public String background_color;
     public String background_color_end;
