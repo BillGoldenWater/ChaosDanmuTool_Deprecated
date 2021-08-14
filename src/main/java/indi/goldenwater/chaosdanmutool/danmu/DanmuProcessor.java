@@ -80,7 +80,7 @@ public class DanmuProcessor {
             logger.info(String.format("%s 已被管理员禁言", roomBlockMsg.uname));
         } else if (command instanceof SuperChatMessage) {
             SuperChatMessage superChatMessage = (SuperChatMessage) command;
-            logger.info(String.format("醒目留言(%s): %s: %s", superChatMessage.price + "￥", superChatMessage.user_info.uname, superChatMessage.message));
+            logger.info(String.format("醒目留言(%s): %s: %s", "￥" + superChatMessage.price, superChatMessage.user_info.uname, superChatMessage.message));
         } else if (command instanceof StopLiveRoomList) { // 未知
             StopLiveRoomList stopLiveRoomList = (StopLiveRoomList) command;
         } else if (!command.cmd.equals("IGNORE")) {
