@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="referrer" content="same-origin">
     <title>Chaos Danmu Tool</title>
     <script>
         function formatNumber(number) {
@@ -36,25 +37,25 @@
         }
 
         function hideJoinMessage() {
-            document.getElementById("join-msg").style.display = "none";
+            document.getElementById("status-display").style.display = "none";
         }
 
         function playJoinMessageAnime() {
-            document.getElementById("join-msg").className = "status-item";
+            document.getElementById("status-display").className = "status-item";
             window.requestAnimationFrame(function (time) {
                 window.requestAnimationFrame(function (time) {
-                    document.getElementById("join-msg").className = "status-item status-join";
+                    document.getElementById("status-display").className = "status-item status-display";
                 });
             });
             window.webkitRequestAnimationFrame(function (time) {
                 window.webkitRequestAnimationFrame(function (time) {
-                    document.getElementById("join-msg").className = "status-item status-join";
+                    document.getElementById("status-display").className = "status-item status-display";
                 });
             });
         }
 
         function updateStatusBarDisplay(html) {
-            let element = document.getElementById("join-msg");
+            let element = document.getElementById("status-display");
             let occupied_width = 0;
             occupied_width += document.getElementById("status-fans-num").clientWidth;
             occupied_width += document.getElementById("status-activity").clientWidth;
@@ -124,10 +125,6 @@
         .space-holder {
             height: 50px;
         }
-
-        .up-space {
-            margin-top: 20px;
-        }
     </style>
     <style>
         .fans-medal {
@@ -187,7 +184,34 @@
         }
 
         .danmu-superChat {
+            word-break: break-word;
+        }
 
+        .superChat-top {
+            border-radius: 6px 6px 0 0;
+            min-height: 34px;
+            background-position: right top;
+            background-size: contain;
+            background-repeat: no-repeat;
+            padding: 6px 5px 6px;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .superChat-bottom {
+            min-height: 38px;
+            border-radius: 0 0 6px 6px;
+            padding: 8px 10px;
+        }
+
+        .superChat-top, .superChat-bottom {
+            border: 1px solid;
+            box-sizing: border-box;
+        }
+
+        .superChat-price {
+            position: relative;
+            float: right;
         }
     </style>
     <style>
@@ -204,7 +228,7 @@
             zoom: 0.8;
         }
 
-        @keyframes status-join-anime {
+        @keyframes status-display-anime {
             0% {
                 opacity: 1;
             }
@@ -216,7 +240,7 @@
             }
         }
 
-        @-webkit-keyframes status-join-anime {
+        @-webkit-keyframes status-display-anime {
             0% {
                 opacity: 1;
             }
@@ -228,9 +252,9 @@
             }
         }
 
-        .status-join {
-            animation: status-join-anime 3s;
-            -webkit-animation: status-join-anime 3s;
+        .status-display {
+            animation: status-display-anime 3s;
+            -webkit-animation: status-display-anime 3s;
             overflow: hidden;
         }
 
@@ -238,9 +262,9 @@
             border-left: 1px solid rgba(0, 0, 0, 0.5);
             padding-right: 5px;
             padding-left: 5px;
-            position: relative;
+            /*position: relative;*/
             float: right;
-            top: 2px;
+            /*top: 2px;*/
             padding-top: 2px;
         }
     </style>
@@ -259,23 +283,57 @@
         <span class="danmu-content" style="color: #ffffff">content</span>
     </div>
     <div class="danmu-item danmu-superChat">
-        a
+        <div class="superChat-top"
+             style="border-color: #2A60B2;
+             background-color: #EDF5FF;
+             background-image: url(https://i0.hdslb.com/bfs/live/a712efa5c6ebc67bafbe8352d3e74b820a00c13e.png);">
+
+            <div class="fans-medal"
+                 style="border-color: #BE6686; background: linear-gradient(45deg, #BE6686, #BE6686);">
+                <div class="fans-medal-name">凤毛</div>
+                <div class="fans-medal-level" style="color: #BE6686">16</div>
+            </div>
+            <div class="vip-icon" style="color: #ffffff; background-color: #dc6385; border-color: #bc5573">爷</div>
+            <div class="admin-icon" style="color: #ffffff; background-color: #d2a25b; border-color: #de8402">房</div>
+            <span class="user-name" style="color: #0ea3ff;">Username</span>
+
+            <div class="superChat-price" style="color:#000000;">￥30</div>
+        </div>
+        <div class="superChat-bottom"
+             style="color:#A3F6FF; border-color: #2A60B2; background-color: #2A60B2;">
+            message
+        </div>
     </div>
     <!--end-for-coding-->
 </div>
 <div id="status-bar" class="status-bar">
     <div id="status-activity" class="status-item status-activity">人气: NaN</div>
     <div id="status-fans-num" class="status-item status-fans-num">粉丝数: NaN</div>
-    <div id="join-msg" class="status-item status-join" style="opacity: 0">
+    <div id="status-display" class="status-item status-display" style="opacity: 0">
         <!--start-for-coding-->
-        <div class="fans-medal" style="border-color: #BE6686; background: linear-gradient(45deg, #BE6686, #BE6686);">
+
+        <!-- 进入直播间提示 -->
+<!--        <div class="fans-medal"-->
+<!--             style="border-color: #BE6686; background: linear-gradient(45deg, #BE6686, #BE6686);">-->
+<!--            <div class="fans-medal-name">凤毛</div>-->
+<!--            <div class="fans-medal-level" style="color: #BE6686">16</div>-->
+<!--        </div>-->
+<!--        <div class="vip-icon" style="color: #ffffff; background-color: #dc6385; border-color: #bc5573">爷</div>-->
+<!--        <div class="admin-icon" style="color: #ffffff; background-color: #d2a25b; border-color: #de8402">房</div>-->
+<!--        <span class="user-name" style="color: #0ea3ff;">Username</span>-->
+<!--        <span class="danmu-content" style="color: #ffffff">进入了直播间</span>-->
+
+        <!-- 带连击的礼物 -->
+        <div class="fans-medal"
+             style="border-color: #BE6686; background: linear-gradient(45deg, #BE6686, #BE6686);">
             <div class="fans-medal-name">凤毛</div>
             <div class="fans-medal-level" style="color: #BE6686">16</div>
         </div>
         <div class="vip-icon" style="color: #ffffff; background-color: #dc6385; border-color: #bc5573">爷</div>
         <div class="admin-icon" style="color: #ffffff; background-color: #d2a25b; border-color: #de8402">房</div>
         <span class="user-name" style="color: #0ea3ff;">Username</span>
-        <span class="danmu-content" style="color: #ffffff">进入了直播间</span>
+        <span> {{action}} {{gift_name}} x {{gift_num}}</span>
+
         <!--end-for-coding-->
     </div>
 </div>

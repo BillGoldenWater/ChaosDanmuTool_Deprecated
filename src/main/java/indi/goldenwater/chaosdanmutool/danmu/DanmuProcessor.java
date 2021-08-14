@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import indi.goldenwater.chaosdanmutool.model.danmu.*;
 import indi.goldenwater.chaosdanmutool.model.html.DanmuMsgHTML;
 import indi.goldenwater.chaosdanmutool.model.html.JoinMessageHTML;
+import indi.goldenwater.chaosdanmutool.model.html.SuperChatHTML;
 import indi.goldenwater.chaosdanmutool.model.js.DanmuItemJS;
 import indi.goldenwater.chaosdanmutool.model.js.UpdateActivityJS;
 import indi.goldenwater.chaosdanmutool.model.js.UpdateFansNumJS;
@@ -80,6 +81,7 @@ public class DanmuProcessor {
             logger.info(String.format("%s 已被管理员禁言", roomBlockMsg.uname));
         } else if (command instanceof SuperChatMessage) {
             SuperChatMessage superChatMessage = (SuperChatMessage) command;
+            danmuServer.broadcast(DanmuItemJS.getJsDanmuList(SuperChatHTML.parse(superChatMessage)));
             logger.info(String.format("醒目留言(%s): %s: %s", "￥" + superChatMessage.price, superChatMessage.user_info.uname, superChatMessage.message));
         } else if (command instanceof StopLiveRoomList) { // 未知
             StopLiveRoomList stopLiveRoomList = (StopLiveRoomList) command;
