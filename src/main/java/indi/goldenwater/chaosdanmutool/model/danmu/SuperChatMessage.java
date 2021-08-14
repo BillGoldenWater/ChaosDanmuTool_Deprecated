@@ -1,5 +1,7 @@
 package indi.goldenwater.chaosdanmutool.model.danmu;
 
+import com.google.gson.JsonObject;
+
 public class SuperChatMessage extends MessageCommand {
     public String roomid;
     public String background_bottom_color;
@@ -12,7 +14,7 @@ public class SuperChatMessage extends MessageCommand {
     public double color_point;
     public int dmscore;
     public long end_time;
-    public Object gift;
+    public JsonObject gift;
     public long id;
     public int is_ranked;
     public String is_send_audit;
