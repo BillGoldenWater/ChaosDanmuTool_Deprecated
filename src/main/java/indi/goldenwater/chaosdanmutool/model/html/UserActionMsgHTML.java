@@ -1,7 +1,7 @@
 package indi.goldenwater.chaosdanmutool.model.html;
 
 public class UserActionMsgHTML extends DanmuItemHTML {
-    private static final String userActionMessageTemplate = "<div class=\"danmu-item danmu-gift\">" +
+    private static final String userActionMessageTemplate = "<div class=\"danmu-item\">" +
             "{{userInfo}}" +
             "<span style=\"color: {{actionColor}}\"> {{action}}</span>" +
             "</div>";
