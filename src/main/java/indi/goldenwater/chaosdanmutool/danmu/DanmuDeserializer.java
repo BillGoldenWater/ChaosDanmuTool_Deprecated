@@ -268,10 +268,26 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
 
                 return superChatMessage;
             }
+            case "GUARD_BUY": {
+                GuardBuy guardBuy = new GuardBuy();
+                guardBuy.cmd = jsonObject.get("cmd").getAsString();
+                JsonObject data = jsonObject.get("data").getAsJsonObject();
+
+                guardBuy.uid = data.get("uid").getAsLong();
+                guardBuy.username = data.get("username").getAsString();
+                guardBuy.guard_level = data.get("guard_level").getAsInt();
+                guardBuy.num = data.get("num").getAsInt();
+                guardBuy.price = data.get("price").getAsInt();
+                guardBuy.gift_id = data.get("gift_id").getAsInt();
+                guardBuy.gift_name = data.get("gift_name").getAsString();
+                guardBuy.start_time = data.get("start_time").getAsLong();
+                guardBuy.end_time = data.get("end_time").getAsLong();
+
+                return guardBuy;
+            }
             case "HOT_RANK_CHANGED": // plan to do
             case "HOT_RANK_SETTLEMENT":
             case "ENTRY_EFFECT":
-            case "GUARD_BUY":
             case "ANCHOR_LOT_START":
             case "ANCHOR_LOT_END":
             case "ANCHOR_LOT_AWARD":

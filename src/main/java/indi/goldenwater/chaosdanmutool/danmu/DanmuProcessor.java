@@ -91,6 +91,11 @@ public class DanmuProcessor {
             if (danmuServer != null)
                 danmuServer.broadcast(DanmuItemJS.getJsDanmuList(ComboSendHTML.parse(comboSend)));
             logger.info(String.format("%s %s %s 共%d个", comboSend.uname, comboSend.action, comboSend.gift_name, comboSend.total_num));
+        } else if (command instanceof GuardBuy) {
+            GuardBuy guardBuy = (GuardBuy) command;
+            if (danmuServer != null)
+                danmuServer.broadcast(DanmuItemJS.getJsDanmuList(GuardBuyHTML.parse(guardBuy)));
+            logger.info(String.format("%s 购买了 %s x %d", guardBuy.username, guardBuy.gift_name, guardBuy.num));
         } else if (command instanceof RoomBlockMsg) { // 禁言
             RoomBlockMsg roomBlockMsg = (RoomBlockMsg) command;
             if (danmuServer != null)
