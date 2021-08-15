@@ -85,7 +85,7 @@ public class DanmuProcessor {
                 }
             }
             logger.info(String.format("%s %s%sx%d", sendGift.uname, sendGift.action, sendGift.giftName, sendGift.num));
-            logger.trace(jsonStr);
+//            logger.trace(jsonStr);
         } else if (command instanceof ComboSend) { // 连击特效
             ComboSend comboSend = (ComboSend) command;
             if (danmuServer != null)
