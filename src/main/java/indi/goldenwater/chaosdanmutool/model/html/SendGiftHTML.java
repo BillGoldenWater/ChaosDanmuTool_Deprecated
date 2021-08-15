@@ -7,7 +7,7 @@ import indi.goldenwater.chaosdanmutool.model.danmu.SendGift;
 import static indi.goldenwater.chaosdanmutool.utils.IntColorToHex.toHex;
 
 public class SendGiftHTML extends DanmuItemHTML {
-    private static final String sendGiftTemplate = "<span style=\"color: #ffffff\"> {{action}} {{gift_name}} x {{gift_num}}</span>";
+    private static final String sendGiftTemplate = "<span style=\"color: {{textColor}}\"> {{action}} {{gift_name}} x {{gift_num}}</span>";
 
     public static String parse(SendGift sendGift) {
         final Config config = ChaosDanmuTool.getConfig();

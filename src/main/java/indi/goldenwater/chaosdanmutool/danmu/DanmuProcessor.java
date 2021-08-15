@@ -3,10 +3,7 @@ package indi.goldenwater.chaosdanmutool.danmu;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import indi.goldenwater.chaosdanmutool.model.danmu.*;
-import indi.goldenwater.chaosdanmutool.model.html.DanmuMsgHTML;
-import indi.goldenwater.chaosdanmutool.model.html.JoinMessageHTML;
-import indi.goldenwater.chaosdanmutool.model.html.SendGiftHTML;
-import indi.goldenwater.chaosdanmutool.model.html.SuperChatHTML;
+import indi.goldenwater.chaosdanmutool.model.html.*;
 import indi.goldenwater.chaosdanmutool.model.js.DanmuItemJS;
 import indi.goldenwater.chaosdanmutool.model.js.UpdateActivityJS;
 import indi.goldenwater.chaosdanmutool.model.js.UpdateFansNumJS;
@@ -81,6 +78,7 @@ public class DanmuProcessor {
             logger.info(String.format("%s %s%sx%d", sendGift.uname, sendGift.action, sendGift.giftName, sendGift.num));
         } else if (command instanceof ComboSend) { // 连击特效
             ComboSend comboSend = (ComboSend) command;
+            danmuServer.broadcast(DanmuItemJS.getJsDanmuList(ComboSendHTML.parse(comboSend)));
             logger.info(String.format("%s %s %s 共%d个", comboSend.uname, comboSend.action, comboSend.gift_name, comboSend.total_num));
         } else if (command instanceof RoomBlockMsg) { // 禁言
             RoomBlockMsg roomBlockMsg = (RoomBlockMsg) command;
