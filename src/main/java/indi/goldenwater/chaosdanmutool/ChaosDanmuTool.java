@@ -2,6 +2,7 @@ package indi.goldenwater.chaosdanmutool;
 
 import indi.goldenwater.chaosdanmutool.config.Config;
 import indi.goldenwater.chaosdanmutool.config.ConfigManager;
+import indi.goldenwater.chaosdanmutool.model.GiftDataList;
 import indi.goldenwater.chaosdanmutool.utils.FxmlNullAlert;
 import indi.goldenwater.chaosdanmutool.utils.StageManager;
 import javafx.application.Application;
@@ -37,6 +38,8 @@ public class ChaosDanmuTool extends Application {
         stageManager = new StageManager();
         if (!config.exists()) saveDefaultConfig();
         loadConfig();
+
+        GiftDataList.update();
         logger.info("End init");
     }
 

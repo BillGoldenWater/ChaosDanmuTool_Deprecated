@@ -172,6 +172,10 @@
             position: relative;
             top: -2px;
         }
+
+        .danmu-gift > div {
+            margin-top: 24px;
+        }
     </style>
     <style>
         .danmu-list {
@@ -212,6 +216,10 @@
         .superChat-price {
             position: relative;
             float: right;
+        }
+
+        .gift-icon {
+            max-height: 40px;
         }
     </style>
     <style>
@@ -304,7 +312,7 @@
             message
         </div>
     </div>
-    <div class="danmu-item">
+    <div class="danmu-item danmu-gift">
         <div class="fans-medal"
              style="border-color: #BE6686; background: linear-gradient(45deg, #BE6686, #BE6686);">
             <div class="fans-medal-name">凤毛</div>
@@ -313,7 +321,11 @@
         <div class="vip-icon" style="color: #ffffff; background-color: #dc6385; border-color: #bc5573">爷</div>
         <div class="admin-icon" style="color: #ffffff; background-color: #d2a25b; border-color: #de8402">房</div>
         <span class="user-name" style="color: #0ea3ff;">Username</span>
-        <span style="color: #ffffff"> {{action}} <span style="color: #ffffff">{{gift_name}}</span> 共 {{gift_num}} 个</span>
+        <span style="color: #ffffff"> {{action}}<span style="color: #ffff00;"> {{gift_name}} </span>
+            <img class="gift-icon" src="https://i0.hdslb.com/bfs/live/d4a0827cbb6b00e48f4d3e6c0f4fdd6e24c93a8f.png"
+                 alt="">
+            共 {{gift_num}} 个 {{price}}
+        </span>
     </div>
     <!--end-for-coding-->
 </div>
@@ -343,6 +355,11 @@
         <div class="vip-icon" style="color: #ffffff; background-color: #dc6385; border-color: #bc5573">爷</div>
         <div class="admin-icon" style="color: #ffffff; background-color: #d2a25b; border-color: #de8402">房</div>
         <span class="user-name" style="color: #0ea3ff;">Username</span>
+        <span style="color: #ffffff"> {{action}}<span style="color: #ffff00;"> {{gift_name}} </span>
+            <img class="gift-icon" src="https://i0.hdslb.com/bfs/live/d4a0827cbb6b00e48f4d3e6c0f4fdd6e24c93a8f.png"
+                 alt="">
+            x {{gift_num}}
+        </span>
         <span style="color: #ffffff"> {{action}} {{gift_name}} x {{gift_num}}</span>
 
         <!--end-for-coding-->

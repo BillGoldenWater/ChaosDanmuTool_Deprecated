@@ -70,12 +70,17 @@ public class DanmuProcessor {
                     realTimeMessageUpdate.fans_club));
         } else if (command instanceof SendGift) { // 赠送礼物
             SendGift sendGift = (SendGift) command;
-            if (!sendGift.batch_combo_id.equals("")) {
-                danmuServer.broadcast(UpdateStatusBarDisplay.getJs(SendGiftHTML.parse(sendGift)));
+            if (sendGift.coin_type.equals("silver")) {
+                if (sendGift.batch_combo_id.equals("")) {
+                    danmuServer.broadcast(DanmuItemJS.getJsDanmuList(SendGiftHTML.parseForDanmu(sendGift)));
+                } else {
+                    danmuServer.broadcast(UpdateStatusBarDisplay.getJs(SendGiftHTML.parse(sendGift)));
+                }
             } else {
                 danmuServer.broadcast(DanmuItemJS.getJsDanmuList(SendGiftHTML.parseForDanmu(sendGift)));
             }
             logger.info(String.format("%s %s%sx%d", sendGift.uname, sendGift.action, sendGift.giftName, sendGift.num));
+            logger.trace(jsonStr);
         } else if (command instanceof ComboSend) { // 连击特效
             ComboSend comboSend = (ComboSend) command;
             danmuServer.broadcast(DanmuItemJS.getJsDanmuList(ComboSendHTML.parse(comboSend)));
