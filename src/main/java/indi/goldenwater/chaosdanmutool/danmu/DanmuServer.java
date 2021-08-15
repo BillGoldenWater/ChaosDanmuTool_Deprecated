@@ -24,8 +24,8 @@ public class DanmuServer extends WebSocketServer {
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
         InetSocketAddress remoteAddress = webSocket.getRemoteSocketAddress();
         logger.info(String.format("[DanmuServer] Client %s connected", remoteAddress.toString()));
-        if (!ChaosDanmuTool.getConfig().danmuView.joinMessageDisplay) {
-            webSocket.send("hideJoinMessage()");
+        if (!ChaosDanmuTool.getConfig().danmuView.statusBarDisplay) {
+            webSocket.send("hideStatusBar()");
         }
     }
 

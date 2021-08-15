@@ -95,7 +95,7 @@ public class DanmuProcessor {
             GuardBuy guardBuy = (GuardBuy) command;
             if (danmuServer != null)
                 danmuServer.broadcast(DanmuItemJS.getJsDanmuList(GuardBuyHTML.parse(guardBuy)));
-            logger.info(String.format("%s 购买了 %s x %d", guardBuy.username, guardBuy.gift_name, guardBuy.num));
+            logger.info(String.format("%s 购买了 %s x %d ￥%d", guardBuy.username, guardBuy.gift_name, guardBuy.num, guardBuy.price / 1000));
         } else if (command instanceof RoomBlockMsg) { // 禁言
             RoomBlockMsg roomBlockMsg = (RoomBlockMsg) command;
             if (danmuServer != null)
