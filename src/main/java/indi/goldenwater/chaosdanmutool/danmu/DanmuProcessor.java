@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import indi.goldenwater.chaosdanmutool.model.danmu.*;
 import indi.goldenwater.chaosdanmutool.model.html.DanmuMsgHTML;
 import indi.goldenwater.chaosdanmutool.model.html.JoinMessageHTML;
+import indi.goldenwater.chaosdanmutool.model.html.SendGiftHTML;
 import indi.goldenwater.chaosdanmutool.model.html.SuperChatHTML;
 import indi.goldenwater.chaosdanmutool.model.js.DanmuItemJS;
 import indi.goldenwater.chaosdanmutool.model.js.UpdateActivityJS;
@@ -72,6 +73,11 @@ public class DanmuProcessor {
                     realTimeMessageUpdate.fans_club));
         } else if (command instanceof SendGift) { // 赠送礼物
             SendGift sendGift = (SendGift) command;
+            if (!sendGift.batch_combo_id.equals("")) {
+                danmuServer.broadcast(UpdateStatusBarDisplay.getJs(SendGiftHTML.parse(sendGift)));
+            } else {
+                danmuServer.broadcast(DanmuItemJS.getJsDanmuList(SendGiftHTML.parseForDanmu(sendGift)));
+            }
             logger.info(String.format("%s %s%sx%d", sendGift.uname, sendGift.action, sendGift.giftName, sendGift.num));
         } else if (command instanceof ComboSend) { // 连击特效
             ComboSend comboSend = (ComboSend) command;
@@ -88,7 +94,7 @@ public class DanmuProcessor {
         } else if (!command.cmd.equals("IGNORE")) {
             logger.debug(command.cmd);
         }
-        logger.trace(jsonStr);
+//        logger.trace(jsonStr);
     }
 
     public static void connectSuccess() {
