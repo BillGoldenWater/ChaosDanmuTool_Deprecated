@@ -48,10 +48,14 @@ public class DanmuProcessor {
                     break;
                 }
                 case InteractWord.MsgType.follow: {
+                    if (danmuServer != null)
+                        danmuServer.broadcast(DanmuItemJS.getJsDanmuList(FollowMsgHTML.parse(interactWord)));
                     logger.info(String.format("%s 关注了直播间", interactWord.uname));
                     break;
                 }
                 case InteractWord.MsgType.share: {
+                    if (danmuServer != null)
+                        danmuServer.broadcast(DanmuItemJS.getJsDanmuList(ShareMsgHTML.parse(interactWord)));
                     logger.info(String.format("%s 分享了直播间", interactWord.uname));
                     break;
                 }
@@ -60,7 +64,6 @@ public class DanmuProcessor {
                     break;
                 }
             }
-
         } else if (command instanceof RoomRealTimeMessageUpdate) { // 直播间 信息更新
             RoomRealTimeMessageUpdate realTimeMessageUpdate = (RoomRealTimeMessageUpdate) command;
             if (danmuServer != null)
@@ -70,27 +73,33 @@ public class DanmuProcessor {
                     realTimeMessageUpdate.fans_club));
         } else if (command instanceof SendGift) { // 赠送礼物
             SendGift sendGift = (SendGift) command;
-            if (sendGift.coin_type.equals("silver")) {
-                if (sendGift.batch_combo_id.equals("")) {
-                    danmuServer.broadcast(DanmuItemJS.getJsDanmuList(SendGiftHTML.parseForDanmu(sendGift)));
+            if (danmuServer != null) {
+                if (sendGift.coin_type.equals("silver")) {
+                    if (sendGift.batch_combo_id.equals("")) {
+                        danmuServer.broadcast(DanmuItemJS.getJsDanmuList(SendGiftHTML.parseForDanmu(sendGift)));
+                    } else {
+                        danmuServer.broadcast(UpdateStatusBarDisplay.getJs(SendGiftHTML.parse(sendGift)));
+                    }
                 } else {
-                    danmuServer.broadcast(UpdateStatusBarDisplay.getJs(SendGiftHTML.parse(sendGift)));
+                    danmuServer.broadcast(DanmuItemJS.getJsDanmuList(SendGiftHTML.parseForDanmu(sendGift)));
                 }
-            } else {
-                danmuServer.broadcast(DanmuItemJS.getJsDanmuList(SendGiftHTML.parseForDanmu(sendGift)));
             }
             logger.info(String.format("%s %s%sx%d", sendGift.uname, sendGift.action, sendGift.giftName, sendGift.num));
             logger.trace(jsonStr);
         } else if (command instanceof ComboSend) { // 连击特效
             ComboSend comboSend = (ComboSend) command;
-            danmuServer.broadcast(DanmuItemJS.getJsDanmuList(ComboSendHTML.parse(comboSend)));
+            if (danmuServer != null)
+                danmuServer.broadcast(DanmuItemJS.getJsDanmuList(ComboSendHTML.parse(comboSend)));
             logger.info(String.format("%s %s %s 共%d个", comboSend.uname, comboSend.action, comboSend.gift_name, comboSend.total_num));
         } else if (command instanceof RoomBlockMsg) { // 禁言
             RoomBlockMsg roomBlockMsg = (RoomBlockMsg) command;
+            if (danmuServer != null)
+                danmuServer.broadcast(DanmuItemJS.getJsDanmuList(RoomBlockMsgHTML.parse(roomBlockMsg)));
             logger.info(String.format("%s 已被管理员禁言", roomBlockMsg.uname));
         } else if (command instanceof SuperChatMessage) {
             SuperChatMessage superChatMessage = (SuperChatMessage) command;
-            danmuServer.broadcast(DanmuItemJS.getJsDanmuList(SuperChatHTML.parse(superChatMessage)));
+            if (danmuServer != null)
+                danmuServer.broadcast(DanmuItemJS.getJsDanmuList(SuperChatHTML.parse(superChatMessage)));
             logger.info(String.format("醒目留言(%s): %s: %s", "￥" + superChatMessage.price, superChatMessage.user_info.uname, superChatMessage.message));
         } else if (command instanceof StopLiveRoomList) { // 未知
             StopLiveRoomList stopLiveRoomList = (StopLiveRoomList) command;
