@@ -7,10 +7,15 @@ import indi.goldenwater.chaosdanmutool.model.danmu.ComboSend;
 import static indi.goldenwater.chaosdanmutool.utils.IntColorToHex.toHex;
 
 public class ComboSendHTML extends DanmuItemHTML {
-    private static final String comboSendTemplate = "<span style=\"color: {{textColor}}\"> {{action}} {{gift_name}} 共 {{gift_num}} 个</span>";
+    private static final String comboSendTemplate =
+            "<span style=\"color: {{textColor}}\"> {{action}} " +
+                    "<span style=\"color: {{giftNameColor}}\">" +
+                    "{{gift_name}}</span> 共 {{gift_num}} 个</span>";
 
     public static String parse(ComboSend comboSend) {
         final Config config = ChaosDanmuTool.getConfig();
+        String giftNameColor = "#ffffff";
+//        if (comboSend.)
 
         String userInfoHTML = UserInfoHTML.parse(comboSend.medal_info,
                 false,
@@ -20,6 +25,7 @@ public class ComboSendHTML extends DanmuItemHTML {
 
         String comboSendHTML = comboSendTemplate
                 .replace("{{textColor}}", "#" + toHex(config.danmuView.style.danmuContent.textColor))
+                .replace("{{giftNameColor}}", giftNameColor)
                 .replace("{{action}}", comboSend.action)
                 .replace("{{gift_name}}", comboSend.gift_name)
                 .replace("{{gift_num}}", String.valueOf(comboSend.total_num));
