@@ -21,7 +21,7 @@ public class ComboSendHTML extends DanmuItemHTML {
         String price = "";
         if (giftData.coin_type.equals("gold")) {
             giftNameColor = "#ffff00";
-            price = "￥" + (giftData.price / 1000);
+            price = "￥" + (giftData.price / 1000) * comboSend.total_num;
         }
 
         String userInfoHTML = UserInfoHTML.parse(comboSend.medal_info,
@@ -38,7 +38,7 @@ public class ComboSendHTML extends DanmuItemHTML {
                 .replace("{{gift_icon_url}}", giftData.img_basic)
                 .replace("{{gift_num}}", String.valueOf(comboSend.total_num))
                 .replace("{{price}}", price);
-        return start.replace("class=\"danmu-item\"","class=\"danmu-item danmu-gift\"")
+        return start.replace("class=\"danmu-item\"", "class=\"danmu-item danmu-gift\"")
                 + userInfoHTML
                 + comboSendHTML
                 + end;

@@ -183,8 +183,30 @@
             overflow-x: hidden;
         }
 
+        @keyframes danmuItem {
+            0% {
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+            100% {
+                background-color: rgba(0, 0, 0, 0);
+            }
+        }
+
+        @-webkit-keyframes danmuItem {
+            0% {
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+            100% {
+                background-color: rgba(0, 0, 0, 0);
+            }
+        }
+
         .danmu-item {
             margin-top: 20px;
+            animation-name: danmuItem;
+            animation-duration: 4s;
+            -webkit-animation-name: danmuItem;
+            -webkit-animation-duration: 4s;
         }
 
         .danmu-superChat {

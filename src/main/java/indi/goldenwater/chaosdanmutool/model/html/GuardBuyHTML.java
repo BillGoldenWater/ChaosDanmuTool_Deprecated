@@ -27,7 +27,7 @@ public class GuardBuyHTML extends DanmuItemHTML {
         String guardBuyHTML = guardBuyTemplate
                 .replace("{{textColor}}", "#" + toHex(config.danmuView.style.danmuContent.textColor))
                 .replace("{{giftNameColor}}", "#ffff00")
-                .replace("{{gift_name}}", guardBuy.gift_name)
+                .replace("{{gift_name}}", guardBuy.gift_name != null ? guardBuy.gift_name : "未知")
                 .replace("{{gift_icon_url}}", giftData.img_basic)
                 .replace("{{gift_num}}", String.valueOf(guardBuy.num))
                 .replace("{{price}}", "￥" + (guardBuy.price / 1000));

@@ -75,7 +75,7 @@ public class DanmuProcessor {
             SendGift sendGift = (SendGift) command;
             if (danmuServer != null) {
                 if (sendGift.coin_type.equals("silver")) {
-                    if (sendGift.batch_combo_id.equals("")) {
+                    if (sendGift.batch_combo_id.equals("") && (sendGift.giftId != 1 || sendGift.num > 10)) {
                         danmuServer.broadcast(DanmuItemJS.getJsDanmuList(SendGiftHTML.parseForDanmu(sendGift)));
                     } else {
                         danmuServer.broadcast(UpdateStatusBarDisplay.getJs(SendGiftHTML.parse(sendGift)));
