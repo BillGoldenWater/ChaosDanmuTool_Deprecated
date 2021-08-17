@@ -6,7 +6,7 @@
 
     <groupId>indi.goldenwater</groupId>
     <artifactId>ChaosDanmuTool</artifactId>
-    <version>0.1.5</version>
+    <version>0.1.6</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -34,6 +34,12 @@
         <dependency>
             <groupId>com.nixxcode.jvmbrotli</groupId>
             <artifactId>jvmbrotli-darwin-x86-amd64</artifactId>
+            <version>0.2.0</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.nixxcode.jvmbrotli</groupId>
+            <artifactId>jvmbrotli-linux-x86-amd64</artifactId>
             <version>0.2.0</version>
             <optional>true</optional>
         </dependency>

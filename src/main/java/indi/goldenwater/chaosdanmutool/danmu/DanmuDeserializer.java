@@ -291,6 +291,7 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
             case "ANCHOR_LOT_START":
             case "ANCHOR_LOT_END":
             case "ANCHOR_LOT_AWARD":
+            case "ANCHOR_LOT_CHECKSTATUS":
             case "WIDGET_BANNER": // ignore
             case "SUPER_CHAT_MESSAGE_JPN": // not need jpn
             case "ROOM_CHANGE":
@@ -306,7 +307,11 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
             case "PK_BATTLE_PROCESS_NEW":
             case "PK_BATTLE_SETTLE":
             case "PK_BATTLE_SETTLE_USER":
-            case "PK_BATTLE_SETTLE_V2": {
+            case "PK_BATTLE_SETTLE_V2":
+            case "PK_BATTLE_PRE":
+            case "PK_BATTLE_PRE_NEW":
+            case "PK_BATTLE_START":
+            case "PK_BATTLE_START_NEW":{
                 MessageCommand messageCommand = new MessageCommand();
                 messageCommand.cmd = "IGNORE";
                 return messageCommand;
