@@ -1,4 +1,6 @@
-package indi.goldenwater.chaosdanmutool.model.html;
+package indi.goldenwater.chaosdanmutool.model.html.roomstatuschange;
+
+import indi.goldenwater.chaosdanmutool.model.html.DanmuItemHTML;
 
 public class RoomStatusChangeHTML extends DanmuItemHTML {
     public static final String roomStatusChangeTemplate =

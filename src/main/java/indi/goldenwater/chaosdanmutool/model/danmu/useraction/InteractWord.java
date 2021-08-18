@@ -1,6 +1,8 @@
-package indi.goldenwater.chaosdanmutool.model.danmu;
+package indi.goldenwater.chaosdanmutool.model.danmu.useraction;
 
 import com.google.gson.JsonArray;
+import indi.goldenwater.chaosdanmutool.model.danmu.FansMedal;
+import indi.goldenwater.chaosdanmutool.model.danmu.MessageCommand;
 
 public class InteractWord extends MessageCommand {
     public Object contribution;

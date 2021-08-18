@@ -1,4 +1,6 @@
-package indi.goldenwater.chaosdanmutool.model.danmu;
+package indi.goldenwater.chaosdanmutool.model.danmu.roomstatuschange;
+
+import indi.goldenwater.chaosdanmutool.model.danmu.MessageCommand;
 
 public class Live extends MessageCommand {
     public String live_key;

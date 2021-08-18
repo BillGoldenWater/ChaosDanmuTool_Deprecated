@@ -1,4 +1,6 @@
-package indi.goldenwater.chaosdanmutool.model.html;
+package indi.goldenwater.chaosdanmutool.model.html.useraction;
+
+import indi.goldenwater.chaosdanmutool.model.html.DanmuItemHTML;
 
 public class UserActionMsgHTML extends DanmuItemHTML {
     private static final String userActionMessageTemplate = "{{userInfo}}" +

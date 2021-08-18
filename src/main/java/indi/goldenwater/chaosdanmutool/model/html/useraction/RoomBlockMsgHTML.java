@@ -1,6 +1,7 @@
-package indi.goldenwater.chaosdanmutool.model.html;
+package indi.goldenwater.chaosdanmutool.model.html.useraction;
 
-import indi.goldenwater.chaosdanmutool.model.danmu.RoomBlockMsg;
+import indi.goldenwater.chaosdanmutool.model.danmu.useraction.RoomBlockMsg;
+import indi.goldenwater.chaosdanmutool.model.html.UserInfoHTML;
 
 public class RoomBlockMsgHTML extends UserActionMsgHTML {
     public static String parse(RoomBlockMsg roomBlockMsg) {

@@ -1,8 +1,9 @@
-package indi.goldenwater.chaosdanmutool.model.html;
+package indi.goldenwater.chaosdanmutool.model.html.useraction;
 
 import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
 import indi.goldenwater.chaosdanmutool.config.Config;
-import indi.goldenwater.chaosdanmutool.model.danmu.InteractWord;
+import indi.goldenwater.chaosdanmutool.model.danmu.useraction.InteractWord;
+import indi.goldenwater.chaosdanmutool.model.html.UserInfoHTML;
 
 import static indi.goldenwater.chaosdanmutool.utils.IntColorToHex.toHex;
 

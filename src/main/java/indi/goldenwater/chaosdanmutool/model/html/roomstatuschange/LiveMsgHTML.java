@@ -1,6 +1,6 @@
-package indi.goldenwater.chaosdanmutool.model.html;
+package indi.goldenwater.chaosdanmutool.model.html.roomstatuschange;
 
-import indi.goldenwater.chaosdanmutool.model.danmu.Live;
+import indi.goldenwater.chaosdanmutool.model.danmu.roomstatuschange.Live;
 
 public class LiveMsgHTML extends RoomStatusChangeHTML {
     public static String parse(Live live) {

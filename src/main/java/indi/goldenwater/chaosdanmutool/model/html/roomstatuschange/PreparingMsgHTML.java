@@ -1,6 +1,6 @@
-package indi.goldenwater.chaosdanmutool.model.html;
+package indi.goldenwater.chaosdanmutool.model.html.roomstatuschange;
 
-import indi.goldenwater.chaosdanmutool.model.danmu.Preparing;
+import indi.goldenwater.chaosdanmutool.model.danmu.roomstatuschange.Preparing;
 
 public class PreparingMsgHTML extends RoomStatusChangeHTML {
     public static String parse(Preparing preparing) {

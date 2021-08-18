@@ -1,9 +1,11 @@
-package indi.goldenwater.chaosdanmutool.model.html;
+package indi.goldenwater.chaosdanmutool.model.html.gift;
 
 import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
 import indi.goldenwater.chaosdanmutool.config.Config;
 import indi.goldenwater.chaosdanmutool.model.GiftDataList;
-import indi.goldenwater.chaosdanmutool.model.danmu.SendGift;
+import indi.goldenwater.chaosdanmutool.model.danmu.gift.SendGift;
+import indi.goldenwater.chaosdanmutool.model.html.DanmuItemHTML;
+import indi.goldenwater.chaosdanmutool.model.html.UserInfoHTML;
 
 import static indi.goldenwater.chaosdanmutool.utils.IntColorToHex.toHex;
 

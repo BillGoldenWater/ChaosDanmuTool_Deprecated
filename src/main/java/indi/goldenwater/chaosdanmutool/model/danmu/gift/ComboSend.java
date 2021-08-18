@@ -1,4 +1,7 @@
-package indi.goldenwater.chaosdanmutool.model.danmu;
+package indi.goldenwater.chaosdanmutool.model.danmu.gift;
+
+import indi.goldenwater.chaosdanmutool.model.danmu.MedalInfo;
+import indi.goldenwater.chaosdanmutool.model.danmu.MessageCommand;
 
 public class ComboSend extends MessageCommand {
     //COMBO_SEND

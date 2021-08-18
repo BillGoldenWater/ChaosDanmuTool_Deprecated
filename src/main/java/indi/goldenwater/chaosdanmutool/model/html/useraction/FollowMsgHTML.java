@@ -1,6 +1,7 @@
-package indi.goldenwater.chaosdanmutool.model.html;
+package indi.goldenwater.chaosdanmutool.model.html.useraction;
 
-import indi.goldenwater.chaosdanmutool.model.danmu.InteractWord;
+import indi.goldenwater.chaosdanmutool.model.danmu.useraction.InteractWord;
+import indi.goldenwater.chaosdanmutool.model.html.UserInfoHTML;
 
 public class FollowMsgHTML extends UserActionMsgHTML {
     public static String parse(InteractWord interactWord) {
