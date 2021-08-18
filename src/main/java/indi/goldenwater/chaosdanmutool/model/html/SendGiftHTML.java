@@ -39,7 +39,7 @@ public class SendGiftHTML extends DanmuItemHTML {
         String price = "";
         if (giftData.coin_type.equals("gold")) {
             price = "￥" + (giftData.price / 1000.0) * sendGift.num;
-            giftNameColor = "#ffff00";
+            giftNameColor = "#F7B500";
         }
 
         String userInfoHTML = UserInfoHTML.parse(sendGift.medal_info,
