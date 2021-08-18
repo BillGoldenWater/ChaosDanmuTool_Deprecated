@@ -305,6 +305,14 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
 
                 return live;
             }
+            case "PREPARING": {
+                Preparing preparing = new Preparing();
+                preparing.cmd = jsonObject.get("cmd").getAsString();
+
+                preparing.roomid = jsonObject.get("roomid").getAsString();
+
+                return preparing;
+            }
             case "HOT_RANK_CHANGED": // plan to do
             case "HOT_RANK_SETTLEMENT":
             case "ENTRY_EFFECT":

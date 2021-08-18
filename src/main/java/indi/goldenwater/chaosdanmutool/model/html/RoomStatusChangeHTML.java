@@ -7,10 +7,10 @@ public class RoomStatusChangeHTML extends DanmuItemHTML {
                     "<span style=\"color: {{actionColor}}\"> {{action}}</span>";
 
 
-    public static String parse(String prefix, long roomid, String action, String prefixColor, String roomidColor, String actionColor) {
+    public static String parse(String prefix, String roomid, String action, String prefixColor, String roomidColor, String actionColor) {
         return roomStatusChangeTemplate
                 .replace("{{prefix}}", prefix)
-                .replace("{{roomid}}", String.valueOf(roomid))
+                .replace("{{roomid}}", roomid)
                 .replace("{{action}}", action)
                 .replace("{{prefixColor}}", prefixColor)
                 .replace("{{roomidColor}}", roomidColor)

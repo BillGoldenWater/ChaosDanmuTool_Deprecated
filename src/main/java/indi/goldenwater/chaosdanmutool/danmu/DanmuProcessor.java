@@ -110,7 +110,12 @@ public class DanmuProcessor {
             Live live = (Live) command;
             if (danmuServer != null)
                 danmuServer.broadcast(DanmuItemJS.getJsDanmuList(LiveMsgHTML.parse(live)));
-            logger.info(String.format("%d 开播了", live.roomid));
+            logger.info(String.format("直播间 %d 状态更改为直播中", live.roomid));
+        } else if (command instanceof Preparing) {
+            Preparing preparing = (Preparing) command;
+            if (danmuServer != null)
+                danmuServer.broadcast(DanmuItemJS.getJsDanmuList(PreparingMsgHTML.parse(preparing)));
+            logger.info(String.format("直播间 %s 状态更改为准备中", preparing.roomid));
         } else if (command instanceof StopLiveRoomList) { // 未知
             StopLiveRoomList stopLiveRoomList = (StopLiveRoomList) command;
         } else if (!command.cmd.equals("IGNORE")) {
