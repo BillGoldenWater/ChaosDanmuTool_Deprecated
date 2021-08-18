@@ -252,7 +252,14 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
                 superChatMessage.id = data.get("id").getAsLong();
                 superChatMessage.is_ranked = data.get("is_ranked").getAsInt();
                 superChatMessage.is_send_audit = data.get("is_send_audit").getAsString();
-                superChatMessage.medal_info = MedalInfo.parse(data.get("medal_info").getAsJsonObject());
+
+                JsonElement medal_info = data.get("medal_info");
+                if (medal_info != null) {
+                    superChatMessage.medal_info = MedalInfo.parse(medal_info.getAsJsonObject());
+                } else {
+                    superChatMessage.medal_info = null;
+                }
+
                 superChatMessage.message = data.get("message").getAsString();
                 superChatMessage.message_font_color = data.get("message_font_color").getAsString();
                 superChatMessage.message_trans = data.get("message_trans").getAsString();
@@ -311,7 +318,7 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
             case "PK_BATTLE_PRE":
             case "PK_BATTLE_PRE_NEW":
             case "PK_BATTLE_START":
-            case "PK_BATTLE_START_NEW":{
+            case "PK_BATTLE_START_NEW": {
                 MessageCommand messageCommand = new MessageCommand();
                 messageCommand.cmd = "IGNORE";
                 return messageCommand;
