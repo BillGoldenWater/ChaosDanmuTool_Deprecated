@@ -10,12 +10,13 @@ public class RoomStatusChangeHTML extends DanmuItemHTML {
 
 
     public static String parse(String prefix, String roomid, String action, String prefixColor, String roomidColor, String actionColor) {
-        return roomStatusChangeTemplate
+        String roomStatusChangeHTML = roomStatusChangeTemplate
                 .replace("{{prefix}}", prefix)
                 .replace("{{roomid}}", roomid)
                 .replace("{{action}}", action)
                 .replace("{{prefixColor}}", prefixColor)
                 .replace("{{roomidColor}}", roomidColor)
                 .replace("{{actionColor}}", actionColor);
+        return start + roomStatusChangeHTML + end;
     }
 }
