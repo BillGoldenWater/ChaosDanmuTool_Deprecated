@@ -28,7 +28,7 @@ public class DanmuProcessor {
             command = gson.fromJson(jsonStr, MessageCommand.class);
         } catch (Exception e) {
             e.printStackTrace();
-            logger.warn(jsonStr);
+            logger.error(jsonStr);
             return;
         }
 
