@@ -106,6 +106,11 @@ public class DanmuProcessor {
             if (danmuServer != null)
                 danmuServer.broadcast(DanmuItemJS.getJsDanmuList(SuperChatHTML.parse(superChatMessage)));
             logger.info(String.format("醒目留言(%s): %s: %s", "￥" + superChatMessage.price, superChatMessage.user_info.uname, superChatMessage.message));
+        } else if (command instanceof Live) {
+            Live live = (Live) command;
+            if (danmuServer != null)
+                danmuServer.broadcast(DanmuItemJS.getJsDanmuList(LiveMsgHTML.parse(live)));
+            logger.info(String.format("%d 开播了", live.roomid));
         } else if (command instanceof StopLiveRoomList) { // 未知
             StopLiveRoomList stopLiveRoomList = (StopLiveRoomList) command;
         } else if (!command.cmd.equals("IGNORE")) {

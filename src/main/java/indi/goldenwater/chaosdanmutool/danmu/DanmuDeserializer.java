@@ -292,6 +292,19 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
 
                 return guardBuy;
             }
+            case "LIVE": {
+                Live live = new Live();
+                live.cmd = jsonObject.get("cmd").getAsString();
+
+                live.live_key = jsonObject.get("live_key").getAsString();
+                live.voice_background = jsonObject.get("voice_background").getAsString();
+                live.sub_session_key = jsonObject.get("sub_session_key").getAsString();
+                live.live_platform = jsonObject.get("live_platform").getAsString();
+                live.live_model = jsonObject.get("live_model").getAsInt();
+                live.roomid = jsonObject.get("roomid").getAsLong();
+
+                return live;
+            }
             case "HOT_RANK_CHANGED": // plan to do
             case "HOT_RANK_SETTLEMENT":
             case "ENTRY_EFFECT":
