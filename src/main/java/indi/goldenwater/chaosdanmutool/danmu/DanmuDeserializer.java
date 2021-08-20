@@ -260,9 +260,9 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
                 superChatMessage.is_send_audit = data.get("is_send_audit").getAsString();
 
                 JsonElement medal_info = data.get("medal_info");
-                if (medal_info != null) {
+                try {
                     superChatMessage.medal_info = MedalInfo.parse(medal_info.getAsJsonObject());
-                } else {
+                } catch (Exception e) {
                     superChatMessage.medal_info = null;
                 }
 
