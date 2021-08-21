@@ -21,8 +21,6 @@
             <PatternLayout pattern="${info}"/>
             <Policies>
                 <OnStartupTriggeringPolicy/>
-                <TimeBasedTriggeringPolicy/>
-                <SizeBasedTriggeringPolicy size="1 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
