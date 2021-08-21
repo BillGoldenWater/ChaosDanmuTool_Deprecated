@@ -83,7 +83,7 @@
             }
             /*end-actual-use*/
             /*start-for-coding*/
-            for (let i = 0; i < 1; i++) {
+            for (let i = 0; i < 10; i++) {
                 document.getElementById("danmu-list").insertAdjacentHTML("beforeend", "<div class=\"space-holder\"></div>");
                 clearAndScroll();
             }
@@ -124,6 +124,10 @@
             overflow: hidden;
             font-family: "Microsoft YaHei", serif;
             font-weight: bold;
+        }
+
+        body:hover {
+            overflow: auto !important;
         }
 
         .space-holder {
@@ -176,10 +180,6 @@
         .fans-medal, .vip-icon, .admin-icon {
             position: relative;
             top: -2px;
-        }
-
-        .danmu-gift > div {
-            margin-top: 24px;
         }
     </style>
     <style name="danmuList">
@@ -303,7 +303,7 @@
         }
     </style>
 </head>
-<body>
+<body style="overflow: hidden">
 <div id="danmu-list" class="danmu-list">
     <!--start-for-coding-->
     <div class="danmu-item">
