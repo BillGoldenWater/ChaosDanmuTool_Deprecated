@@ -15,7 +15,7 @@
     "statusBarDisplay": true,
     "maxDanmuNumber": 100,
     "style": {
-      "outerMargin": 10,
+      "outerMargin": 5,
       "backgroundColor": {
         "red": 59,
         "green": 59,

@@ -83,7 +83,7 @@
             }
             /*end-actual-use*/
             /*start-for-coding*/
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 1; i++) {
                 document.getElementById("danmu-list").insertAdjacentHTML("beforeend", "<div class=\"space-holder\"></div>");
                 clearAndScroll();
             }
@@ -102,7 +102,7 @@
         }
 
     </script>
-    <style>
+    <style name="global">
         /*start-actual-use*//*
         body {
             margin: {{outerMargin}};
@@ -111,49 +111,52 @@
         /*end-actual-use*/
         /*start-for-coding*/
         body {
-            margin: 10px;
+            margin-top: 5px;
             background-color: rgba(59, 59, 59, 0.3);
+            /*max-width: 300px;*/
+            zoom: 2.4;
         }
 
         /*end-for-coding*/
 
         body {
             padding: 0;
-            overflow-y: hidden;
-            overflow-x: hidden;
-            font-family: "HYWenHei 85W", "Microsoft YaHei", serif;
+            overflow: hidden;
+            font-family: "Microsoft YaHei", serif;
+            font-weight: bold;
         }
 
         .space-holder {
             height: 50px;
         }
     </style>
-    <style>
+    <style name="userInfo">
         .fans-medal {
-            float: left;
+            display: inline-block;
             margin-right: 5px;
-            border: 2px solid;
-            border-radius: 2px;
+            border: 1px solid;
+            border-radius: 3px;
         }
 
         .fans-medal-name {
-            float: left;
-            padding-left: 3px;
-            padding-right: 4px;
+            display: inline-block;
+            padding-left: 4px;
+            padding-right: 2px;
             color: #fff;
         }
 
         .fans-medal-level {
-            float: left;
+            display: inline-block;
             background-color: #fff;
             padding-right: 2px;
             padding-left: 2px;
             min-width: 21px;
             text-align: center;
+            border-radius: 0 3px 3px 0;
         }
 
         .vip-icon {
-            float: left;
+            display: inline-block;
             margin-right: 5px;
             border: 2px solid;
             border-radius: 3px;
@@ -162,7 +165,7 @@
         }
 
         .admin-icon {
-            float: left;
+            display: inline-block;
             margin-right: 5px;
             border: 2px solid;
             border-radius: 3px;
@@ -179,10 +182,9 @@
             margin-top: 24px;
         }
     </style>
-    <style>
+    <style name="danmuList">
         .danmu-list {
-            overflow-y: hidden;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
         @keyframes danmuItem {
@@ -204,7 +206,7 @@
         }
 
         .danmu-item {
-            margin-top: 20px;
+            margin-top: 5px;
             animation-name: danmuItem;
             animation-duration: 4s;
             -webkit-animation-name: danmuItem;
@@ -243,17 +245,17 @@
         }
 
         .gift-icon {
-            max-height: 40px;
+            max-height: 30px;
         }
     </style>
-    <style>
+    <style name="statusBar">
         .status-bar {
             height: 25px;
             background-color: rgba(0, 0, 0, 0.05);
             border: 1px solid rgba(0, 0, 0, 0.3);
             border-radius: 5px 5px 0 0;
             color: #FFFFFFFA;
-            margin: 20px -12px -12px;
+            margin-top: 20px;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
