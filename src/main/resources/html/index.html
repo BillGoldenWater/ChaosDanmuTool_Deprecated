@@ -97,9 +97,10 @@
             const ws = new WebSocket("ws://localhost:25555");
             /*end-for-coding*/
             ws.onmessage = function (event) {
-                eval(event.data)
+                eval(event.data);
                 clearAndScroll();
             };
+            updateStatusBarDisplay("status");
         }
 
     </script>
@@ -248,7 +249,7 @@
     </style>
     <style name="statusBar">
         .status-bar {
-            height: 25px;
+            min-height: 25px;
             background-color: rgba(0, 0, 0, 0.05);
             border: 1px solid rgba(0, 0, 0, 0.3);
             border-radius: 5px 5px 0 0;
