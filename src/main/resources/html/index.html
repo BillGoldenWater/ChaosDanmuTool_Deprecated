@@ -37,6 +37,13 @@
             }
         }
 
+        function appendSpaceHolder(number) {
+            for (let i = 0; i < number; i++) {
+                document.getElementById("danmu-list").insertAdjacentHTML("beforeend", "<div class=\"space-holder\"></div>");
+                clearAndScroll();
+            }
+        }
+
         function hideStatusBar() {
             document.getElementById("status-display").style.display = "none";
         }
@@ -78,16 +85,10 @@
         window.onresize = clearAndScroll;
         window.onload = function () {
             /*start-actual-use*//*
-            for (let i = 0; i < 100; i++) {
-                document.getElementById("danmu-list").insertAdjacentHTML("beforeend", "<div class=\"space-holder\"></div>");
-                clearAndScroll();
-            }
+            appendSpaceHolder(100)
             /*end-actual-use*/
             /*start-for-coding*/
-            for (let i = 0; i < 10; i++) {
-                document.getElementById("danmu-list").insertAdjacentHTML("beforeend", "<div class=\"space-holder\"></div>");
-                clearAndScroll();
-            }
+            appendSpaceHolder(1)
             /*end-for-coding*/
 
             /*start-actual-use*//*
@@ -113,10 +114,10 @@
         /*end-actual-use*/
         /*start-for-coding*/
         body {
-            margin-top: 5px;
+            margin: 5px;
             background-color: rgba(59, 59, 59, 0.3);
             /*max-width: 300px;*/
-            zoom: 2.4;
+            zoom: 1.5;
         }
 
         /*end-for-coding*/
