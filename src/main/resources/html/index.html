@@ -5,6 +5,8 @@
     <meta name="referrer" content="same-origin">
     <title>Chaos Danmu Tool</title>
     <script>
+        let internal = false;
+
         function formatNumber(number) {
             /* need add to config */
             if (number <= 999) {
@@ -102,6 +104,9 @@
                 clearAndScroll();
             };
             updateStatusBarDisplay("status");
+            if (window.location.href === "about:blank") {
+                internal = true;
+            }
         }
 
     </script>
