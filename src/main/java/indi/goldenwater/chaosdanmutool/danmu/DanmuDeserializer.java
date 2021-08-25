@@ -33,6 +33,8 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
 
                 JsonArray danmuMeta = info.get(0).getAsJsonArray();
                 if (danmuMeta != null) {
+                    danmuMsg.fontsize = danmuMeta.get(2).getAsInt();
+                    danmuMsg.color = danmuMeta.get(3).getAsInt();
                     danmuMsg.timestamp = danmuMeta.get(4).getAsLong();
                 }
 
