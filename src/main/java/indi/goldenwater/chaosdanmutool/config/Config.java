@@ -2,7 +2,9 @@ package indi.goldenwater.chaosdanmutool.config;
 
 public class Config {
     public DanmuReceiverConfig danmuReceiver;
-    public DanmuViewConfig danmuView;
+    public InternalBrowserConfig internalBrowser;
+    public DanmuViewConfig internalViewConfig;
+    public DanmuViewConfig otherViewConfig;
 
     public static class DanmuReceiverConfig {
         public String serverUrl;
@@ -10,16 +12,19 @@ public class Config {
         public int heartBeatPeriod;
     }
 
-    public static class WebSocketServerConfig {
-        public int port;
-    }
-
-    public static class DanmuViewConfig {
+    public static class InternalBrowserConfig {
         public WebSocketServerConfig webSocketServer;
         public int width;
         public int height;
         public double posX;
         public double posY;
+    }
+
+    public static class WebSocketServerConfig {
+        public int port;
+    }
+
+    public static class DanmuViewConfig {
         public boolean statusBarDisplay;
         public int maxDanmuNumber;
         public DanmuViewStyleConfig style;

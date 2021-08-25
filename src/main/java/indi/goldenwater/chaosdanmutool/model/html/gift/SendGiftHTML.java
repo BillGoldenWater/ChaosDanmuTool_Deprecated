@@ -27,7 +27,7 @@ public class SendGiftHTML extends DanmuItemHTML {
                 sendGift.uname);
 
         String sendGiftHTML = sendGiftTemplate
-                .replace("{{textColor}}", "#" + toHex(config.danmuView.style.danmuContent.textColor))
+                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.danmuContent.textColor))
                 .replace("{{action}}", sendGift.action)
                 .replace("{{gift_name}}", sendGift.giftName)
                 .replace("{{gift_num}}", String.valueOf(sendGift.num));
@@ -51,7 +51,7 @@ public class SendGiftHTML extends DanmuItemHTML {
                 sendGift.uname);
 
         String comboSendHTML = comboSendTemplate
-                .replace("{{textColor}}", "#" + toHex(config.danmuView.style.danmuContent.textColor))
+                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.danmuContent.textColor))
                 .replace("{{giftNameColor}}", giftNameColor)
                 .replace("{{action}}", sendGift.action)
                 .replace("{{gift_name}}", sendGift.giftName)

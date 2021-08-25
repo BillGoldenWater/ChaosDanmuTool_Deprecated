@@ -4,14 +4,16 @@
     "roomid": 0,
     "heartBeatPeriod": 30
   },
-  "danmuView": {
+  "internalBrowser": {
     "webSocketServer": {
       "port": 25555
     },
     "width": 400,
     "height": 600,
     "posX": 0,
-    "posY": 0,
+    "posY": 0
+  },
+  "internalViewConfig": {
     "statusBarDisplay": true,
     "maxDanmuNumber": 100,
     "style": {

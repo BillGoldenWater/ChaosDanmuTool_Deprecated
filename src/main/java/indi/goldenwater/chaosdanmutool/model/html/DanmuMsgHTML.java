@@ -19,7 +19,7 @@ public class DanmuMsgHTML extends DanmuItemHTML {
                 danmuMsg.isAdmin != 0,
                 danmuMsg.uName + ": ");
         String danmuContentHTML = danmuContentTemplate
-                .replace("{{textColor}}", "#" + toHex(config.danmuView.style.danmuContent.textColor))
+                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.danmuContent.textColor))
                 .replace("{{content}}", danmuMsg.content);
         return start + userInfoHTML + danmuContentHTML + end;
     }

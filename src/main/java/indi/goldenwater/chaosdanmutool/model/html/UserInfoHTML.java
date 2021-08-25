@@ -27,22 +27,22 @@ public class UserInfoHTML extends FansMedalHTML {
 
         String fansMedalHTML = (fansMedal != null && fansMedal.is_lighted == 1) ? parse(fansMedal) : "";
         String vipIconHTML = vipIconTemplate
-                .replace("{{textColor}}", "#" + toHex(config.danmuView.style.vipIcon.textColor))
-                .replace("{{backgroundColor}}", "#" + toHex(config.danmuView.style.vipIcon.backgroundColor))
-                .replace("{{borderColor}}", "#" + toHex(config.danmuView.style.vipIcon.borderColor))
-                .replace("{{text}}", config.danmuView.style.vipIcon.text);
+                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.vipIcon.textColor))
+                .replace("{{backgroundColor}}", "#" + toHex(config.internalViewConfig.style.vipIcon.backgroundColor))
+                .replace("{{borderColor}}", "#" + toHex(config.internalViewConfig.style.vipIcon.borderColor))
+                .replace("{{text}}", config.internalViewConfig.style.vipIcon.text);
         String sVipIconHTML = sVipIconTemplate
-                .replace("{{textColor}}", "#" + toHex(config.danmuView.style.sVipIcon.textColor))
-                .replace("{{backgroundColor}}", "#" + toHex(config.danmuView.style.sVipIcon.backgroundColor))
-                .replace("{{borderColor}}", "#" + toHex(config.danmuView.style.sVipIcon.borderColor))
-                .replace("{{text}}", config.danmuView.style.sVipIcon.text);
+                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.sVipIcon.textColor))
+                .replace("{{backgroundColor}}", "#" + toHex(config.internalViewConfig.style.sVipIcon.backgroundColor))
+                .replace("{{borderColor}}", "#" + toHex(config.internalViewConfig.style.sVipIcon.borderColor))
+                .replace("{{text}}", config.internalViewConfig.style.sVipIcon.text);
         String adminIconHTML = adminIconTemplate
-                .replace("{{textColor}}", "#" + toHex(config.danmuView.style.adminIcon.textColor))
-                .replace("{{backgroundColor}}", "#" + toHex(config.danmuView.style.adminIcon.backgroundColor))
-                .replace("{{borderColor}}", "#" + toHex(config.danmuView.style.adminIcon.borderColor))
-                .replace("{{text}}", config.danmuView.style.adminIcon.text);
+                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.adminIcon.textColor))
+                .replace("{{backgroundColor}}", "#" + toHex(config.internalViewConfig.style.adminIcon.backgroundColor))
+                .replace("{{borderColor}}", "#" + toHex(config.internalViewConfig.style.adminIcon.borderColor))
+                .replace("{{text}}", config.internalViewConfig.style.adminIcon.text);
         String userNameHTML = userNameTemplate
-                .replace("{{textColor}}", "#" + toHex(config.danmuView.style.userName.textColor))
+                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.userName.textColor))
                 .replace("{{userName}}", userName);
 
         return fansMedalHTML +

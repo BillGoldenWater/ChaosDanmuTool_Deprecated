@@ -48,9 +48,9 @@ public class DanmuViewController {
                 "-fx-text-fill: transparent;");
         btnReload.setStyle(btnClose.getStyle());
         btnClose.setLayoutX(0);
-        btnClose.setLayoutY(config.danmuView.height - 26);
+        btnClose.setLayoutY(config.internalBrowser.height - 26);
         btnReload.setLayoutX(25);
-        btnReload.setLayoutY(config.danmuView.height - 26);
+        btnReload.setLayoutY(config.internalBrowser.height - 26);
         btnClose.setOnMouseExited((mouseEvent) -> btnClose.setStyle("-fx-background-color: transparent; " +
                 "-fx-border-color: transparent;" +
                 "-fx-text-fill: transparent;"));
@@ -129,15 +129,15 @@ public class DanmuViewController {
 
     private void loadPosition(Config config) {
         logger.debug("[DanmuView] Loading position.");
-        if (config.danmuView.posX != 0) thisStage.setX(config.danmuView.posX);
-        if (config.danmuView.posY != 0) thisStage.setY(config.danmuView.posY);
+        if (config.internalBrowser.posX != 0) thisStage.setX(config.internalBrowser.posX);
+        if (config.internalBrowser.posY != 0) thisStage.setY(config.internalBrowser.posY);
         logger.debug("[DanmuView] Position loaded.");
     }
 
     private void savePosition(Config config) {
         logger.debug("[DanmuView] Saving position.");
-        config.danmuView.posX = thisStage.getX();
-        config.danmuView.posY = thisStage.getY();
+        config.internalBrowser.posX = thisStage.getX();
+        config.internalBrowser.posY = thisStage.getY();
         logger.debug("[DanmuView] Position saved.");
     }
 

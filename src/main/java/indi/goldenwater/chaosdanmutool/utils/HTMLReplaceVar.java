@@ -18,13 +18,13 @@ public class HTMLReplaceVar {
                 .replace("/*start-actual-use*//*", "")
                 .replace("/*end-actual-use*/", "");
 
-        html = html.replace("{{port}}", String.valueOf(config.danmuView.webSocketServer.port))
-                .replace("{{maxListNumber}}", String.valueOf(config.danmuView.maxDanmuNumber))
-                .replace("{{outerMargin}}", config.danmuView.style.outerMargin + "px")
-                .replace("{{backgroundColorRed}}", String.valueOf(config.danmuView.style.backgroundColor.red))
-                .replace("{{backgroundColorGreen}}", String.valueOf(config.danmuView.style.backgroundColor.green))
-                .replace("{{backgroundColorBlue}}", String.valueOf(config.danmuView.style.backgroundColor.blue))
-                .replace("{{backgroundColorAlpha}}", String.valueOf(config.danmuView.style.backgroundColor.alpha));
+        html = html.replace("{{port}}", String.valueOf(config.internalBrowser.webSocketServer.port))
+                .replace("{{maxListNumber}}", String.valueOf(config.internalViewConfig.maxDanmuNumber))
+                .replace("{{outerMargin}}", config.internalViewConfig.style.outerMargin + "px")
+                .replace("{{backgroundColorRed}}", String.valueOf(config.internalViewConfig.style.backgroundColor.red))
+                .replace("{{backgroundColorGreen}}", String.valueOf(config.internalViewConfig.style.backgroundColor.green))
+                .replace("{{backgroundColorBlue}}", String.valueOf(config.internalViewConfig.style.backgroundColor.blue))
+                .replace("{{backgroundColorAlpha}}", String.valueOf(config.internalViewConfig.style.backgroundColor.alpha));
 
         return html;
     }

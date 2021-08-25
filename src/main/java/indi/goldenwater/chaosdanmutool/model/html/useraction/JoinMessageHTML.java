@@ -20,7 +20,7 @@ public class JoinMessageHTML {
                 false,
                 interactWord.uname);
         String joinMessage = joinMessageTemplate
-                .replace("{{textColor}}", "#" + toHex(config.danmuView.style.danmuContent.textColor))
+                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.danmuContent.textColor))
                 .replace("{{content}}", "进入了直播间");
         return userInfoHTML + joinMessage;
     }

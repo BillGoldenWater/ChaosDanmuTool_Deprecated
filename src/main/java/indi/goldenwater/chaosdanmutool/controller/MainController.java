@@ -118,7 +118,7 @@ public class MainController {
 
         Parent root = FXMLLoader.load(fxml);
 
-        danmuView.setScene(new Scene(root, config.danmuView.width, config.danmuView.height, Color.TRANSPARENT));
+        danmuView.setScene(new Scene(root, config.internalBrowser.width, config.internalBrowser.height, Color.TRANSPARENT));
 //        danmuView.initStyle(StageStyle.UNDECORATED);
         danmuView.initStyle(StageStyle.TRANSPARENT);
         danmuView.setAlwaysOnTop(true);
@@ -129,7 +129,7 @@ public class MainController {
 
     private void startServer(Config config) throws Exception {
         logger.debug("Starting server.");
-        new DanmuServer(config.danmuView.webSocketServer.port).start();
+        new DanmuServer(config.internalBrowser.webSocketServer.port).start();
         new DanmuReceiver(config.danmuReceiver.serverUrl,
                 config.danmuReceiver.heartBeatPeriod,
                 config.danmuReceiver.roomid).connect();

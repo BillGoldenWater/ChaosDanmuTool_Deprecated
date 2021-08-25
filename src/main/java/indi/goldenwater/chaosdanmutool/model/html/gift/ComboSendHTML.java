@@ -33,7 +33,7 @@ public class ComboSendHTML extends DanmuItemHTML {
                 comboSend.uname);
 
         String comboSendHTML = comboSendTemplate
-                .replace("{{textColor}}", "#" + toHex(config.danmuView.style.danmuContent.textColor))
+                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.danmuContent.textColor))
                 .replace("{{giftNameColor}}", giftNameColor)
                 .replace("{{action}}", comboSend.action)
                 .replace("{{gift_name}}", comboSend.gift_name)
