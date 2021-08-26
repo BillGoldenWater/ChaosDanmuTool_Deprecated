@@ -38,41 +38,41 @@ public class Config {
         public AdminIconStyle adminIcon;
         public UserNameStyle userName;
         public DanmuContentStyle danmuContent;
-    }
 
-    public static class Color {
-        public int red;
-        public int green;
-        public int blue;
-        public double alpha;
-    }
+        public static class Color {
+            public int red;
+            public int green;
+            public int blue;
+            public double alpha;
+        }
 
-    public static class VipIconStyle {
-        public String text;
-        public int textColor;
-        public int backgroundColor;
-        public int borderColor;
-    }
+        public static class VipIconStyle {
+            public String text;
+            public int textColor;
+            public int backgroundColor;
+            public int borderColor;
+        }
 
-    public static class SVipIconStyle {
-        public String text;
-        public int textColor;
-        public int backgroundColor;
-        public int borderColor;
-    }
+        public static class SVipIconStyle {
+            public String text;
+            public int textColor;
+            public int backgroundColor;
+            public int borderColor;
+        }
 
-    public static class AdminIconStyle {
-        public String text;
-        public int textColor;
-        public int backgroundColor;
-        public int borderColor;
-    }
+        public static class AdminIconStyle {
+            public String text;
+            public int textColor;
+            public int backgroundColor;
+            public int borderColor;
+        }
 
-    public static class UserNameStyle {
-        public int textColor;
-    }
+        public static class UserNameStyle {
+            public int textColor;
+        }
 
-    public static class DanmuContentStyle {
-        public int textColor;
+        public static class DanmuContentStyle {
+            public int textColor;
+        }
     }
 }
