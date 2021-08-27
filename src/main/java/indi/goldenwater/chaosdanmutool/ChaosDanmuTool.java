@@ -23,7 +23,7 @@ public class ChaosDanmuTool extends Application {
 
     private static final File config = new File("./config.json");
     private static final ConfigManager<Config> configManager =
-            new ConfigManager<>("/config.json", config, Config.class);
+            new ConfigManager<>(Config.getDefault(), config, Config.class);
 
     private StageManager stageManager;
 

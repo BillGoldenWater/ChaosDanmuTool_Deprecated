@@ -6,6 +6,7 @@
     <title>Chaos Danmu Tool</title>
     <script>
         let internal = false;
+        let maxListNumber = 100;
 
         function formatNumber(number) {
             /* need add to config */
@@ -43,12 +44,7 @@
             const list = danmuList.children;
 
             if (list.length >= 1) {
-                /*start-actual-use*//*
-                while (list.length - 1 > parseInt("{{maxListNumber}}")) { // 100 {{maxListNumber}}
-                /*end-actual-use*/
-                /*start-for-coding*/
-                while (list.length - 1 > parseInt("100")) { // 100 {{maxListNumber}}
-                    /*end-for-coding*/
+                while (list.length - 1 > maxListNumber) { // 100 {{maxListNumber}}
                     danmuList.children.item(0).remove();
                 }
 
@@ -64,8 +60,13 @@
             }
         }
 
-        function hideStatusBar() {
-            document.getElementById("status-display").style.display = "none";
+        function setStatusBar(show) {
+            let element = document.getElementById("status-bar");
+            if (!show)
+                element.style.display = "none";
+            else {
+                element.style.display = "";
+            }
         }
 
         function playJoinMessageAnime() {
@@ -102,8 +103,32 @@
             document.getElementById("status-fans-num").innerText = "粉丝数: " + formatNumber(fansNum);
         }
 
+        function updateConfig(configJson) {
+            const config = JSON.parse(configJson);
+
+            const viewConfig = config[(internal ? "internal" : "other") + "ViewConfig"];
+            if (viewConfig == null) return;
+
+            setStatusBar(viewConfig["statusBarDisplay"]);
+            maxListNumber = viewConfig["maxDanmuNumber"];
+
+            const style = viewConfig["style"];
+            if (style == null) return;
+
+            getStyle("body").style.backgroundColor = style["backgroundColor"];
+            getStyle("body").style.margin = style["bodyMargin"] + "px";
+            getStyle("body").style.zoom = style["zoom"];
+            getStyle("body").style.fontFamily = style["font"];
+            getStyle("body").style.fontWeight = style["fontWeight"];
+            getStyle(".danmu-list").style.margin = style["listMargin"] + "px";
+        }
+
         window.onresize = clearAndScroll;
         window.onload = function () {
+            if (window.location.href === "about:blank") {
+                internal = true;
+            }
+
             /*start-actual-use*//*
             appendSpaceHolder(100)
             /*end-actual-use*/
@@ -111,8 +136,10 @@
             appendSpaceHolder(1)
             /*end-for-coding*/
 
+            updateStatusBarDisplay("status");
+
             /*start-actual-use*//*
-            const ws = new WebSocket("ws://localhost:{{port}}"); // 25555 {{port}}
+            const ws = new WebSocket("ws://localhost:{{port}}");
             /*end-actual-use*/
             /*start-for-coding*/
             const ws = new WebSocket("ws://localhost:25555");
@@ -121,35 +148,17 @@
                 eval(event.data);
                 clearAndScroll();
             };
-            updateStatusBarDisplay("status");
-            if (window.location.href === "about:blank") {
-                internal = true;
-            }
         }
 
     </script>
     <style name="global">
-        /*start-actual-use*//*
-        body {
-            margin: {{outerMargin}};
-            background-color: rgba({{backgroundColorRed}}, {{backgroundColorGreen}}, {{backgroundColorBlue}}, {{backgroundColorAlpha}});
-        }
-        /*end-actual-use*/
-        /*start-for-coding*/
-        body {
-            margin: 5px;
-            background-color: rgba(59, 59, 59, 0.3);
-            /*max-width: 300px;*/
-            zoom: 1.5;
-        }
-
-        /*end-for-coding*/
-
         body {
             padding: 0;
             overflow: hidden;
-            font-family: "Microsoft YaHei", serif;
-            font-weight: bold;
+            font-weight: 400;
+            margin: 5px;
+            background-color: #000000FF;
+            zoom: 1.5;
         }
 
         body:hover {

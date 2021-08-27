@@ -4,8 +4,6 @@ import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
 import indi.goldenwater.chaosdanmutool.config.Config;
 import indi.goldenwater.chaosdanmutool.model.danmu.FansMedal;
 
-import static indi.goldenwater.chaosdanmutool.utils.IntColorToHex.toHex;
-
 public class UserInfoHTML extends FansMedalHTML {
     private static final String vipIconTemplate =
             "<div class=\"vip-icon\" style=\"color: {{textColor}}; " +
@@ -27,22 +25,22 @@ public class UserInfoHTML extends FansMedalHTML {
 
         String fansMedalHTML = (fansMedal != null && fansMedal.is_lighted == 1) ? parse(fansMedal) : "";
         String vipIconHTML = vipIconTemplate
-                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.vipIcon.textColor))
-                .replace("{{backgroundColor}}", "#" + toHex(config.internalViewConfig.style.vipIcon.backgroundColor))
-                .replace("{{borderColor}}", "#" + toHex(config.internalViewConfig.style.vipIcon.borderColor))
+                .replace("{{textColor}}", config.internalViewConfig.style.vipIcon.textColor)
+                .replace("{{backgroundColor}}", config.internalViewConfig.style.vipIcon.backgroundColor)
+                .replace("{{borderColor}}", config.internalViewConfig.style.vipIcon.borderColor)
                 .replace("{{text}}", config.internalViewConfig.style.vipIcon.text);
         String sVipIconHTML = sVipIconTemplate
-                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.sVipIcon.textColor))
-                .replace("{{backgroundColor}}", "#" + toHex(config.internalViewConfig.style.sVipIcon.backgroundColor))
-                .replace("{{borderColor}}", "#" + toHex(config.internalViewConfig.style.sVipIcon.borderColor))
+                .replace("{{textColor}}", config.internalViewConfig.style.sVipIcon.textColor)
+                .replace("{{backgroundColor}}", config.internalViewConfig.style.sVipIcon.backgroundColor)
+                .replace("{{borderColor}}", config.internalViewConfig.style.sVipIcon.borderColor)
                 .replace("{{text}}", config.internalViewConfig.style.sVipIcon.text);
         String adminIconHTML = adminIconTemplate
-                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.adminIcon.textColor))
-                .replace("{{backgroundColor}}", "#" + toHex(config.internalViewConfig.style.adminIcon.backgroundColor))
-                .replace("{{borderColor}}", "#" + toHex(config.internalViewConfig.style.adminIcon.borderColor))
+                .replace("{{textColor}}", config.internalViewConfig.style.adminIcon.textColor)
+                .replace("{{backgroundColor}}", config.internalViewConfig.style.adminIcon.backgroundColor)
+                .replace("{{borderColor}}", config.internalViewConfig.style.adminIcon.borderColor)
                 .replace("{{text}}", config.internalViewConfig.style.adminIcon.text);
         String userNameHTML = userNameTemplate
-                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.userName.textColor))
+                .replace("{{textColor}}", config.internalViewConfig.style.userName.textColor)
                 .replace("{{userName}}", userName);
 
         return fansMedalHTML +

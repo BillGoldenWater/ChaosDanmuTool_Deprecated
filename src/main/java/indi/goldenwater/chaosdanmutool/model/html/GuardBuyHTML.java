@@ -5,8 +5,6 @@ import indi.goldenwater.chaosdanmutool.config.Config;
 import indi.goldenwater.chaosdanmutool.model.GiftDataList;
 import indi.goldenwater.chaosdanmutool.model.danmu.GuardBuy;
 
-import static indi.goldenwater.chaosdanmutool.utils.IntColorToHex.toHex;
-
 public class GuardBuyHTML extends DanmuItemHTML {
     private static final String guardBuyTemplate = "" +
             "<span style=\"color: {{textColor}}\"> 购买了<span style=\"color: {{giftNameColor}};\"> {{gift_name}} </span>" +
@@ -25,7 +23,7 @@ public class GuardBuyHTML extends DanmuItemHTML {
                 guardBuy.username);
 
         String guardBuyHTML = guardBuyTemplate
-                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.danmuContent.textColor))
+                .replace("{{textColor}}", config.internalViewConfig.style.danmuContent.textColor)
                 .replace("{{giftNameColor}}", "#ffff00")
                 .replace("{{gift_name}}", guardBuy.gift_name != null ? guardBuy.gift_name : "未知")
                 .replace("{{gift_icon_url}}", giftData.img_basic)

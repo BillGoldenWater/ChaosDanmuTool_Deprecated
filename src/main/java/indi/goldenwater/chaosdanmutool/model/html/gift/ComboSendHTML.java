@@ -7,8 +7,6 @@ import indi.goldenwater.chaosdanmutool.model.danmu.gift.ComboSend;
 import indi.goldenwater.chaosdanmutool.model.html.DanmuItemHTML;
 import indi.goldenwater.chaosdanmutool.model.html.UserInfoHTML;
 
-import static indi.goldenwater.chaosdanmutool.utils.IntColorToHex.toHex;
-
 public class ComboSendHTML extends DanmuItemHTML {
     private static final String comboSendTemplate = "" +
             "<span style=\"color: {{textColor}}\"> {{action}}<span style=\"color: {{giftNameColor}};\"> {{gift_name}} </span>" +
@@ -33,7 +31,7 @@ public class ComboSendHTML extends DanmuItemHTML {
                 comboSend.uname);
 
         String comboSendHTML = comboSendTemplate
-                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.danmuContent.textColor))
+                .replace("{{textColor}}", config.internalViewConfig.style.danmuContent.textColor)
                 .replace("{{giftNameColor}}", giftNameColor)
                 .replace("{{action}}", comboSend.action)
                 .replace("{{gift_name}}", comboSend.gift_name)

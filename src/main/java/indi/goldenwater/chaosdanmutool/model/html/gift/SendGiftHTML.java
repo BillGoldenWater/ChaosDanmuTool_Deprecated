@@ -7,8 +7,6 @@ import indi.goldenwater.chaosdanmutool.model.danmu.gift.SendGift;
 import indi.goldenwater.chaosdanmutool.model.html.DanmuItemHTML;
 import indi.goldenwater.chaosdanmutool.model.html.UserInfoHTML;
 
-import static indi.goldenwater.chaosdanmutool.utils.IntColorToHex.toHex;
-
 public class SendGiftHTML extends DanmuItemHTML {
     private static final String sendGiftTemplate = "<span style=\"color: {{textColor}}\"> {{action}} {{gift_name}} x {{gift_num}}</span>";
     private static final String comboSendTemplate = "" +
@@ -27,7 +25,7 @@ public class SendGiftHTML extends DanmuItemHTML {
                 sendGift.uname);
 
         String sendGiftHTML = sendGiftTemplate
-                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.danmuContent.textColor))
+                .replace("{{textColor}}", config.internalViewConfig.style.danmuContent.textColor)
                 .replace("{{action}}", sendGift.action)
                 .replace("{{gift_name}}", sendGift.giftName)
                 .replace("{{gift_num}}", String.valueOf(sendGift.num));
@@ -51,7 +49,7 @@ public class SendGiftHTML extends DanmuItemHTML {
                 sendGift.uname);
 
         String comboSendHTML = comboSendTemplate
-                .replace("{{textColor}}", "#" + toHex(config.internalViewConfig.style.danmuContent.textColor))
+                .replace("{{textColor}}", config.internalViewConfig.style.danmuContent.textColor)
                 .replace("{{giftNameColor}}", giftNameColor)
                 .replace("{{action}}", sendGift.action)
                 .replace("{{gift_name}}", sendGift.giftName)

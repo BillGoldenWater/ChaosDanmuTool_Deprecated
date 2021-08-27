@@ -1,6 +1,8 @@
 package indi.goldenwater.chaosdanmutool.danmu;
 
+import com.google.gson.Gson;
 import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
+import indi.goldenwater.chaosdanmutool.config.Config;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.java_websocket.WebSocket;
@@ -24,9 +26,7 @@ public class DanmuServer extends WebSocketServer {
     public void onOpen(WebSocket webSocket, ClientHandshake clientHandshake) {
         InetSocketAddress remoteAddress = webSocket.getRemoteSocketAddress();
         logger.info(String.format("[DanmuServer] Client %s connected", remoteAddress.toString()));
-        if (!ChaosDanmuTool.getConfig().internalViewConfig.statusBarDisplay) {
-            webSocket.send("hideStatusBar()");
-        }
+        updateConfig(ChaosDanmuTool.getConfig());
     }
 
     @Override
@@ -48,6 +48,13 @@ public class DanmuServer extends WebSocketServer {
     @Override
     public void onStart() {
 
+    }
+
+    public void updateConfig(Config config) {
+        broadcast(
+                String.format("updateConfig(\"%s\");",
+                        new Gson().toJson(config).replace("\"", "\\\"")
+                ));
     }
 
     public static DanmuServer getInstance() {
