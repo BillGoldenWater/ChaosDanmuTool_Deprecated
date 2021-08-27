@@ -20,6 +20,24 @@
             }
         }
 
+        function getStyle(selectorText) {
+            for (const styleSheet of document.styleSheets) {
+                let rules;
+                if (!(rules = styleSheet.cssRules)) {
+                    rules = styleSheet.rules;
+                }
+
+                for (const rule of rules) {
+                    if (rule instanceof CSSStyleRule) {
+                        if (selectorText === rule.selectorText) {
+                            return rule;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
         function clearAndScroll() {
             const danmuList = document.getElementById("danmu-list");
             const list = danmuList.children;
