@@ -56,7 +56,7 @@ public class Config {
         config.internalViewConfig.style.danmuContent.textColor = "#FFFFFF";
 
         config.otherViewConfig = gson.fromJson(gson.toJson(config.internalViewConfig), DanmuViewConfig.class);
-        config.otherViewConfig.style.backgroundColor = "#0000004C";
+        config.otherViewConfig.style.backgroundColor = "#000000AA";
 
         return config;
     }
