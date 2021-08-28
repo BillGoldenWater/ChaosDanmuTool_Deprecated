@@ -72,15 +72,11 @@
 
         function playJoinMessageAnime() {
             document.getElementById("status-display").className = "status-item";
-            window.requestAnimationFrame(function (time) {
-                window.requestAnimationFrame(function (time) {
-                    document.getElementById("status-display").className = "status-item status-display";
-                });
+            window.requestAnimationFrame(function () {
+                document.getElementById("status-display").className = "status-item status-display";
             });
-            window.webkitRequestAnimationFrame(function (time) {
-                window.webkitRequestAnimationFrame(function (time) {
-                    document.getElementById("status-display").className = "status-item status-display";
-                });
+            window.webkitRequestAnimationFrame(function () {
+                document.getElementById("status-display").className = "status-item status-display";
             });
         }
 
