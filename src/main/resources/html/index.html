@@ -104,9 +104,7 @@
                 (formatFansNum ? formatNumber(fansNum) : fansNum);
         }
 
-        function updateConfig(configJson) {
-            const config = JSON.parse(configJson);
-
+        function updateConfig(config) {
             const viewConfig = config[(internal ? "internal" : "other") + "ViewConfig"];
             if (viewConfig == null) return;
 
@@ -133,10 +131,10 @@
             }
 
             /*start-actual-use*//*
-            appendSpaceHolder(100)
+            appendSpaceHolder(100);
             /*end-actual-use*/
             /*start-for-coding*/
-            appendSpaceHolder(1)
+            appendSpaceHolder(1);
             /*end-for-coding*/
 
             updateStatusBarDisplay("status");

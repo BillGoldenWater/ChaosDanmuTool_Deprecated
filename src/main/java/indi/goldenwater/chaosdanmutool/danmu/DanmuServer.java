@@ -51,10 +51,7 @@ public class DanmuServer extends WebSocketServer {
     }
 
     public void updateConfig(Config config) {
-        broadcast(
-                String.format("updateConfig(\"%s\");",
-                        new Gson().toJson(config).replace("\"", "\\\"")
-                ));
+        broadcast(String.format("updateConfig(%s);", new Gson().toJson(config)));
     }
 
     public static DanmuServer getInstance() {
