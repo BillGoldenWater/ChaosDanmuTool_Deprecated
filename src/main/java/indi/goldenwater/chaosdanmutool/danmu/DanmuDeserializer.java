@@ -64,6 +64,7 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
                         tempMedalInfo.medal_color_border = medalInfo.get(7).getAsInt();
                         tempMedalInfo.medal_color_start = medalInfo.get(8).getAsInt();
                         tempMedalInfo.medal_color_end = medalInfo.get(9).getAsInt();
+                        tempMedalInfo.guard_level = medalInfo.get(10).getAsInt();
                         tempMedalInfo.is_lighted = medalInfo.get(11).getAsInt();
                     }
 
