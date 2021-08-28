@@ -75,9 +75,6 @@
             window.requestAnimationFrame(function () {
                 document.getElementById("status-display").className = "status-item status-display";
             });
-            window.webkitRequestAnimationFrame(function () {
-                document.getElementById("status-display").className = "status-item status-display";
-            });
         }
 
         function updateStatusBarDisplay(html) {
@@ -230,22 +227,11 @@
             }
         }
 
-        @-webkit-keyframes danmuItem {
-            0% {
-                background-color: rgba(0, 0, 0, 0.5);
-            }
-            100% {
-                background-color: rgba(0, 0, 0, 0);
-            }
-        }
-
         .danmu-item {
             margin-top: 5px;
             word-break: break-all; /* need add to config "break-word or break-all" */
             animation-name: danmuItem;
             animation-duration: 4s;
-            -webkit-animation-name: danmuItem;
-            -webkit-animation-duration: 4s;
         }
 
         .superChat-top {
@@ -305,21 +291,8 @@
             }
         }
 
-        @-webkit-keyframes status-display-anime {
-            0% {
-                opacity: 1;
-            }
-            70% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
-        }
-
         .status-display {
             animation: status-display-anime 3s;
-            -webkit-animation: status-display-anime 3s;
             overflow: hidden;
         }
 
