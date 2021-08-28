@@ -7,9 +7,10 @@
     <script>
         let internal = false;
         let maxListNumber = 100;
+        let formatActivity = true;
+        let formatFansNum = true;
 
         function formatNumber(number) {
-            /* need add to config */
             if (number <= 999) {
                 return number;
             } else if (number <= 9999) {
@@ -96,11 +97,15 @@
         }
 
         function updateActivity(activity) {
-            document.getElementById("status-activity").innerText = "人气: " + formatNumber(activity);
+            document.getElementById("status-activity").innerText =
+                "人气: " +
+                (formatActivity ? formatNumber(activity) : activity);
         }
 
         function updateFansNum(fansNum) {
-            document.getElementById("status-fans-num").innerText = "粉丝数: " + formatNumber(fansNum);
+            document.getElementById("status-fans-num").innerText =
+                "粉丝数: " +
+                (formatFansNum ? formatNumber(fansNum) : fansNum);
         }
 
         function updateConfig(configJson) {
@@ -111,6 +116,8 @@
 
             setStatusBar(viewConfig["statusBarDisplay"]);
             maxListNumber = viewConfig["maxDanmuNumber"];
+            formatActivity = viewConfig["numberFormat"]["formatActivity"];
+            formatFansNum = viewConfig["numberFormat"]["formatFansNum"];
 
             const style = viewConfig["style"];
             if (style == null) return;

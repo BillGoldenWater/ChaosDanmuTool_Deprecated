@@ -28,6 +28,9 @@ public class Config {
         config.internalViewConfig = new DanmuViewConfig();
         config.internalViewConfig.statusBarDisplay = true;
         config.internalViewConfig.maxDanmuNumber = 100;
+        config.internalViewConfig.numberFormat = new NumberFormatConfig();
+        config.internalViewConfig.numberFormat.formatActivity = true;
+        config.internalViewConfig.numberFormat.formatFansNum = true;
         config.internalViewConfig.style = new DanmuViewStyleConfig();
         config.internalViewConfig.style.bodyMargin = 0;
         config.internalViewConfig.style.listMargin = 5;
@@ -57,6 +60,8 @@ public class Config {
 
         config.otherViewConfig = gson.fromJson(gson.toJson(config.internalViewConfig), DanmuViewConfig.class);
         config.otherViewConfig.style.backgroundColor = "#000000AA";
+        config.otherViewConfig.numberFormat.formatActivity = false;
+        config.otherViewConfig.numberFormat.formatFansNum = false;
 
         return config;
     }
@@ -82,7 +87,13 @@ public class Config {
     public static class DanmuViewConfig {
         public boolean statusBarDisplay;
         public int maxDanmuNumber;
+        public NumberFormatConfig numberFormat;
         public DanmuViewStyleConfig style;
+    }
+
+    public static class NumberFormatConfig {
+        public boolean formatActivity;
+        public boolean formatFansNum;
     }
 
     public static class DanmuViewStyleConfig {
