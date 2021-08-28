@@ -38,6 +38,8 @@ public class Config {
         config.internalViewConfig.style.zoom = 1.0;
         config.internalViewConfig.style.font = "";
         config.internalViewConfig.style.fontWeight = 400;
+        config.internalViewConfig.style.lineSpacing = 5;
+        config.internalViewConfig.style.giftIconMaxHeight = 30;
         config.internalViewConfig.style.vipIcon = new DanmuViewStyleConfig.TextIconStyle();
         config.internalViewConfig.style.vipIcon.text = "爷";
         config.internalViewConfig.style.vipIcon.textColor = "#FFFFFF";
@@ -103,6 +105,8 @@ public class Config {
         public double zoom;
         public String font;
         public int fontWeight;
+        public int lineSpacing;
+        public int giftIconMaxHeight;
         public TextIconStyle vipIcon;
         public TextIconStyle sVipIcon;
         public TextIconStyle adminIcon;

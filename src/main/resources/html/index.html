@@ -121,6 +121,9 @@
             getStyle("body").style.zoom = style["zoom"];
             getStyle("body").style.fontFamily = style["font"];
             getStyle("body").style.fontWeight = style["fontWeight"];
+            getStyle(".danmu-item").style.marginTop = style["lineSpacing"] + "px";
+            getStyle(".status-bar").style.marginTop = style["lineSpacing"] + "px";
+            getStyle(".gift-icon").style.maxHeight = style["giftIconMaxHeight"] + "px";
             getStyle(".danmu-list").style.margin = style["listMargin"] + "px";
         }
 
@@ -212,11 +215,6 @@
             padding-right: 3px;
             padding-left: 3px;
         }
-
-        .fans-medal, .vip-icon, .admin-icon {
-            position: relative;
-            top: -2px;
-        }
     </style>
     <style name="danmuList">
         .danmu-list {
@@ -288,7 +286,7 @@
             border: 1px solid rgba(0, 0, 0, 0.3);
             border-radius: 5px 5px 0 0;
             color: #FFFFFFFA;
-            margin-top: 20px;
+            margin-top: 5px;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
