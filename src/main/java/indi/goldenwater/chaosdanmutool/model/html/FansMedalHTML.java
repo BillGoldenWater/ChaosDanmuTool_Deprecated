@@ -11,6 +11,8 @@ public class FansMedalHTML {
             "<span class=\"fans-medal-level\" style=\"color: {{medal_color}}\">{{medal_level}}</span>" +
             "</div>";
 
+    //guard x
+
     public static String parse(FansMedal fansMedal) {
         return fansMedalTemplate
                 .replace("{{medal_color_border}}", "#" + toHex(fansMedal.medal_color_border))
