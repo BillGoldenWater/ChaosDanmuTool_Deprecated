@@ -63,10 +63,14 @@
 
         function setStatusBar(show) {
             let element = document.getElementById("status-bar");
-            if (!show)
-                element.style.display = "none";
-            else {
-                element.style.display = "";
+            if (!show) {
+                element.style.marginTop = "0";
+                element.style.maxHeight = "0px";
+                element.style.opacity = "0";
+            } else {
+                element.style.marginTop = "";
+                element.style.maxHeight = "";
+                element.style.opacity = "";
             }
         }
 
