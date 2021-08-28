@@ -18,5 +18,5 @@ public class DanmuMsg extends MessageCommand {
     public int userUL;
 
     public String userTitle;
-
+    public String userTitle1;
 }

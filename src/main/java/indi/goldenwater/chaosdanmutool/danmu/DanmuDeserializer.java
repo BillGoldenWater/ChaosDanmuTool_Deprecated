@@ -79,6 +79,7 @@ public class DanmuDeserializer implements JsonDeserializer<MessageCommand> {
                 if (titleInfo != null) {
                     if (!titleInfo.isEmpty()) {
                         danmuMsg.userTitle = titleInfo.get(0).getAsString();
+                        danmuMsg.userTitle1 = titleInfo.get(1).getAsString();
                     }
                 }
                 return danmuMsg;
