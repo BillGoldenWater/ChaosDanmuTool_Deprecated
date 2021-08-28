@@ -11,8 +11,6 @@ public class GuardBuyHTML extends DanmuItemHTML {
             " x {{gift_num}} {{price}}" +
             "</span>";
 
-    private static final String guardIconUrl = "https://i0.hdslb.com/bfs/activity-plat/static/20200716/1d0c5a1b042efb59f46d4ba1286c6727/icon-guard{{lvl}}.png";
-
     public static String parse(GuardBuy guardBuy) {
         final Config config = ChaosDanmuTool.getConfig();
 
@@ -26,8 +24,7 @@ public class GuardBuyHTML extends DanmuItemHTML {
                 .replace("{{textColor}}", config.internalViewConfig.style.danmuContent.textColor)
                 .replace("{{giftNameColor}}", "#ffff00")
                 .replace("{{gift_name}}", guardBuy.gift_name != null ? guardBuy.gift_name : "未知")
-                .replace("{{gift_icon_url}}", guardIconUrl
-                        .replace("{{lvl}}", String.valueOf(guardBuy.guard_level)))
+                .replace("{{gift_icon_url}}", GuardBuy.getGuardIconUrl(guardBuy.guard_level))
                 .replace("{{gift_num}}", String.valueOf(guardBuy.num))
                 .replace("{{price}}", "￥" + (guardBuy.price / 1000));
         return start.replace("class=\"danmu-item\"", "class=\"danmu-item danmu-gift\"")
