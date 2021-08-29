@@ -21,5 +21,8 @@
     <orderEntry type="library" name="Maven: org.java-websocket:Java-WebSocket:1.5.2" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-simple:1.6.6" level="project" />
+    <orderEntry type="library" name="react" level="application" />
+    <orderEntry type="library" name="react-dom" level="application" />
+    <orderEntry type="library" name="babel-standalone" level="application" />
   </component>
 </module>

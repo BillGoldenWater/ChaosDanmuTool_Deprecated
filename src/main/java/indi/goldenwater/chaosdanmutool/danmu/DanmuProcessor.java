@@ -47,6 +47,7 @@ public class DanmuProcessor {
             logger.error(jsonStr);
             return;
         }
+        logger.trace(jsonStr);
 
         if (command instanceof DanmuMsg) { // 普通弹幕
 //            logger.trace(jsonStr);
