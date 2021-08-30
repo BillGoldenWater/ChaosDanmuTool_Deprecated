@@ -17,6 +17,11 @@
         const e = React.createElement;
 
         let internal = false;
+        let commandNum = 0;
+
+        function randint(min, max) {
+            return Math.floor(Math.random() * (max - min) + min);
+        }
 
         function formatNumber(number) {
             if (number <= 999) {
@@ -30,11 +35,21 @@
             }
         }
 
+        class DanmuItem extends React.Component {
+            render() {
+                return (
+                    <div>
+
+                    </div>
+                );
+            }
+        }
+
         class DanmuList extends React.Component {
             render() {
-                this.props.danmuList.forEach((value) => {
-                    console.log(value.hash);
-                });
+                const danmuList = this.props.danmuList.map((value, index) => {
+                    return <DanmuItem/>;
+                })
                 return null;
             }
         }
@@ -42,6 +57,10 @@
         class Root extends React.Component {
             constructor() {
                 super();
+                this.state = {
+                    danmuList: [],
+                    config: {}
+                }
                 const instance = this;
 
                 if (window.location.href === "about:blank") {
@@ -57,13 +76,8 @@
                 ws.onmessage = function (event) {
                     instance.processCommand(event.data);
                 };
-            }
 
-            processCommand(command) {
-
-            }
-
-            render() {
+                /*start-for-coding*/
                 const medalInfo = {
                     "anchor_roomid": 999999999,
                     "anchor_uname": "诶嘿",
@@ -82,6 +96,109 @@
                 medalInfo.guard_level = 3;
 
                 const list = [
+                    {
+                        "cmd": "configUpdate",
+                        "config": {
+                            "danmuReceiver": {
+                                "serverUrl": "wss://broadcastlv.chat.bilibili.com/sub",
+                                "roomid": 953650,
+                                "heartBeatPeriod": 30
+                            },
+                            "internalBrowser": {
+                                "webSocketServer": {
+                                    "port": 25555
+                                },
+                                "width": 400,
+                                "height": 600,
+                                "posX": 0.0,
+                                "posY": 0.0
+                            },
+                            "internalViewConfig": {
+                                "statusBarDisplay": true,
+                                "maxDanmuNumber": 100,
+                                "numberFormat": {
+                                    "formatActivity": true,
+                                    "formatFansNum": true
+                                },
+                                "style": {
+                                    "bodyMargin": 0,
+                                    "listMargin": 5,
+                                    "backgroundColor": "#3B3B3B44",
+                                    "zoom": 1.0,
+                                    "font": "",
+                                    "fontWeight": 400,
+                                    "lineSpacing": 5,
+                                    "giftIconMaxHeight": 30,
+                                    "vipIcon": {
+                                        "text": "爷",
+                                        "backgroundColor": "#BF9C00",
+                                        "borderColor": "#A98AC7",
+                                        "textColor": "#FFFFFF"
+                                    },
+                                    "sVipIcon": {
+                                        "text": "爷",
+                                        "backgroundColor": "#BF9C00",
+                                        "borderColor": "#A98AC7",
+                                        "textColor": "#FFFFFF"
+                                    },
+                                    "adminIcon": {
+                                        "text": "房",
+                                        "backgroundColor": "#D2A25B",
+                                        "borderColor": "#DE8402",
+                                        "textColor": "#FFFFFF"
+                                    },
+                                    "userName": {
+                                        "textColor": "#00AAFF"
+                                    },
+                                    "danmuContent": {
+                                        "textColor": "#FFFFFF"
+                                    }
+                                }
+                            },
+                            "otherViewConfig": {
+                                "statusBarDisplay": true,
+                                "maxDanmuNumber": 100,
+                                "numberFormat": {
+                                    "formatActivity": false,
+                                    "formatFansNum": false
+                                },
+                                "style": {
+                                    "bodyMargin": 0,
+                                    "listMargin": 5,
+                                    "backgroundColor": "#000000AA",
+                                    "zoom": 1.0,
+                                    "font": "",
+                                    "fontWeight": 400,
+                                    "lineSpacing": 5,
+                                    "giftIconMaxHeight": 30,
+                                    "vipIcon": {
+                                        "text": "爷",
+                                        "backgroundColor": "#BF9C00",
+                                        "borderColor": "#A98AC7",
+                                        "textColor": "#FFFFFF"
+                                    },
+                                    "sVipIcon": {
+                                        "text": "爷",
+                                        "backgroundColor": "#BF9C00",
+                                        "borderColor": "#A98AC7",
+                                        "textColor": "#FFFFFF"
+                                    },
+                                    "adminIcon": {
+                                        "text": "房",
+                                        "backgroundColor": "#D2A25B",
+                                        "borderColor": "#DE8402",
+                                        "textColor": "#FFFFFF"
+                                    },
+                                    "userName": {
+                                        "textColor": "#00AAFF"
+                                    },
+                                    "danmuContent": {
+                                        "textColor": "#FFFFFF"
+                                    }
+                                }
+                            }
+                        }
+                    },
                     {
                         "cmd": "DANMU_MSG",
                         "fontsize": 25,
@@ -283,9 +400,34 @@
                         "roomid": "22551538"
                     }
                 ];
+
+                list.forEach((value => {
+                    this.processCommand(value)
+                }))
+                /*end-for-coding*/
+            }
+
+            processCommand(command) {
+                console.log(command);
+                switch (command.cmd) {
+                    case "configUpdate": {
+                        this.setState({
+                            config: command.config
+                        });
+                        break;
+                    }
+                    default: {
+                        command.uniqueKey = ++commandNum;
+                        this.state.danmuList.push(command);
+                        console.log(commandNum)
+                    }
+                }
+            }
+
+            render() {
                 return (
                     <div>
-                        <DanmuList danmuList={list}/>
+                        <DanmuList danmuList={this.state.danmuList} config={this.state.config}/>
                     </div>
                 );
             }
