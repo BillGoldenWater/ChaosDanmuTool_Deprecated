@@ -35,8 +35,9 @@
 
         class DanmuItem extends React.Component {
             render() {
+                let className = "danmu-item"
                 return (
-                    <div>
+                    <div className={className}>
 
                     </div>
                 );
@@ -45,10 +46,14 @@
 
         class DanmuList extends React.Component {
             render() {
-                const danmuList = this.props.danmuList.map((value, index) => {
-                    return <DanmuItem/>;
+                const danmuList = this.props.danmuList.map((value) => {
+                    return <DanmuItem key={value.uniqueKey}/>;
                 })
-                return null;
+                return (
+                    <div className="danmu-list">
+                        {danmuList}
+                    </div>
+                );
             }
         }
 
@@ -57,7 +62,48 @@
                 super();
                 this.state = {
                     danmuList: [],
-                    config: {}
+                    config: {
+                        "statusBarDisplay": true,
+                        "maxDanmuNumber": 100,
+                        "numberFormat": {
+                            "formatActivity": true,
+                            "formatFansNum": true
+                        },
+                        "style": {
+                            "bodyMargin": 0,
+                            "listMargin": 5,
+                            "backgroundColor": "#3B3B3B44",
+                            "zoom": 1.0,
+                            "font": "",
+                            "fontWeight": 400,
+                            "lineSpacing": 5,
+                            "giftIconMaxHeight": 30,
+                            "vipIcon": {
+                                "text": "爷",
+                                "backgroundColor": "#BF9C00",
+                                "borderColor": "#A98AC7",
+                                "textColor": "#FFFFFF"
+                            },
+                            "sVipIcon": {
+                                "text": "爷",
+                                "backgroundColor": "#BF9C00",
+                                "borderColor": "#A98AC7",
+                                "textColor": "#FFFFFF"
+                            },
+                            "adminIcon": {
+                                "text": "房",
+                                "backgroundColor": "#D2A25B",
+                                "borderColor": "#DE8402",
+                                "textColor": "#FFFFFF"
+                            },
+                            "userName": {
+                                "textColor": "#00AAFF"
+                            },
+                            "danmuContent": {
+                                "textColor": "#FFFFFF"
+                            }
+                        }
+                    }
                 }
                 const instance = this;
 
@@ -410,21 +456,28 @@
                 switch (command.cmd) {
                     case "configUpdate": {
                         this.setState({
-                            config: command.config
+                            config: (internal ? command.config.internalViewConfig : command.config.otherViewConfig)
                         });
                         break;
                     }
                     default: {
+                        let list = this.state.danmuList;
                         command.uniqueKey = ++commandNum;
-                        this.state.danmuList.push(command);
-                        console.log(commandNum)
+                        list.push(command);
+                        while ((list.length > 0) && (list.length > this.state.config.maxDanmuNumber)) {
+                            list.shift()
+                        }
+
+                        this.setState({
+                            danmuList: list
+                        })
                     }
                 }
             }
 
             render() {
                 return (
-                    <div>
+                    <div className="root">
                         <DanmuList danmuList={this.state.danmuList} config={this.state.config}/>
                     </div>
                 );
