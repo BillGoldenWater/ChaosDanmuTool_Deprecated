@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class HTMLReplaceVar {
     public static String get(Config config) throws IOException {
-        String html = ReadFileInJar.readAsString("/html/index.html");
+        String html = ReadFileInJar.readAsString("/web/index.html");
 
         if (html == null) return null;
 

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="same-origin">
+    <title>Chaos Danmu Tool</title>
+
+    <script>
+        document.write("Loading");
+    </script>
+
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+
+    <script type="text/babel">
+        const e = React.createElement;
+
+        let internal = false;
+
+        function formatNumber(number) {
+            if (number <= 999) {
+                return number;
+            } else if (number <= 9999) {
+                return (number / 1000).toFixed(1) + "千";
+            } else if (number <= 99999999) {
+                return (number / 10000).toFixed(1) + "万";
+            } else {
+                return (number / 100000000).toFixed(1) + "亿";
+            }
+        }
+
+        class DanmuList extends React.Component {
+            render() {
+                this.props.danmuList.forEach((value) => {
+                    console.log(value.hash);
+                });
+                return null;
+            }
+        }
+
+        class Root extends React.Component {
+            constructor() {
+                super();
+                const instance = this;
+
+                if (window.location.href === "about:blank") {
+                    internal = true;
+                }
+
+                /*start-actual-use*//*
+                const ws = new WebSocket("ws://localhost:{{port}}");
+                /*end-actual-use*/
+                /*start-for-coding*/
+                const ws = new WebSocket("ws://localhost:25555");
+                /*end-for-coding*/
+                ws.onmessage = function (event) {
+                    instance.processCommand(event.data);
+                };
+            }
+
+            processCommand(command) {
+
+            }
+
+            render() {
+                const medalInfo = {
+                    "anchor_roomid": 999999999,
+                    "anchor_uname": "诶嘿",
+                    "guard_level": 0,
+                    "icon_id": 0,
+                    "is_lighted": 1,
+                    "medal_color": 6126494,
+                    "medal_color_border": 6126494,
+                    "medal_color_end": 6126494,
+                    "medal_color_start": 6126494,
+                    "medal_level": 12,
+                    "medal_name": "诶嘿",
+                    "special": "",
+                    "target_id": 9999999999
+                }
+                medalInfo.guard_level = 3;
+
+                const list = [
+                    {
+                        "cmd": "DANMU_MSG",
+                        "fontsize": 25,
+                        "color": 16777215,
+                        "timestamp": 1231254885,
+
+                        "content": "message",
+
+                        "uid": 41925356,
+                        "uName": "Username",
+                        "isAdmin": 1,
+                        "isVip": 1,
+                        "isSVip": 1,
+
+                        "medalInfo": medalInfo,
+
+                        "userUL": 20,
+
+                        "userTitle": "title-438-1",
+                        "userTitle1": "title-438-1",
+                    },
+                    {
+                        "cmd": "SUPER_CHAT_MESSAGE",
+                        "background_bottom_color": "#2A60B2",
+                        "background_color": "#EDF5FF",
+                        "background_color_end": "#405D85",
+                        "background_color_start": "#3171D2",
+                        "background_icon": "",
+                        "background_image": "https://i0.hdslb.com/bfs/live/a712efa5c6ebc67bafbe8352d3e74b820a00c13e.png",
+                        "background_price_color": "#7497CD",
+                        "color_point": 0.7,
+                        "dmscore": 48,
+                        "end_time": 1628959829,
+                        "gift": {
+                            "gift_id": 12000,
+                            "gift_name": "醒目留言",
+                            "num": 1
+                        },
+                        "id": 2180493,
+                        "is_ranked": 1,
+                        "is_send_audit": "0",
+                        "medal_info": {
+                            "anchor_roomid": 904823,
+                            "anchor_uname": "Key725",
+                            "guard_level": 0,
+                            "icon_id": 0,
+                            "is_lighted": 1,
+                            "medal_color": "#be6686",
+                            "medal_color_border": 12478086,
+                            "medal_color_end": 12478086,
+                            "medal_color_start": 12478086,
+                            "medal_level": 13,
+                            "medal_name": "老Key",
+                            "special": "",
+                            "target_id": 11332884
+                        },
+                        "message": "包老师，我派派卡白金好几天了，请祝我早日单排上钻吧，那样就有人愿意陪我玩了",
+                        "message_font_color": "#A3F6FF",
+                        "message_trans": "",
+                        "price": 30,
+                        "rate": 1000,
+                        "start_time": 1628959769,
+                        "time": 60,
+                        "token": "A4C70086",
+                        "trans_mark": 0,
+                        "ts": 1628959769,
+                        "uid": 22564837,
+                        "user_info": {
+                            "face": "http://i1.hdslb.com/bfs/face/8ca5af95fb8db793203ece34a9b5d4b039536aa0.jpg",
+                            "face_frame": "",
+                            "guard_level": 0,
+                            "is_main_vip": 1,
+                            "is_svip": 0,
+                            "is_vip": 0,
+                            "level_color": "#61c05a",
+                            "manager": 0,
+                            "name_color": "#666666",
+                            "title": "0",
+                            "uname": "纪阳同学",
+                            "user_level": 12
+                        },
+                        "roomid": "7953876"
+                    }, // SUPER_CHAT_MESSAGE
+                    {
+                        "cmd": "SEND_GIFT",
+                        "action": "投喂",
+                        "batch_combo_id": "ba543138-c9de-4e45-98ad-071eba24efbb",
+                        "batch_combo_send": {
+                            "action": "投喂",
+                            "batch_combo_id": "ba543138-c9de-4e45-98ad-071eba24efbb",
+                            "batch_combo_num": 1,
+                            "blind_gift": {
+                                "blind_gift_config_id": 20,
+                                "gift_action": "爆出",
+                                "original_gift_id": 31005,
+                                "original_gift_name": "紫金宝盒"
+                            },
+                            "gift_id": 31003,
+                            "gift_name": "麦克风",
+                            "gift_num": 1,
+                            "send_master": null,
+                            "uid": 312294960,
+                            "uname": "祈愿相随の"
+                        },
+                        "beatId": "",
+                        "biz_source": "Live",
+                        "blind_gift": {
+                            "blind_gift_config_id": 20,
+                            "gift_action": "爆出",
+                            "original_gift_id": 31005,
+                            "original_gift_name": "紫金宝盒"
+                        },
+                        "broadcast_id": 0,
+                        "coin_type": "gold",
+                        "combo_resources_id": 1,
+                        "combo_send": {
+                            "action": "投喂",
+                            "combo_id": "78419810-4360-410b-b000-fbf5f2cf087e",
+                            "combo_num": 1,
+                            "gift_id": 31003,
+                            "gift_name": "麦克风",
+                            "gift_num": 1,
+                            "send_master": null,
+                            "uid": 312294960,
+                            "uname": "祈愿相随の"
+                        },
+                        "combo_stay_time": 5,
+                        "combo_total_coin": 11000,
+                        "crit_prob": 0,
+                        "demarcation": 2,
+                        "discount_price": 10000,
+                        "dmscore": 80,
+                        "draw": 0,
+                        "effect": 0,
+                        "effect_block": 0,
+                        "face": "http://i0.hdslb.com/bfs/face/f30a9401a0ea2cf90325b94f67203454e1b16b12.jpg",
+                        "giftId": 31003,
+                        "giftName": "麦克风",
+                        "giftType": 0,
+                        "gold": 0,
+                        "guard_level": 0,
+                        "is_first": true,
+                        "is_special_batch": 0,
+                        "magnification": 1,
+                        "medal_info": {
+                            "anchor_roomid": 0,
+                            "anchor_uname": "",
+                            "guard_level": 0,
+                            "icon_id": 0,
+                            "is_lighted": 1,
+                            "medal_color": 6126494,
+                            "medal_color_border": 6126494,
+                            "medal_color_end": 6126494,
+                            "medal_color_start": 6126494,
+                            "medal_level": 5,
+                            "medal_name": "布丁ya",
+                            "special": "",
+                            "target_id": 294893147
+                        },
+                        "name_color": "",
+                        "num": 1,
+                        "original_gift_name": "",
+                        "price": 11000,
+                        "rcost": 371575234,
+                        "remain": 0,
+                        "rnd": "1290338572",
+                        "send_master": null,
+                        "silver": 0,
+                        "super": 0,
+                        "super_batch_gift_num": 1,
+                        "super_gift_num": 1,
+                        "svga_block": 0,
+                        "tag_image": "",
+                        "tid": "1628269455121000001",
+                        "timestamp": 1628269455,
+                        "top_list": null,
+                        "total_coin": 10000,
+                        "uid": 312294960,
+                        "uname": "祈愿相随の"
+                    },
+                    {
+                        "cmd": "ROOM_BLOCK_MSG",
+                        "dmscore": 30,
+                        "operator": 1,
+                        "uid": 1738501816,
+                        "uname": "huuyf1041wrp",
+                    },
+                    {
+                        "cmd": "LIVE",
+                        "live_key": "164639492459629874",
+                        "voice_background": "",
+                        "sub_session_key": "164639492459629874sub_time:1628945921",
+                        "live_platform": "pc",
+                        "live_model": 0,
+                        "roomid": 953650
+                    },
+                    {
+                        "cmd": "PREPARING",
+                        "roomid": "22551538"
+                    }
+                ];
+                return (
+                    <div>
+                        <DanmuList danmuList={list}/>
+                    </div>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <Root/>,
+            document.body
+        );
+
+        document.createElement("div");
+    </script>
+</head>
+<body>
+
+</body>
+</html>
