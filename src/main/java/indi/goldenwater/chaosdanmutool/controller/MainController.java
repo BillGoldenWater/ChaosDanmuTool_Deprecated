@@ -122,6 +122,7 @@ public class MainController {
 //        danmuView.initStyle(StageStyle.UNDECORATED);
         danmuView.initStyle(StageStyle.TRANSPARENT);
         danmuView.setAlwaysOnTop(true);
+        danmuView.initOwner(thisStage);
         danmuView.show();
 
         logger.debug("Load danmu view success");
