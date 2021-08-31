@@ -1,5 +1,6 @@
 package indi.goldenwater.chaosdanmutool.controller;
 
+import com.sun.glass.ui.Window;
 import indi.goldenwater.chaosdanmutool.ChaosDanmuTool;
 import indi.goldenwater.chaosdanmutool.config.Config;
 import indi.goldenwater.chaosdanmutool.danmu.DanmuReceiver;
@@ -105,8 +106,6 @@ public class MainController {
     public void showDanmuView(Config config) throws Exception {
         logger.debug("Load danmu view");
 
-        final StageManager stageManager = ChaosDanmuTool.getInstance().getStageManager();
-
         Stage danmuView = new Stage();
         URL fxml = getClass().getResource("/scene/danmuView.fxml");
         if (fxml == null) {
@@ -114,16 +113,24 @@ public class MainController {
             return;
         }
 
+        final StageManager stageManager = ChaosDanmuTool.getInstance().getStageManager();
+        final String title = "Danmu View";
         stageManager.setStage_AutoClose("danmuView", danmuView);
 
         Parent root = FXMLLoader.load(fxml);
 
         danmuView.setScene(new Scene(root, config.internalBrowser.width, config.internalBrowser.height, Color.TRANSPARENT));
+        danmuView.setTitle(title);
 //        danmuView.initStyle(StageStyle.UNDECORATED);
         danmuView.initStyle(StageStyle.TRANSPARENT);
-        danmuView.setAlwaysOnTop(true);
+//        danmuView.setAlwaysOnTop(true);
         danmuView.initOwner(thisStage);
         danmuView.show();
+        com.sun.glass.ui.Window.getWindows().forEach(window -> {
+            if (window.getTitle().equals(title)) {
+                window.setLevel(Window.Level.TOPMOST);
+            }
+        });
 
         logger.debug("Load danmu view success");
     }
