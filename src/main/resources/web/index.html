@@ -23,9 +23,68 @@
       document.body.innerText = "";
     </script>
 
+    <style name="global">
+      body {
+        /*margin: 0;*/
+        /*padding: 0;*/
+        /*zoom: 5.3;*/
+        zoom: 2;
+        /*font-family: "HYWenHei 85W", "Microsoft YaHei", serif;*/
+      }
+    </style>
+    <style name="userInfo">
+      .user-info,
+      .user-info > div {
+        display: inline-block;
+        margin-right: 1mm;
+      }
+
+      .fans-medal > div {
+        display: inline-block;
+        border-style: solid;
+      }
+
+      .medal-name {
+        text-align: center;
+        padding-left: 1mm;
+        padding-right: 1mm;
+        border-top-width: 0.2mm;
+        border-right-width: 0;
+        border-bottom-width: 0.2mm;
+        border-left-width: 0.2mm;
+        border-radius: 1.3mm 0 0 1.3mm;
+        color: #fff;
+      }
+
+      .medal-level {
+        text-align: center;
+        min-width: 7mm;
+        border-width: 0.2mm 0.2mm 0.2mm 0;
+        border-radius: 0 1.3mm 1.3mm 0;
+        background-color: #fff;
+      }
+
+      .text-icon {
+        display: inline-block;
+      }
+    </style>
+    <style name="danmu">
+      .danmu-item {
+        display: flex;
+        margin-top: 0.3em;
+      }
+    </style>
+
     <script type="text/babel">
       const danmuItem = "danmu-item";
+      const userInfo = "user-info";
       const fansMedal = "fans-medal";
+      const medalName = "medal-name";
+      const medalLevel = "medal-level";
+      const textIcon = "text-icon";
+      const vipIcon = "icon-vip";
+      const svipIcon = "icon-svip";
+      const adminIcon = "icon-admin";
 
       let internal = false;
       let commandNum = 0;
@@ -46,32 +105,87 @@
         }
       }
 
+      function rgbI2S(num) {
+        if (typeof num === "number") {
+          return "#" + num.toString(16).padStart(6, "0");
+        } else {
+          return "#000";
+        }
+      }
+
+      function rgbaI2S(num) {
+        if (typeof num === "number") {
+          return "#" + num.toString(16).padStart(8, "0");
+        } else {
+          return "#000";
+        }
+      }
+
+      class TextIcon extends React.Component {
+        render() {
+          return (
+            <div
+              className={
+                textIcon +
+                (this.props.className ? " " + this.props.className : "")
+              }
+            >
+              {this.props.text}
+            </div>
+          );
+        }
+      }
+
       class FansMedal extends React.Component {
         render() {
-          return <div className={fansMedal}></div>;
+          const medalInfo = this.props.medalInfo;
+          return this.props.medalInfo ? (
+            <div className={fansMedal}>
+              <div
+                className={medalName}
+                style={{
+                  borderColor: rgbI2S(medalInfo.medal_color_border),
+                  backgroundImage: "linear-gradient(45deg,{0},{1})"
+                    .replace("{0}", rgbI2S(medalInfo.medal_color_start))
+                    .replace("{1}", rgbI2S(medalInfo.medal_color_end)),
+                }}
+              >
+                {this.props.medalInfo.medal_name}
+              </div>
+              <div
+                className={"medal-level"}
+                style={{
+                  borderColor: rgbI2S(medalInfo.medal_color_border),
+                  color: rgbI2S(medalInfo.medal_color),
+                }}
+              >
+                {this.props.medalInfo.medal_level}
+              </div>
+            </div>
+          ) : null;
         }
       }
 
       class UserInfo extends React.Component {
         render() {
-          const props = this.props;
-          let fansMedal = props.fansMedal != null ? {} : null;
-          return <div></div>;
+          return (
+            <div className={userInfo}>
+              <FansMedal medalInfo={this.props.medalInfo} />
+            </div>
+          );
         }
       }
 
       const DanmuMessage = {
-        UnsupportedMessage: function (props) {
+        Unsupported: function (props) {
           return (
-            <div className={danmuItem}>
-              Unsupported Message:{JSON.stringify(props.value.cmd)}
-            </div>
+            <div className={danmuItem}>不支持的消息: {props.value.cmd}</div>
           );
         },
         Danmu: function (props) {
           return (
             <div className={danmuItem}>
-              <UserInfo fansMedal={props.medalInfo} />
+              <UserInfo medalInfo={props.value.medalInfo} />
               {props.value.content}
             </div>
           );
@@ -85,9 +199,7 @@
               return <DanmuMessage.Danmu value={this.props.value} />;
             }
             default: {
-              return (
-                <DanmuMessage.UnsupportedMessage value={this.props.value} />
-              );
+              return <DanmuMessage.Unsupported value={this.props.value} />;
             }
           }
         }
@@ -157,8 +269,8 @@
           }
 
           /*start-actual-use*/ /*
-                const ws = new WebSocket("ws://localhost:{{port}}");
-                /*end-actual-use*/
+          const ws = new WebSocket("ws://localhost:{{port}}");
+          /*end-actual-use*/
           /*start-for-coding*/
           const ws = new WebSocket("ws://localhost:25555");
           /*end-for-coding*/
@@ -167,17 +279,17 @@
           };
 
           /*start-for-coding*/
-          window.onload = function (event) {
+          window.onload = function () {
             const medalInfo = {
               anchor_roomid: 999999999,
               anchor_uname: "诶嘿",
               guard_level: 0,
               icon_id: 0,
               is_lighted: 1,
-              medal_color: 6126494,
-              medal_color_border: 6126494,
-              medal_color_end: 6126494,
-              medal_color_start: 6126494,
+              medal_color: 1725515,
+              medal_color_border: 6809855,
+              medal_color_end: 1725515,
+              medal_color_start: 5414290,
               medal_level: 12,
               medal_name: "诶嘿",
               special: "",
@@ -359,7 +471,7 @@
                 ts: 1628959769,
                 uid: 22564837,
                 user_info: {
-                  face: "http://i1.hdslb.com/bfs/face/8ca5af95fb8db793203ece34a9b5d4b039536aa0.jpg",
+                  face: "https://i1.hdslb.com/bfs/face/8ca5af95fb8db793203ece34a9b5d4b039536aa0.jpg",
                   face_frame: "",
                   guard_level: 0,
                   is_main_vip: 1,
@@ -426,7 +538,7 @@
                 draw: 0,
                 effect: 0,
                 effect_block: 0,
-                face: "http://i0.hdslb.com/bfs/face/f30a9401a0ea2cf90325b94f67203454e1b16b12.jpg",
+                face: "https://i0.hdslb.com/bfs/face/f30a9401a0ea2cf90325b94f67203454e1b16b12.jpg",
                 giftId: 31003,
                 giftName: "麦克风",
                 giftType: 0,
@@ -545,17 +657,6 @@
 
       document.createElement("div");
     </script>
-
-    <style name="global"></style>
-    <style name="userInfo">
-      .fans-medal {
-      }
-    </style>
-    <style name="danmu">
-      .danmu-item {
-        margin-top: 5px;
-      }
-    </style>
   </head>
   <body>
     <div id="main"></div>
