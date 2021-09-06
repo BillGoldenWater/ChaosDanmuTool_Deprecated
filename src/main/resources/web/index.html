@@ -27,9 +27,9 @@
       body {
         margin: 0;
         padding: 0;
-        /*zoom: 11;*/
+        /*zoom: 10;*/
         zoom: 2;
-        font-size: 1cm;
+        /*font-size: 1cm;*/
         /*font-family: "Monospaced", serif;*/
       }
     </style>
@@ -67,6 +67,13 @@
         border-width: 0.05em 0.05em 0.05em 0;
         border-radius: 0 0.4em 0.4em 0;
         background-color: #fff;
+      }
+
+      .text-icon {
+        border-width: 0.05em;
+        border-style: solid;
+        border-radius: 0.3em;
+        padding: 0 0.2em 0 0.2em;
       }
     </style>
     <style name="danmu">
@@ -118,13 +125,60 @@
         render() {
           return (
             <div
-              className={
-                "text-icon" +
-                (this.props.className ? " " + this.props.className : "")
-              }
+              className={"text-icon"}
+              style={{
+                color: this.props.color,
+                backgroundColor: this.props.backgroundColor,
+                borderColor: this.props.borderColor,
+              }}
             >
               {this.props.text}
             </div>
+          );
+        }
+      }
+
+      class AdminIcon extends React.Component {
+        render() {
+          let iconStyle = this.props.config.style.adminIcon;
+          return (
+            <TextIcon
+              className={"admin-icon"}
+              text={iconStyle.text}
+              color={iconStyle.textColor}
+              backgroundColor={iconStyle.backgroundColor}
+              borderColor={iconStyle.borderColor}
+            />
+          );
+        }
+      }
+
+      class VipIcon extends React.Component {
+        render() {
+          let iconStyle = this.props.config.style.vipIcon;
+          return (
+            <TextIcon
+              className={"vip-icon"}
+              text={iconStyle.text}
+              color={iconStyle.textColor}
+              backgroundColor={iconStyle.backgroundColor}
+              borderColor={iconStyle.borderColor}
+            />
+          );
+        }
+      }
+
+      class SVipIcon extends React.Component {
+        render() {
+          let iconStyle = this.props.config.style.sVipIcon;
+          return (
+            <TextIcon
+              className={"svip-icon"}
+              text={iconStyle.text}
+              color={iconStyle.textColor}
+              backgroundColor={iconStyle.backgroundColor}
+              borderColor={iconStyle.borderColor}
+            />
           );
         }
       }
@@ -164,6 +218,9 @@
           return (
             <div className={"user-info"}>
               <FansMedal medalInfo={this.props.medalInfo} />
+              {this.props.admin && <AdminIcon config={this.props.config} />}
+              {this.props.vip && <VipIcon config={this.props.config} />}
+              {this.props.svip && <SVipIcon config={this.props.config} />}
             </div>
           );
         }
@@ -178,7 +235,13 @@
         Danmu: function (props) {
           return (
             <div className={"danmu-item"}>
-              <UserInfo medalInfo={props.value.medalInfo} />
+              <UserInfo
+                config={props.config}
+                medalInfo={props.value.medalInfo}
+                admin={props.value.isAdmin}
+                vip={props.value.isVip}
+                svip={props.value.isSVip}
+              />
               <div>{props.value.content}</div>
             </div>
           );
@@ -189,7 +252,12 @@
         render() {
           switch (this.props.value.cmd) {
             case "DANMU_MSG": {
-              return <DanmuMessage.Danmu value={this.props.value} />;
+              return (
+                <DanmuMessage.Danmu
+                  config={this.props.config}
+                  value={this.props.value}
+                />
+              );
             }
             default: {
               return <DanmuMessage.Unsupported value={this.props.value} />;
@@ -201,7 +269,13 @@
       class DanmuList extends React.Component {
         render() {
           const danmuList = this.props.danmuList.map((value) => {
-            return <DanmuItem key={value.uniqueKey} value={value} />;
+            return (
+              <DanmuItem
+                key={value.uniqueKey}
+                config={this.props.config}
+                value={value}
+              />
+            );
           });
           return <div className="danmu-list">{danmuList}</div>;
         }
@@ -230,14 +304,14 @@
                 giftIconMaxHeight: 30,
                 vipIcon: {
                   text: "爷",
-                  backgroundColor: "#BF9C00",
-                  borderColor: "#A98AC7",
+                  backgroundColor: "#DC6385",
+                  borderColor: "#BC5573",
                   textColor: "#FFFFFF",
                 },
                 sVipIcon: {
                   text: "爷",
-                  backgroundColor: "#BF9C00",
-                  borderColor: "#A98AC7",
+                  backgroundColor: "#FFCC00",
+                  borderColor: "#DE8402",
                   textColor: "#FFFFFF",
                 },
                 adminIcon: {
@@ -262,8 +336,8 @@
           }
 
           /*start-actual-use*/ /*
-          const ws = new WebSocket("ws://localhost:{{port}}");
-          /*end-actual-use*/
+            const ws = new WebSocket("ws://localhost:{{port}}");
+            /*end-actual-use*/
           /*start-for-coding*/
           const ws = new WebSocket("ws://localhost:25555");
           /*end-for-coding*/
@@ -326,14 +400,14 @@
                       giftIconMaxHeight: 30,
                       vipIcon: {
                         text: "爷",
-                        backgroundColor: "#BF9C00",
-                        borderColor: "#A98AC7",
+                        backgroundColor: "#DC6385",
+                        borderColor: "#BC5573",
                         textColor: "#FFFFFF",
                       },
                       sVipIcon: {
                         text: "爷",
-                        backgroundColor: "#BF9C00",
-                        borderColor: "#A98AC7",
+                        backgroundColor: "#FFCC00",
+                        borderColor: "#DE8402",
                         textColor: "#FFFFFF",
                       },
                       adminIcon: {
@@ -368,14 +442,14 @@
                       giftIconMaxHeight: 30,
                       vipIcon: {
                         text: "爷",
-                        backgroundColor: "#BF9C00",
-                        borderColor: "#A98AC7",
+                        backgroundColor: "#DC6385",
+                        borderColor: "#BC5573",
                         textColor: "#FFFFFF",
                       },
                       sVipIcon: {
                         text: "爷",
-                        backgroundColor: "#BF9C00",
-                        borderColor: "#A98AC7",
+                        backgroundColor: "#FFCC00",
+                        borderColor: "#DE8402",
                         textColor: "#FFFFFF",
                       },
                       adminIcon: {
@@ -638,8 +712,8 @@
           return (
             <div className="root">
               <DanmuList
-                danmuList={this.state.danmuList}
                 config={this.state.config}
+                danmuList={this.state.danmuList}
               />
             </div>
           );
