@@ -43,13 +43,13 @@ public class Config {
         config.internalViewConfig.style.vipIcon = new DanmuViewStyleConfig.TextIconStyle();
         config.internalViewConfig.style.vipIcon.text = "爷";
         config.internalViewConfig.style.vipIcon.textColor = "#FFFFFF";
-        config.internalViewConfig.style.vipIcon.backgroundColor = "#BF9C00";
-        config.internalViewConfig.style.vipIcon.borderColor = "#A98AC7";
+        config.internalViewConfig.style.vipIcon.backgroundColor = "#DC6385";
+        config.internalViewConfig.style.vipIcon.borderColor = "#BC5573";
         config.internalViewConfig.style.sVipIcon = new DanmuViewStyleConfig.TextIconStyle();
         config.internalViewConfig.style.sVipIcon.text = "爷";
         config.internalViewConfig.style.sVipIcon.textColor = "#FFFFFF";
-        config.internalViewConfig.style.sVipIcon.backgroundColor = "#BF9C00";
-        config.internalViewConfig.style.sVipIcon.borderColor = "#A98AC7";
+        config.internalViewConfig.style.sVipIcon.backgroundColor = "#FFCC00";
+        config.internalViewConfig.style.sVipIcon.borderColor = "#DE8402";
         config.internalViewConfig.style.adminIcon = new DanmuViewStyleConfig.TextIconStyle();
         config.internalViewConfig.style.adminIcon.text = "房";
         config.internalViewConfig.style.adminIcon.textColor = "#FFFFFF";
