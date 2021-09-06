@@ -33,12 +33,12 @@ public class Config {
         config.internalViewConfig.numberFormat.formatFansNum = true;
         config.internalViewConfig.style = new DanmuViewStyleConfig();
         config.internalViewConfig.style.bodyMargin = "0px";
-        config.internalViewConfig.style.listMargin = "5px";
+        config.internalViewConfig.style.listMargin = "0.3em";
         config.internalViewConfig.style.backgroundColor = "#3B3B3B44";
         config.internalViewConfig.style.zoom = 1.0;
         config.internalViewConfig.style.font = "";
         config.internalViewConfig.style.fontWeight = 400;
-        config.internalViewConfig.style.lineSpacing = "1mm";
+        config.internalViewConfig.style.lineSpacing = "0.3em";
         config.internalViewConfig.style.giftIconMaxHeight = "30px";
         config.internalViewConfig.style.vipIcon = new DanmuViewStyleConfig.TextIconStyle();
         config.internalViewConfig.style.vipIcon.text = "爷";

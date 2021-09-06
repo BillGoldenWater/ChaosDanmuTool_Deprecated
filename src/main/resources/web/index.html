@@ -80,7 +80,6 @@
       .danmu-item {
         display: flex;
         flex-wrap: wrap;
-        margin-top: 0.3em;
         word-break: break-all;
       }
     </style>
@@ -119,6 +118,24 @@
         } else {
           return "#000";
         }
+      }
+
+      function getStyle(selectorText) {
+        for (const styleSheet of document.styleSheets) {
+          let rules;
+          if (!(rules = styleSheet.cssRules)) {
+            rules = styleSheet.rules;
+          }
+
+          for (const rule of rules) {
+            if (rule instanceof CSSStyleRule) {
+              if (selectorText === rule.selectorText) {
+                return rule;
+              }
+            }
+          }
+        }
+        return null;
       }
 
       class TextIcon extends React.Component {
@@ -273,6 +290,7 @@
             </div>
           );
         },
+        SuperChat: function (props) {},
       };
 
       class DanmuItem extends React.Component {
@@ -304,7 +322,16 @@
               />
             );
           });
-          return <div className="danmu-list">{danmuList}</div>;
+          return (
+            <div
+              className="danmu-list"
+              style={{
+                margin: this.props.config.style.listMargin,
+              }}
+            >
+              {danmuList}
+            </div>
+          );
         }
       }
 
@@ -317,18 +344,18 @@
               statusBarDisplay: true,
               maxDanmuNumber: 100,
               numberFormat: {
-                formatActivity: true,
-                formatFansNum: true,
+                formatActivity: false,
+                formatFansNum: false,
               },
               style: {
-                bodyMargin: 0,
-                listMargin: 5,
-                backgroundColor: "#3B3B3B44",
+                bodyMargin: "0px",
+                listMargin: "0.3em",
+                backgroundColor: "#000000AA",
                 zoom: 1.0,
                 font: "",
                 fontWeight: 400,
-                lineSpacing: 5,
-                giftIconMaxHeight: 30,
+                lineSpacing: "0.3em",
+                giftIconMaxHeight: "30px",
                 vipIcon: {
                   text: "爷",
                   backgroundColor: "#DC6385",
@@ -397,7 +424,7 @@
                 config: {
                   danmuReceiver: {
                     serverUrl: "wss://broadcastlv.chat.bilibili.com/sub",
-                    roomid: 953650,
+                    roomid: 0,
                     heartBeatPeriod: 30,
                   },
                   internalBrowser: {
@@ -417,14 +444,14 @@
                       formatFansNum: true,
                     },
                     style: {
-                      bodyMargin: 0,
-                      listMargin: 5,
+                      bodyMargin: "0px",
+                      listMargin: "0.3em",
                       backgroundColor: "#3B3B3B44",
                       zoom: 1.0,
                       font: "",
                       fontWeight: 400,
-                      lineSpacing: 5,
-                      giftIconMaxHeight: 30,
+                      lineSpacing: "0.3em",
+                      giftIconMaxHeight: "30px",
                       vipIcon: {
                         text: "爷",
                         backgroundColor: "#DC6385",
@@ -459,14 +486,14 @@
                       formatFansNum: false,
                     },
                     style: {
-                      bodyMargin: 0,
-                      listMargin: 5,
+                      bodyMargin: "0px",
+                      listMargin: "0.3em",
                       backgroundColor: "#000000AA",
                       zoom: 1.0,
                       font: "",
                       fontWeight: 400,
-                      lineSpacing: 5,
-                      giftIconMaxHeight: 30,
+                      lineSpacing: "0.3em",
+                      giftIconMaxHeight: "30px",
                       vipIcon: {
                         text: "爷",
                         backgroundColor: "#DC6385",
@@ -736,14 +763,17 @@
         }
 
         render() {
-          document.body.style.backgroundColor =
-            this.state.config.style.backgroundColor;
+          const config = this.state.config;
+          const bodyStyle = document.body.style;
+          bodyStyle.backgroundColor = config.style.backgroundColor;
+          bodyStyle.margin = config.style.bodyMargin;
+          bodyStyle.zoom = config.style.zoom;
+          bodyStyle.fontFamily = config.style.font;
+          bodyStyle.fontWeight = config.style.fontWeight;
+          getStyle(".danmu-item").style.marginTop = config.style.lineSpacing;
           return (
             <div className="root">
-              <DanmuList
-                config={this.state.config}
-                danmuList={this.state.danmuList}
-              />
+              <DanmuList config={config} danmuList={this.state.danmuList} />
             </div>
           );
         }
