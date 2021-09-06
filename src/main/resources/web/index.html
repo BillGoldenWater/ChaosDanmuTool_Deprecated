@@ -25,67 +25,60 @@
 
     <style name="global">
       body {
-        /*margin: 0;*/
-        /*padding: 0;*/
-        /*zoom: 5.3;*/
+        margin: 0;
+        padding: 0;
+        /*zoom: 11;*/
         zoom: 2;
-        /*font-family: "HYWenHei 85W", "Microsoft YaHei", serif;*/
+        font-size: 1cm;
+        /*font-family: "Monospaced", serif;*/
       }
     </style>
     <style name="userInfo">
-      .user-info,
+      .user-info {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
       .user-info > div {
-        display: inline-block;
-        margin-right: 1mm;
+        margin-right: 0.4em;
+      }
+
+      .fans-medal {
+        display: flex;
       }
 
       .fans-medal > div {
-        display: inline-block;
+        padding: 0 0.2em 0 0.2em;
         border-style: solid;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
       }
 
       .medal-name {
-        text-align: center;
-        padding-left: 1mm;
-        padding-right: 1mm;
-        border-top-width: 0.2mm;
-        border-right-width: 0;
-        border-bottom-width: 0.2mm;
-        border-left-width: 0.2mm;
-        border-radius: 1.3mm 0 0 1.3mm;
+        border-width: 0.05em 0 0.05em 0.05em;
+        border-radius: 0.4em 0 0 0.4em;
         color: #fff;
       }
 
       .medal-level {
-        text-align: center;
-        min-width: 7mm;
-        border-width: 0.2mm 0.2mm 0.2mm 0;
-        border-radius: 0 1.3mm 1.3mm 0;
+        min-width: 1.2em;
+        border-width: 0.05em 0.05em 0.05em 0;
+        border-radius: 0 0.4em 0.4em 0;
         background-color: #fff;
-      }
-
-      .text-icon {
-        display: inline-block;
       }
     </style>
     <style name="danmu">
       .danmu-item {
         display: flex;
+        flex-wrap: wrap;
         margin-top: 0.3em;
+        word-break: break-all;
       }
     </style>
 
     <script type="text/babel">
-      const danmuItem = "danmu-item";
-      const userInfo = "user-info";
-      const fansMedal = "fans-medal";
-      const medalName = "medal-name";
-      const medalLevel = "medal-level";
-      const textIcon = "text-icon";
-      const vipIcon = "icon-vip";
-      const svipIcon = "icon-svip";
-      const adminIcon = "icon-admin";
-
       let internal = false;
       let commandNum = 0;
 
@@ -126,7 +119,7 @@
           return (
             <div
               className={
-                textIcon +
+                "text-icon" +
                 (this.props.className ? " " + this.props.className : "")
               }
             >
@@ -140,9 +133,9 @@
         render() {
           const medalInfo = this.props.medalInfo;
           return this.props.medalInfo ? (
-            <div className={fansMedal}>
+            <div className={"fans-medal"}>
               <div
-                className={medalName}
+                className={"medal-name"}
                 style={{
                   borderColor: rgbI2S(medalInfo.medal_color_border),
                   backgroundImage: "linear-gradient(45deg,{0},{1})"
@@ -169,7 +162,7 @@
       class UserInfo extends React.Component {
         render() {
           return (
-            <div className={userInfo}>
+            <div className={"user-info"}>
               <FansMedal medalInfo={this.props.medalInfo} />
             </div>
           );
@@ -179,14 +172,14 @@
       const DanmuMessage = {
         Unsupported: function (props) {
           return (
-            <div className={danmuItem}>不支持的消息: {props.value.cmd}</div>
+            <div className={"danmu-item"}>不支持的消息: {props.value.cmd}</div>
           );
         },
         Danmu: function (props) {
           return (
-            <div className={danmuItem}>
+            <div className={"danmu-item"}>
               <UserInfo medalInfo={props.value.medalInfo} />
-              {props.value.content}
+              <div>{props.value.content}</div>
             </div>
           );
         },
@@ -588,7 +581,7 @@
                 dmscore: 30,
                 operator: 1,
                 uid: 1738501816,
-                uname: "huuyf1041wrp",
+                uname: "huff1041wrp",
               },
               {
                 cmd: "LIVE",
@@ -653,12 +646,12 @@
         }
       }
 
-      ReactDOM.render(<Root />, document.getElementById("main"));
+      ReactDOM.render(<Root />, document.getElementById("app"));
 
       document.createElement("div");
     </script>
   </head>
   <body>
-    <div id="main"></div>
+    <div id="app"></div>
   </body>
 </html>
