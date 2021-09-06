@@ -213,6 +213,21 @@
         }
       }
 
+      class UserName extends React.Component {
+        render() {
+          return (
+            <div
+              className="user-name"
+              style={{
+                color: this.props.config.style.userName.textColor,
+              }}
+            >
+              {this.props.userName}
+            </div>
+          );
+        }
+      }
+
       class UserInfo extends React.Component {
         render() {
           return (
@@ -221,6 +236,10 @@
               {this.props.admin && <AdminIcon config={this.props.config} />}
               {this.props.vip && <VipIcon config={this.props.config} />}
               {this.props.svip && <SVipIcon config={this.props.config} />}
+              <UserName
+                config={this.props.config}
+                userName={this.props.userName}
+              />
             </div>
           );
         }
@@ -241,8 +260,16 @@
                 admin={props.value.isAdmin}
                 vip={props.value.isVip}
                 svip={props.value.isSVip}
+                userName={props.value.uName + ": "}
               />
-              <div>{props.value.content}</div>
+              <div
+                className="danmu-content"
+                style={{
+                  color: props.config.style.danmuContent.textColor,
+                }}
+              >
+                {props.value.content}
+              </div>
             </div>
           );
         },
@@ -310,7 +337,7 @@
                 },
                 sVipIcon: {
                   text: "爷",
-                  backgroundColor: "#FFCC00",
+                  backgroundColor: "#E8B800",
                   borderColor: "#DE8402",
                   textColor: "#FFFFFF",
                 },
@@ -406,7 +433,7 @@
                       },
                       sVipIcon: {
                         text: "爷",
-                        backgroundColor: "#FFCC00",
+                        backgroundColor: "#E8B800",
                         borderColor: "#DE8402",
                         textColor: "#FFFFFF",
                       },
@@ -448,7 +475,7 @@
                       },
                       sVipIcon: {
                         text: "爷",
-                        backgroundColor: "#FFCC00",
+                        backgroundColor: "#E8B800",
                         borderColor: "#DE8402",
                         textColor: "#FFFFFF",
                       },
@@ -709,6 +736,8 @@
         }
 
         render() {
+          document.body.style.backgroundColor =
+            this.state.config.style.backgroundColor;
           return (
             <div className="root">
               <DanmuList

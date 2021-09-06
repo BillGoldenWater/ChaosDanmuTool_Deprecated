@@ -48,7 +48,7 @@ public class Config {
         config.internalViewConfig.style.sVipIcon = new DanmuViewStyleConfig.TextIconStyle();
         config.internalViewConfig.style.sVipIcon.text = "爷";
         config.internalViewConfig.style.sVipIcon.textColor = "#FFFFFF";
-        config.internalViewConfig.style.sVipIcon.backgroundColor = "#FFCC00";
+        config.internalViewConfig.style.sVipIcon.backgroundColor = "#E8B800";
         config.internalViewConfig.style.sVipIcon.borderColor = "#DE8402";
         config.internalViewConfig.style.adminIcon = new DanmuViewStyleConfig.TextIconStyle();
         config.internalViewConfig.style.adminIcon.text = "房";
