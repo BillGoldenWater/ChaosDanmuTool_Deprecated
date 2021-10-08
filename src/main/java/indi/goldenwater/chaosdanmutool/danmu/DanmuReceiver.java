@@ -28,7 +28,8 @@ public class DanmuReceiver extends WebSocketClient {
 
     private static DanmuReceiver instance;
     private static HeartBeat heartBeat;
-    private static boolean autoReconnectAt1006 = false;
+    private static boolean autoReconnect = false;
+    private static Thread reconnectThread;
 
     private final Logger logger = LogManager.getLogger(DanmuReceiver.class);
     private final int roomid;
@@ -98,18 +99,21 @@ public class DanmuReceiver extends WebSocketClient {
                 remote));
         stopHeartBeat();
 
-        if (code == 1006 && autoReconnectAt1006) {
+        if (code == 1006 && autoReconnect) {
             DanmuReceiver this_ = this;
-            new Thread() {
+            reconnectThread = new Thread() {
                 @Override
                 public void run() {
                     super.run();
-                    this_.reconnect();
-                    DanmuMsg reconnectMsg = new DanmuMsg();
-                    reconnectMsg.content = "重连ing :(";
-                    sendMsg(reconnectMsg);
+                    if (reconnectThread == this) {
+                        logger.debug("reconnect by onClose");
+                        this_.reconnect();
+                        DanmuMsg reconnectMsg = new DanmuMsg();
+                        reconnectMsg.content = "重连ing :(";
+                        sendMsg(reconnectMsg);
+                    }
                 }
-            }.start();
+            };
         } else {
             DanmuMsg closeMsg = new DanmuMsg();
             closeMsg.content = String.format(
@@ -128,6 +132,33 @@ public class DanmuReceiver extends WebSocketClient {
         DanmuMsg errorMsg = new DanmuMsg();
         errorMsg.content = "房间连接发生了错误: " + e.getMessage();
         sendMsg(errorMsg);
+
+        if (autoReconnect) {
+            DanmuReceiver this_ = this;
+            reconnectThread = new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    if (reconnectThread == this) {
+                        DanmuMsg reconnectMsg = new DanmuMsg();
+                        reconnectMsg.content = "5秒后自动重连";
+                        sendMsg(reconnectMsg);
+
+                        try {
+                            Thread.sleep(5 * 1000);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                        logger.debug("reconnect by onError");
+                        this_.reconnect();
+                        reconnectMsg = new DanmuMsg();
+                        reconnectMsg.content = "重连ing :(";
+                        sendMsg(reconnectMsg);
+                    }
+                }
+            };
+            reconnectThread.start();
+        }
     }
 
     public int getUpdatePeriod() {
@@ -258,8 +289,8 @@ public class DanmuReceiver extends WebSocketClient {
         return instance;
     }
 
-    public static void setAutoReconnectAt1006(boolean autoReconnectAt1006) {
-        DanmuReceiver.autoReconnectAt1006 = autoReconnectAt1006;
+    public static void setAutoReconnect(boolean autoReconnect) {
+        DanmuReceiver.autoReconnect = autoReconnect;
     }
 
     public static class HeartBeat extends Thread {

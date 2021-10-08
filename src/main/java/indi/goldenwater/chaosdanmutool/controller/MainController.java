@@ -108,7 +108,7 @@ public class MainController {
 
     @FXML
     protected void onCheckBoxAutoReconnectExited(MouseEvent event) {
-        DanmuReceiver.setAutoReconnectAt1006(checkBoxAutoReconnect.isSelected());
+        DanmuReceiver.setAutoReconnect(checkBoxAutoReconnect.isSelected());
         logger.debug("Switch auto reconnect to: " + checkBoxAutoReconnect.isSelected());
     }
 
