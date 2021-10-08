@@ -28,6 +28,7 @@ public class DanmuReceiver extends WebSocketClient {
 
     private static DanmuReceiver instance;
     private static HeartBeat heartBeat;
+    private static boolean autoReconnectAt1006 = false;
 
     private final Logger logger = LogManager.getLogger(DanmuReceiver.class);
     private final int roomid;
@@ -94,7 +95,7 @@ public class DanmuReceiver extends WebSocketClient {
                 remote));
         stopHeartBeat();
 
-        if (code == 1006) {
+        if (code == 1006 && autoReconnectAt1006) {
             DanmuReceiver this_ = this;
             new Thread() {
                 @Override
@@ -350,6 +351,10 @@ public class DanmuReceiver extends WebSocketClient {
                     OpCode.heartBeat
             );
         }
+    }
+
+    public static void setAutoReconnectAt1006(boolean autoReconnectAt1006) {
+        DanmuReceiver.autoReconnectAt1006 = autoReconnectAt1006;
     }
 
     public static class OpCode {

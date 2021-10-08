@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.input.MouseButton;
@@ -43,6 +44,9 @@ public class MainController {
 
     @FXML
     protected TextField txtFieldRoomId;
+
+    @FXML
+    protected CheckBox checkBoxAutoReconnect;
 
     @FXML
     protected void initialize() {
@@ -100,6 +104,12 @@ public class MainController {
                 fileWriter.close();
             }
         }
+    }
+
+    @FXML
+    protected void onCheckBoxAutoReconnectExited(MouseEvent event) {
+        DanmuReceiver.setAutoReconnectAt1006(checkBoxAutoReconnect.isSelected());
+        logger.debug("Switch auto reconnect to: " + checkBoxAutoReconnect.isSelected());
     }
 
     public void showDanmuView(Config config) throws Exception {
