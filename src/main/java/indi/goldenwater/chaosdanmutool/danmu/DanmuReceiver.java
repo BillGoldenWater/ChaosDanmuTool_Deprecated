@@ -1,9 +1,10 @@
 package indi.goldenwater.chaosdanmutool.danmu;
 
-import com.google.gson.Gson;
 import com.nixxcode.jvmbrotli.common.BrotliLoader;
 import com.nixxcode.jvmbrotli.dec.BrotliDecoderChannel;
 import indi.goldenwater.chaosdanmutool.model.danmu.DanmuMsg;
+import indi.goldenwater.chaosdanmutool.model.html.DanmuMsgHTML;
+import indi.goldenwater.chaosdanmutool.model.js.DanmuItemJS;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.java_websocket.client.WebSocketClient;
@@ -106,7 +107,9 @@ public class DanmuReceiver extends WebSocketClient {
                     reconnectMsg.isSVip = 0;
                     reconnectMsg.isAdmin = 1;
                     reconnectMsg.uName = "[CDT]";
-                    DanmuProcessor.processCommand(new Gson().toJson(reconnectMsg));
+                    final DanmuServer danmuServer = DanmuServer.getInstance();
+                    if (danmuServer != null)
+                        danmuServer.broadcast(DanmuItemJS.getJsDanmuList(DanmuMsgHTML.parse(reconnectMsg)));
                 }
             }.start();
         }
