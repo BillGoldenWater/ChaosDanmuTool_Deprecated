@@ -6,7 +6,7 @@
 
     <groupId>indi.goldenwater</groupId>
     <artifactId>ChaosDanmuTool</artifactId>
-    <version>0.2.7</version>
+    <version>0.2.8-Alpha</version>
     <packaging>jar</packaging>
 
     <properties>

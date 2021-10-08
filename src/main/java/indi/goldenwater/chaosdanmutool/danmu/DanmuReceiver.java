@@ -1,7 +1,9 @@
 package indi.goldenwater.chaosdanmutool.danmu;
 
+import com.google.gson.Gson;
 import com.nixxcode.jvmbrotli.common.BrotliLoader;
 import com.nixxcode.jvmbrotli.dec.BrotliDecoderChannel;
+import indi.goldenwater.chaosdanmutool.model.danmu.DanmuMsg;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.java_websocket.client.WebSocketClient;
@@ -90,6 +92,24 @@ public class DanmuReceiver extends WebSocketClient {
                 reason,
                 remote));
         stopHeartBeat();
+
+        if (code == 1006) {
+            DanmuReceiver this_ = this;
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    this_.reconnect();
+                    DanmuMsg reconnectMsg = new DanmuMsg();
+                    reconnectMsg.content = "重连ing :(";
+                    reconnectMsg.isVip = 0;
+                    reconnectMsg.isSVip = 0;
+                    reconnectMsg.isAdmin = 0;
+                    reconnectMsg.uName = "[CDT]";
+                    DanmuProcessor.processCommand(new Gson().toJson(reconnectMsg));
+                }
+            }.start();
+        }
     }
 
     @Override
