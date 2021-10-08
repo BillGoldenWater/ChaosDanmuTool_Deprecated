@@ -104,7 +104,7 @@ public class DanmuReceiver extends WebSocketClient {
                     reconnectMsg.content = "重连ing :(";
                     reconnectMsg.isVip = 0;
                     reconnectMsg.isSVip = 0;
-                    reconnectMsg.isAdmin = 0;
+                    reconnectMsg.isAdmin = 1;
                     reconnectMsg.uName = "[CDT]";
                     DanmuProcessor.processCommand(new Gson().toJson(reconnectMsg));
                 }
