@@ -48,6 +48,9 @@ public class DanmuReceiver extends WebSocketClient {
     public void onOpen(ServerHandshake serverHandshake) {
         send(pack(Data.join(roomid, 3, "web")));
         startHeartBeat(this);
+        DanmuMsg connectSuccessMsg = new DanmuMsg();
+        connectSuccessMsg.content = String.format("房间 %d 连接成功", roomid);
+        sendMsg(connectSuccessMsg);
     }
 
     @Override
@@ -104,21 +107,27 @@ public class DanmuReceiver extends WebSocketClient {
                     this_.reconnect();
                     DanmuMsg reconnectMsg = new DanmuMsg();
                     reconnectMsg.content = "重连ing :(";
-                    reconnectMsg.isVip = 0;
-                    reconnectMsg.isSVip = 0;
-                    reconnectMsg.isAdmin = 1;
-                    reconnectMsg.uName = "[CDT]";
-                    final DanmuServer danmuServer = DanmuServer.getInstance();
-                    if (danmuServer != null)
-                        danmuServer.broadcast(DanmuItemJS.getJsDanmuList(DanmuMsgHTML.parse(reconnectMsg)));
+                    sendMsg(reconnectMsg);
                 }
             }.start();
+        } else {
+            DanmuMsg closeMsg = new DanmuMsg();
+            closeMsg.content = String.format(
+                    "房间连接被关闭了, 关闭码:%d, 是否非本地关闭: %b, 附加消息: %s.",
+                    code,
+                    remote,
+                    reason);
+            sendMsg(closeMsg);
         }
     }
 
     @Override
     public void onError(Exception e) {
         e.printStackTrace();
+
+        DanmuMsg errorMsg = new DanmuMsg();
+        errorMsg.content = "房间连接发生了错误: " + e.getMessage();
+        sendMsg(errorMsg);
     }
 
     public int getUpdatePeriod() {
@@ -235,8 +244,22 @@ public class DanmuReceiver extends WebSocketClient {
         heartBeat.end();
     }
 
+    private static void sendMsg(DanmuMsg message) {
+        message.isVip = 0;
+        message.isSVip = 0;
+        message.isAdmin = 1;
+        message.uName = "[CDT]";
+        final DanmuServer danmuServer = DanmuServer.getInstance();
+        if (danmuServer != null)
+            danmuServer.broadcast(DanmuItemJS.getJsDanmuList(DanmuMsgHTML.parse(message)));
+    }
+
     public static DanmuReceiver getInstance() {
         return instance;
+    }
+
+    public static void setAutoReconnectAt1006(boolean autoReconnectAt1006) {
+        DanmuReceiver.autoReconnectAt1006 = autoReconnectAt1006;
     }
 
     public static class HeartBeat extends Thread {
@@ -351,10 +374,6 @@ public class DanmuReceiver extends WebSocketClient {
                     OpCode.heartBeat
             );
         }
-    }
-
-    public static void setAutoReconnectAt1006(boolean autoReconnectAt1006) {
-        DanmuReceiver.autoReconnectAt1006 = autoReconnectAt1006;
     }
 
     public static class OpCode {
